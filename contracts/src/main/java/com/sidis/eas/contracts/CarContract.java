@@ -36,7 +36,7 @@ public class CarContract implements Contract {
             }
         }
     }
-    
+
      //WIR BRAUCHEN CREATE, UPDATE
     @Override
     public void verify(LedgerTransaction tx) throws IllegalArgumentException {
