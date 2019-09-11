@@ -3,6 +3,7 @@ package com.sidis.eas.contracts;
 import ch.cordalo.corda.common.contracts.JsonHelper;
 import com.sidis.eas.SidisBaseTests;
 import com.sidis.eas.states.CarEventState;
+import com.sidis.eas.states.CarEventStateTests;
 import com.sidis.eas.states.CarState;
 import com.sidis.eas.states.CarStateTests;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -25,6 +26,19 @@ public class CarContractTests extends SidisBaseTests {
                 new UniqueIdentifier(), "12.345.678", this.redCar.party, this.insurance1.party, "42", 7000,
                 CarState.MileageState.IN_RANGE, CarState.AccidentState.NO, 1200,
                 JsonHelper.convertStringToJson(CarStateTests.detailsJSONString()));
+    }
+
+
+    private CarEventState newCarEvent() {
+        return new CarEventState(
+                new UniqueIdentifier(),
+                this.redCar.party,
+                "42",
+                1568211122,
+                27085L,
+                false,
+                JsonHelper.convertStringToJson(CarEventStateTests.dataJSONString())
+        );
     }
 
     private CarState updateCar(CarState car){
