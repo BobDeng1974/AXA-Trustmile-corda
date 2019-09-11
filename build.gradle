@@ -127,7 +127,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {
-        name "O=Swiss Life Ltd.,L=Zurich,ST=ZH,C=CH"
+        name "O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH"
         p2pPort 10005
         rpcSettings {
             address("localhost:10006")
@@ -137,7 +137,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {
-        name "O=AXA Leben AG,L=Winterthur,ST=ZH,C=CH"
+        name "O=InsureMe,L=Schaffhausen,ST=SH,C=CH"
         p2pPort 10008
         rpcSettings {
             address("localhost:10009")
@@ -147,7 +147,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {
-        name "O=FZL,L=Zug,ST=ZG,C=CH"
+        name "O=RED,L=Maranello,ST=MO,C=IT"
         p2pPort 10011
         rpcSettings {
             address("localhost:10012")
@@ -157,7 +157,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {
-        name "O=Swisscanto Pensions Ltd.,L=Zurich,ST=ZH,C=CH"
+        name "O=BLACK,L=Stuttgard,ST=BW,C=DE"
         p2pPort 10014
         rpcSettings {
             address("localhost:10015")
