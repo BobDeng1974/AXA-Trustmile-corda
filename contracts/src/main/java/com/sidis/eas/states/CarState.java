@@ -1,6 +1,7 @@
 package com.sidis.eas.states;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sidis.eas.contracts.CarContract;
 import com.sidis.eas.contracts.ServiceContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
@@ -8,25 +9,26 @@ import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
 import net.corda.core.serialization.ConstructorForDeserialization;
+import net.corda.core.serialization.CordaSerializable;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.PublicKey;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@BelongsToContract(ServiceContract.class)
+@BelongsToContract(CarContract.class)
 public class CarState implements LinearState {
-
+    @CordaSerializable
     public enum State {
         VALID,
         FRAUD
     }
-
+    @CordaSerializable
     public enum MileageState {
         IN_RANGE,
         ABOVE_LIMIT
     }
-
+    @CordaSerializable
     public enum AccidentState {
         NO,
         ONE,
@@ -66,13 +68,13 @@ public class CarState implements LinearState {
 
     @ConstructorForDeserialization
     public CarState(@NotNull UniqueIdentifier id, @NotNull State state, @NotNull String policyNumber,
-                    @NotNull Party insuredCar, Party insurer, @NotNull String vin, Integer mileagePerYear,
+                    @NotNull Party car, Party insurer, @NotNull String vin, Integer mileagePerYear,
                     @NotNull MileageState mileageState, @NotNull AccidentState accidentState, Integer insuranceRate,
                     Map<String, Object> details) {
         this.id = id;
         this.state = state;
         this.policyNumber = policyNumber;
-        this.car = insuredCar;
+        this.car = car;
         this.insurer = insurer;
         this.vin = vin;
         this.mileagePerYear = mileagePerYear;
