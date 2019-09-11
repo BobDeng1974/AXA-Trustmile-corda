@@ -42,7 +42,7 @@ public class CarStateTests extends SidisBaseTests {
                 2500,
                 JsonHelper.convertStringToJson(detailsJSONString()));
         Assert.assertEquals("state must be CREATED",
-                CarState.State.CREATED, carState.getState());
+                CarState.State.VALID, carState.getState());
     }
 
 //    @Test

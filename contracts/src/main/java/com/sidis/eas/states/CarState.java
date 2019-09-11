@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 public class CarState implements LinearState {
 
     public enum State {
-        CREATED,
-        ACCEPTED,
+        VALID,
         FRAUD
     }
 
@@ -180,11 +179,11 @@ public class CarState implements LinearState {
                                   Party insurer, @NotNull String vin, Integer mileagePerYear,
                                   @NotNull MileageState mileageState, @NotNull AccidentState accidentState,
                                   Integer insuranceRate, Map<String, Object> details) {
-        return new CarState(id, State.CREATED, policyNumber, car, insurer, vin, mileagePerYear, mileageState,
+        return new CarState(id, State.VALID, policyNumber, car, insurer, vin, mileagePerYear, mileageState,
                 accidentState, insuranceRate, details);
     }
 
-    /* actions UPDATE */
+//    /* actions UPDATE */
 //    public CarState update(Map<String, Object> details) {
 //        return this.update(this.policyNumber, this.insurer, details);
 //    }
