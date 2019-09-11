@@ -1,64 +1,54 @@
 package com.sidis.eas.contracts;
 
-import ch.cordalo.corda.common.contracts.CommandVerifier;
 import ch.cordalo.corda.common.contracts.ReferenceContract;
 import ch.cordalo.corda.common.contracts.StateVerifier;
 import com.sidis.eas.states.CarEventState;
 import com.sidis.eas.states.CarState;
-import com.sidis.eas.states.ServiceState;
-import kotlin.Pair;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
-import net.corda.core.serialization.ConstructorForDeserialization;
 import net.corda.core.serialization.CordaSerializable;
 import net.corda.core.transactions.LedgerTransaction;
 
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
-public class CarContract implements Contract {
-    public static final String ID = "com.sidis.eas.contracts.CarContract";
+public class CarEventContract implements Contract {
+    public static final String ID = "com.sidis.eas.contracts.CarEventContract";
 
-    public CarContract() {
+    public CarEventContract() {
     }
 
     public interface Commands extends CommandData {
-        class Create implements CarContract.Commands {
+        class Create implements CarEventContract.Commands {
 
         }
-        class Update implements CarContract.Commands{
+        class Update implements CarEventContract.Commands{
 
         }
 
         @CordaSerializable
-        public class Reference extends ReferenceContract.Commands.Reference<CarState> implements CarContract.Commands {
-            public Reference(CarState myState) {
+        public class Reference extends ReferenceContract.Commands.Reference<CarEventState> implements CarEventContract.Commands {
+            public Reference(CarEventState myState) {
                 super(myState);
             }
         }
     }
-    
-     //WIR BRAUCHEN CREATE, UPDATE
+
     @Override
     public void verify(LedgerTransaction tx) throws IllegalArgumentException {
-        StateVerifier verifier = StateVerifier.fromTransaction(tx, CarContract.Commands.class);
+        StateVerifier verifier = StateVerifier.fromTransaction(tx, CarEventContract.Commands.class);
         CommandData commandData = verifier.command();
-        if (commandData instanceof CarContract.Commands.Create){
+        if (commandData instanceof CarEventContract.Commands.Create){
             verifyCreate(tx,verifier);
-        }
-        else if (commandData instanceof CarContract.Commands.Update){
-            verifyUpdate(tx,verifier);
-
         }
     }
 
     private void verifyCreate(LedgerTransaction tx, StateVerifier verifier){
         requireThat(req ->{
             verifier.input().empty("input must be empty");
-            CarState newCarState = verifier.output().one().one(CarState.class).object();
+            CarEventState newCarEventState = verifier.output().one().one(CarEventState.class).object();
             verifyAllSigners(verifier);
             return null;
         });
-
     }
 
 
@@ -86,4 +76,8 @@ public class CarContract implements Contract {
             return null;
         });
     }
+
+
+
+
 }

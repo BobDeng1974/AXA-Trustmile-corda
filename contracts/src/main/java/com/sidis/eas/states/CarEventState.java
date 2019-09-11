@@ -1,6 +1,7 @@
 package com.sidis.eas.states;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sidis.eas.contracts.CarEventContract;
 import com.sidis.eas.contracts.ServiceContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
@@ -14,7 +15,7 @@ import java.security.PublicKey;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@BelongsToContract(ServiceContract.class)
+@BelongsToContract(CarEventContract.class)
 public class CarEventState implements LinearState {
 
     @NotNull

@@ -20,16 +20,11 @@ public class CarContractTests extends SidisBaseTests {
         super.setup(false);
     }
 
-    //TODO: fix json
-    private String detailsJSONString() {
-        return "{ \"some-data\" : \"some-value\" }";
-    }
-
     private CarState newCar() {
         return CarState.create(
-                new UniqueIdentifier(), "123-123131", this.redCar.party, this.insurance1.party, "42", 7000,
+                new UniqueIdentifier(), "12.345.678", this.redCar.party, this.insurance1.party, "42", 7000,
                 CarState.MileageState.IN_RANGE, CarState.AccidentState.NO, 1200,
-                JsonHelper.convertStringToJson(detailsJSONString()));
+                JsonHelper.convertStringToJson(CarStateTests.detailsJSONString()));
     }
 
     private CarState updateCar(CarState car){
