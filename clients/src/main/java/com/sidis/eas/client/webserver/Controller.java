@@ -1,4 +1,5 @@
 package com.sidis.eas.client.webserver;
+import com.google.common.collect.ImmutableMap;
 import com.sidis.eas.contracts.StateMachine;
 import com.sidis.eas.client.pojo.CarPolicy;
 import com.sidis.eas.client.pojo.CarEvent;
@@ -36,9 +37,6 @@ public class Controller {
     private final CordaRPCOps proxy;
     private final CordaX500Name myLegalName;
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-
     private final List<String> serviceNames = ImmutableList.of("Notary");
 
     private final static Logger logger = LoggerFactory.getLogger(Controller.class);
@@ -56,6 +54,7 @@ public class Controller {
 
     }
 
+    // PUBLIC METHODS
     @RequestMapping(
             value = "/car",
             method = RequestMethod.POST,
@@ -103,7 +102,15 @@ public class Controller {
         return randomCarEventGenerator(carId);
     }
 
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, CordaX500Name> whoami() {
+        return ImmutableMap.of("me", myLegalName);
+    }
 
+
+
+    // PRIVATE METHODS
     private CarEvent randomCarEventGenerator(String carId){
         CarEvent carEvent = new CarEvent();
         carEvent.setCar((random.nextInt()%2)==0?"Ferrari " + random.nextInt(50):"McLaren " + random.nextInt(50));
@@ -112,8 +119,6 @@ public class Controller {
         carEvent.setAccident((random.nextInt()%2)==0);
         carEvent.setTimestamp(1500000000+ random.nextInt(1000000));
         return carEvent;
-
-
 
     }
 
