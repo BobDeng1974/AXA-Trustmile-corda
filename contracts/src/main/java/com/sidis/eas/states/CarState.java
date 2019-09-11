@@ -1,9 +1,7 @@
 package com.sidis.eas.states;
 
-import ch.cordalo.corda.common.contracts.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sidis.eas.contracts.ServiceContract;
-import com.sidis.eas.contracts.StateMachine;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;
