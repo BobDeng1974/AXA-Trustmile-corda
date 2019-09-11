@@ -1,7 +1,7 @@
 #!/bin/bash
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 . env.sh
-max_nof=15
+max_nof=5
 max_time=80
 echo "Starting max $max_nof CORDA servers"
 echo "-----------------------------------"
@@ -20,7 +20,7 @@ wait_until_first_started(){
 		get_sshd
 		nof=$retval
 		x=$(( $x + 10 ))
-		echo "slept $x s until first started...." 
+		echo "slept $x s until first started...."
 		x=$(( $x + 10 ))
 		sleep 10s
 	done
