@@ -15,11 +15,11 @@ checkPorts(){
 	fi
 }
 
-checkPorts 10103 $NodeName0
-checkPorts 10106 $NodeName1
-checkPorts 10109 $NodeName2
-checkPorts 10112 $NodeName3
-checkPorts 10115 $NodeName4
+checkPorts 10003 $NodeName0
+checkPorts 10006 $NodeName1
+checkPorts 10009 $NodeName2
+checkPorts 10012 $NodeName3
+checkPorts 10015 $NodeName4
 
 retval=${stopped}
 
