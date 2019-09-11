@@ -100,10 +100,17 @@ public class Controller {
         }
     }
 
+    @RequestMapping(value = "/car", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CarEvent getCarEvent (HttpServletRequest request)
+    {
+        //TODO: Setup real method from CORDA
+        return randomCarEventGenerator("42");
+    }
 
     @RequestMapping(value = "/car/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public CarEvent getCarEvent (HttpServletRequest request, @PathVariable("id") String carId)
+    public CarEvent getCarByIdEvent (HttpServletRequest request, @PathVariable("id") String carId)
     {
         //TODO: Setup real method from CORDA
         return randomCarEventGenerator(carId);
