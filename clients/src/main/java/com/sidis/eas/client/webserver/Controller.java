@@ -8,6 +8,7 @@ import com.sidis.eas.states.CarState;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.messaging.CordaRPCOps;
+import net.corda.core.node.NodeInfo;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import org.jetbrains.annotations.NotNull;
@@ -114,7 +115,20 @@ public class Controller {
         return ImmutableMap.of("me", myLegalName);
     }
 
-
+    /**
+     * Returns all parties registered with the [NetworkMapService]. These names can be used to look up identities
+     * using the [IdentityService].
+     */
+    @GetMapping(value =  "/peers", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, List<CordaX500Name>> getPeers() {
+        List<NodeInfo> nodeInfoSnapshot = proxy.networkMapSnapshot();
+        return ImmutableMap.of("peers", nodeInfoSnapshot
+                .stream()
+                .map(node -> node.getLegalIdentities().get(0).getName())
+                .filter(name -> !name.equals(myLegalName) && !serviceNames.contains(name.getOrganisation()))
+                .collect(toList()));
+    }
     // NEW METHODS
 
     /**
