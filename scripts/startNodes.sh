@@ -7,7 +7,7 @@ echo "Starting max $max_nof CORDA servers"
 echo "-----------------------------------"
 
 get_sshd(){
-	retval=$(netstat -an | grep 100 | grep LISTEN | wc -l)
+	retval=$(netstat -an | egrep "10103|10106|10109|10112|10115" | grep LISTEN | wc -l)
 }
 
 wait_until_first_started(){
