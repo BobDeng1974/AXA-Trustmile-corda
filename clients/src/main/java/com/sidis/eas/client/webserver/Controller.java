@@ -5,6 +5,7 @@ import com.sidis.eas.client.pojo.CarEvent;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.messaging.CordaRPCOps;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:63342")
 @RequestMapping("/api/v1/") // The paths for HTTP requests are relative to this base path.
 public class Controller {
+
+    Random random = new Random();
+
 
     public static final boolean DEBUG = true;
 
@@ -53,18 +57,15 @@ public class Controller {
     }
 
     @RequestMapping(
-            value = "/car/{id}",
+            value = "/car",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HttpStatus sendCarEvent(HttpServletRequest request, @PathVariable("id") String carId, @RequestBody CarEvent carEvent)
+    public HttpStatus sendCarEvent(HttpServletRequest request, @RequestBody CarEvent carEvent)
     {
         try {
-            if (!(carId.equals(carEvent.getVin()))){
-                logger.error("Car ID " + carId +" not matching with " + carEvent.getVin() );
-                return HttpStatus.EXPECTATION_FAILED;
-            }
+            logger.info(carEvent.toString());
             return HttpStatus.OK;
 
         } catch (Throwable ex) {
@@ -75,18 +76,15 @@ public class Controller {
     }
 
     @RequestMapping(
-            value = "/policy/{id}",
+            value = "/policy",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HttpStatus sendCarPolicy(HttpServletRequest request, @PathVariable("id") String carId, @RequestBody CarPolicy carPolicy)
+    public HttpStatus sendCarPolicy(HttpServletRequest request, @RequestBody CarPolicy carPolicy)
     {
         try {
-            if (!(carId.equals(carPolicy.getVin()))){
-                logger.error("Car ID " + carId +" not matching with " + carPolicy.getVin() );
-                return HttpStatus.EXPECTATION_FAILED;
-            }
+            logger.info(carPolicy.toString());
             return HttpStatus.OK;
 
         } catch (Throwable ex) {
@@ -95,6 +93,30 @@ public class Controller {
 
         }
     }
+
+
+    @RequestMapping(value = "/car/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CarEvent getCarEvent (HttpServletRequest request, @PathVariable("id") String carId)
+    {
+        //TODO: Setup real method from CORDA
+        return randomCarEventGenerator(carId);
+    }
+
+
+    private CarEvent randomCarEventGenerator(String carId){
+        CarEvent carEvent = new CarEvent();
+        carEvent.setCar((random.nextInt()%2)==0?"Ferrari " + random.nextInt(50):"McLaren " + random.nextInt(50));
+        carEvent.setVin(carId);
+        carEvent.setMileage(random.nextInt(500000));
+        carEvent.setAccident((random.nextInt()%2)==0);
+        carEvent.setTimestamp(1500000000+ random.nextInt(1000000));
+        return carEvent;
+
+
+
+    }
+
 
 
 }
