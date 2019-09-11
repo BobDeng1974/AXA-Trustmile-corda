@@ -47,9 +47,10 @@ public class PolicyState implements LinearState {
         this.state = state;
         this.policyNumber = policyNumber;
         this.insuredCar = insuredCar;
-        this.eventData = eventData == null ? new LinkedHashMap<>() : eventData;
         this.insurer = insurer;
         this.vin = vin;
+        this.eventData = eventData == null ? new LinkedHashMap<>() : eventData;
+
     }
 
     @NotNull
@@ -107,6 +108,7 @@ public class PolicyState implements LinearState {
     }
 
     // TODO : not sure the Event Data here makes sense...should it be something different?
+    // TODO: CANCELLARE
     public Map<String, Object> getEventData() {
         return eventData;
     }
