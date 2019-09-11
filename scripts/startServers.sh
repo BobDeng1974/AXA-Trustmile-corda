@@ -1,4 +1,5 @@
 #!/bin/bash
+BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 . env.sh
 cd $CORDA_HOME
 max_nof=4
@@ -58,7 +59,7 @@ wait_until_all_started
 if [ "$retval" -lt "$max_nof" ]; then
 	echo "kill all servers again"
 	cd ..
-	./stopServers.sh
-        echo "start servers again"
-        ./startServers.sh
+	$BASEDIR/stopServers.sh
+  echo "start servers again"
+  $BASEDIR/startServers.sh
 fi
