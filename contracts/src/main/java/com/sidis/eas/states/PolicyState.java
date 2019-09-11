@@ -106,6 +106,7 @@ public class PolicyState implements LinearState {
         return insurer != null ? insurer.getName().getX500Principal().getName() : "";
     }
 
+    // TODO : not sure the Event Data here makes sense...should it be something different?
     public Map<String, Object> getEventData() {
         return eventData;
     }
