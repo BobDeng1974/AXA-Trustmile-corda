@@ -4,8 +4,12 @@ import com.sidis.eas.contracts.StateMachine;
 import com.sidis.eas.client.pojo.CarPolicy;
 import com.sidis.eas.client.pojo.CarEvent;
 import com.google.common.collect.ImmutableList;
+import com.sidis.eas.states.PolicyState;
+import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.messaging.CordaRPCOps;
+import net.corda.core.node.services.Vault;
+import net.corda.core.node.services.vault.QueryCriteria;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 
 /**
@@ -107,6 +113,41 @@ public class Controller {
     public Map<String, CordaX500Name> whoami() {
         return ImmutableMap.of("me", myLegalName);
     }
+
+
+    // NEW METHODS
+
+    /**
+     * returns the patient records that exist in the node's vault.
+     */
+    @GetMapping(value = "/policy-records", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PolicyState> getPolicyRecords() {
+        List<PolicyState> states = proxy.vaultQuery(PolicyState.class).getStates()
+                .stream().map(state -> state.getState().getData()).collect(toList());
+        return states;
+    }
+    /**
+     * receives a mandate that exist with a given ID from the node's vault.
+     * @param id unique identifier as UUID for mandate
+     */
+    @RequestMapping(
+            value =  "/policy-records/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseBody
+    public PolicyState getPolicyRecords(@PathVariable("id") String id) {
+        UniqueIdentifier uid = new UniqueIdentifier(null, UUID.fromString(id));
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                Arrays.asList(uid),
+                Vault.StateStatus.ALL,
+                null);
+        List<PolicyState> states = proxy.vaultQueryByCriteria(queryCriteria, PolicyState.class)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return states.isEmpty() ? null : states.get(states.size()-1);
+    }
+
 
 
 
