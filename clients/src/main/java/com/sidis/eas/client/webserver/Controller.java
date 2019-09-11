@@ -63,7 +63,7 @@ public class Controller {
 
     // PUBLIC METHODS
     @RequestMapping(
-            value = "/car",
+            value = "/car-event",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,7 +72,7 @@ public class Controller {
     {
         try {
             logger.info(carEvent.toString());
-            return HttpStatus.OK;
+            return HttpStatus.CREATED;
 
         } catch (Throwable ex) {
             logger.error(ex.getMessage(), ex);
@@ -82,7 +82,7 @@ public class Controller {
     }
 
     @RequestMapping(
-            value = "/policy",
+            value = "/car",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
