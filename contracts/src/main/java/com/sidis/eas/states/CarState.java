@@ -183,15 +183,35 @@ public class CarState implements LinearState {
                 accidentState, insuranceRate, details);
     }
 
-//    /* actions UPDATE */
-//    public CarState update(Map<String, Object> details) {
-//        return this.update(this.policyNumber, this.insurer, details);
-//    }
-//
-//    public CarState update(String policyNumber, Party insurer, Map<String, Object> newDetails) {
-//        State newState = State.ACCEPTED;
-//        return new CarState(this.id, newState, policyNumber, this.car, insurer, this.vin, newDetails);
-//    }
+// this.id = id;
+//        this.state = state;
+//        this.policyNumber = policyNumber;
+//        this.car = insuredCar;
+//        this.insurer = insurer;
+//        this.vin = vin;
+//        this.mileagePerYear = mileagePerYear;
+//        this.mileageState = mileageState;
+//        this.accidentState = accidentState;
+//        this.insuranceRate = insuranceRate;
+//        this.details = details;
+
+    /* actions UPDATE */
+    public CarState update(State state, MileageState mileageState, AccidentState accidentState) {
+        return this.update(state, this.policyNumber, this.insurer, this.mileagePerYear, mileageState, accidentState,
+                this.insuranceRate, this.details);
+    }
+
+    public CarState update(State state, Integer mileagePerYear, MileageState mileageState, AccidentState accidentState,
+                           Integer insuranceRate) {
+        return this.update(state, this.policyNumber, this.insurer, mileagePerYear, mileageState, accidentState,
+                insuranceRate, this.details);
+    }
+
+    public CarState update(State state, String policyNumber, Party insurer, Integer mileagePerYear, MileageState mileageState,
+                           AccidentState accidentState, Integer insuranceRate, Map<String, Object> newDetails) {
+        return new CarState(this.id, state, policyNumber, this.car, insurer, this.vin, mileagePerYear,
+                mileageState, accidentState, this.insuranceRate, newDetails);
+    }
 //
 //    /* actions SHARE */
 //    public CarState share(@NotNull Party newServiceProvider) {
