@@ -1,6 +1,7 @@
 package com.sidis.eas.flows.test;
 
 import ch.cordalo.corda.common.contracts.StateVerifier;
+import com.sidis.eas.flows.CarFlow;
 import com.sidis.eas.flows.ServiceFlow;
 import com.sidis.eas.states.CarState;
 import com.sidis.eas.states.ServiceState;
@@ -15,7 +16,7 @@ public class CarFlowTests extends SidisBaseFlowTests {
     @Before
     public void setup() {
         this.setup(true,
-            ServiceFlow.CreateResponder.class
+            CarFlow.CreateResponder.class
             //ServiceFlow.UpdateResponder.class
         );
     }

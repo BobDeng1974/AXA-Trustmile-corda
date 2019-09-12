@@ -15,7 +15,6 @@ public class ServiceFlowTests extends SidisBaseFlowTests {
     @Before
     public void setup() {
         this.setup(true,
-            CarFlow.CreateResponder.class,
             ServiceFlow.CreateResponder.class,
             ServiceFlow.UpdateResponder.class,
             ServiceFlow.DeleteResponder.class,
