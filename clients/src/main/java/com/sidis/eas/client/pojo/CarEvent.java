@@ -26,7 +26,7 @@ public class CarEvent {
     @JsonProperty("timestamp")
     private Integer timestamp;
     @JsonProperty("mileage")
-    private Integer mileage;
+    private Long mileage;
     @JsonProperty("accident")
     private Boolean accident;
     @JsonProperty("data")
@@ -63,12 +63,12 @@ public class CarEvent {
     }
 
     @JsonProperty("mileage")
-    public Integer getMileage() {
+    public Long getMileage() {
         return mileage;
     }
 
     @JsonProperty("mileage")
-    public void setMileage(Integer mileage) {
+    public void setMileage(Long mileage) {
         this.mileage = mileage;
     }
 
@@ -107,7 +107,7 @@ public class CarEvent {
     */
 
     public String toString(){
-        return "Car: " +  this.car +", Vin=" + this.vin + ", Mileage="+this.mileage+", Accident=" + this.accident;
+        return "car-event: Vin=" + this.vin + ", Mileage="+this.mileage+", Accident=" + this.accident +", data="+ this.getAdditionalProperties();
     }
 
 }
