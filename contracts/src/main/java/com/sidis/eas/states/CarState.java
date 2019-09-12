@@ -81,7 +81,7 @@ public class CarState implements LinearState {
         this.mileageState = mileageState;
         this.accidentState = accidentState;
         this.insuranceRate = insuranceRate;
-        this.details = new LinkedHashMap<>(details);
+        this.details = details;
     }
 
     @NotNull

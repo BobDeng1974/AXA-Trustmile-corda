@@ -46,11 +46,11 @@ public class CarFlow {
 
         public Create(String policyNumber, Party insurer, String vin, Integer mileagePerYear, Integer insuranceRate, String details) {
             this.policyNumber = policyNumber;
-            this.insurer=insurer;
-            this.vin=vin;
-            this.mileagePerYear=mileagePerYear;
-            this.insuranceRate=insuranceRate;
-            this.details=details;
+            this.insurer = insurer;
+            this.vin = vin;
+            this.mileagePerYear = mileagePerYear;
+            this.insuranceRate = insuranceRate;
+            this.details = details;
         }
 
         @Override

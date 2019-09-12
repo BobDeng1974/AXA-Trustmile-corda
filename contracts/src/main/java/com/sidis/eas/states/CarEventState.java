@@ -50,7 +50,7 @@ public class CarEventState implements LinearState {
         this.timestamp = timestamp;
         this.mileage = mileage;
         this.accident = accident;
-        this.data = new LinkedHashMap<>(data);
+        this.data = data;
     }
 
     @NotNull
