@@ -48,7 +48,6 @@ public class CarFlow {
             return this.progressTracker_sync;
         }
 
-
         @Suspendable
         @Override
         public SignedTransaction call() throws FlowException {
@@ -62,7 +61,7 @@ public class CarFlow {
              * ===========================================================================*/
             // We create our new TokenState.
             Map<String,Object> detailsMap = new LinkedHashMap<>();
-            if (this.details!=null) {
+            if (this.details != null) {
                 detailsMap = JsonHelper.convertStringToJson(details);
             }
 
@@ -92,7 +91,7 @@ public class CarFlow {
              *          TODO 2 - Write our contract to control issuance!
              * ===========================================================================*/
             // We check our transaction is valid based on its contracts.
-            return signCollectAndFinalize(car.getInsurer(), transactionBuilder);
+            return signSyncCollectAndFinalize(car.getInsurer(), transactionBuilder);
         }
 
     }
@@ -163,7 +162,7 @@ public class CarFlow {
         @Suspendable
         @Override
         public Unit call() throws FlowException {
-            return this.receiveCounterpartiesNoTxChecking();
+            return this.receiveIdentitiesCounterpartiesNoTxChecking();
         }
     }
 
