@@ -97,12 +97,12 @@ public class CarFlow {
             TransactionBuilder transactionBuilder = getTransactionBuilderSignedByParticipants(
                     car,
                     new CarContract.Commands.Create());
-            transactionBuilder.addOutputState(car, CarContract.ID, AlwaysAcceptAttachmentConstraint.INSTANCE);
+            transactionBuilder.addOutputState(car, CarContract.ID);
             /* ============================================================================
              *          TODO 2 - Write our contract to control issuance!
              * ===========================================================================*/
             // We check our transaction is valid based on its contracts.
-            return signSyncCollectAndFinalize(car.getParticipants(), transactionBuilder);
+            return signCollectAndFinalize(car.getParticipants(), transactionBuilder);
         }
 
     }
