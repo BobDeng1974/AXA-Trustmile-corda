@@ -86,7 +86,7 @@ public class CarEventFlow {
     }
 
 
-    @InitiatedBy(CarFlow.Create.class)
+    @InitiatedBy(CarEventFlow.Create.class)
     public static class CreateResponder extends ResponderBaseFlow<CarEventState> {
 
         public CreateResponder(FlowSession otherFlow) {
@@ -100,5 +100,5 @@ public class CarEventFlow {
         }
     }
 
-    
+
 }
