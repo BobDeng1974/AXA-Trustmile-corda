@@ -108,12 +108,12 @@ public class Controller {
         return randomCarGenerator("42");
     }
 
-    @RequestMapping(value = "/car-event/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/car-event", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public CarEvent getCarByIdEvent (HttpServletRequest request, @PathVariable("id") String carId)
+    public CarEvent getCarEvent (HttpServletRequest request)
     {
         //TODO: Setup real method from CORDA
-        return randomCarEventGenerator(carId);
+        return randomCarEventGenerator();
     }
 
 
@@ -177,15 +177,15 @@ public class Controller {
 
 
     // PRIVATE METHODS
-    private CarEvent randomCarEventGenerator(String carId){
+    private CarEvent randomCarEventGenerator(){
+        String vin = myLegalName.getCommonName().contains("AXA") ? "1FMHK7B80CGA07773" : "JTEBU5JR7A5006904";
         CarEvent carEvent = new CarEvent();
         carEvent.setCar((random.nextInt()%2)==0?"Ferrari " + random.nextInt(50):"McLaren " + random.nextInt(50));
-        carEvent.setVin(carId);
+        carEvent.setVin(vin);
         carEvent.setMileage(random.nextInt(500000));
         carEvent.setAccident((random.nextInt()%2)==0);
         carEvent.setTimestamp(1500000000+ random.nextInt(1000000));
         return carEvent;
-
     }
 
     /*
