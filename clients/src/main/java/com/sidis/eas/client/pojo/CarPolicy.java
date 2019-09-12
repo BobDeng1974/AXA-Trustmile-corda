@@ -40,8 +40,8 @@ public class CarPolicy {
     private String accidentState;
     @JsonProperty("insuranceRate")
     private Integer insuranceRate;
-    @JsonProperty("data")
-    private Map<String, Object> additionalProperties = new LinkedHashMap<>();
+    @JsonProperty("details")
+    private Map<String, Object> details = new LinkedHashMap<>();
 
     @JsonProperty("policyNumber")
     public String getPolicyNumber() {
@@ -123,13 +123,13 @@ public class CarPolicy {
         this.insuranceRate = insuranceRate;
     }
 
-    public void setData(String key, Object value) {
-        this.additionalProperties.put(key, value);
+    public void setDetails(String key, Object value) {
+        this.details.put(key, value);
     }
 
     @JsonIgnore
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    public Map<String, Object> getDetails() {
+        return this.details;
     }
     // Do we need these getters and setters
  /*   @JsonAnyGetter

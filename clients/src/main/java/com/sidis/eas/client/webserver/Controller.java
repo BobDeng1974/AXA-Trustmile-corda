@@ -114,7 +114,7 @@ public class Controller {
                             carPolicy.getVin(),
                             carPolicy.getMileagePerYear(),
                             carPolicy.getInsuranceRate(),
-                            JsonHelper.convertJsonToString(carPolicy.getAdditionalProperties())
+                            JsonHelper.convertJsonToString(carPolicy.getDetails())
                         )
                     .getReturnValue()
                     .get();
@@ -238,12 +238,12 @@ public class Controller {
         car.setMileageState("IN_RANGE");
         car.setAccidentState("NO");
         car.setInsuranceRate(1500);
-        car.setData("trustIssuer", "AXA Versicherungen AG");
-        car.setData("originalPrice", 152000);
-        car.setData("image", "car-black.jpg");
-        car.setData("color", "RED");
-        car.setData("numberOfPreviousOwners", 1);
-        car.setData("model", "Modena");
+        car.setDetails("trustIssuer", "AXA Versicherungen AG");
+        car.setDetails("originalPrice", 152000);
+        car.setDetails("image", "car-black.jpg");
+        car.setDetails("color", "RED");
+        car.setDetails("numberOfPreviousOwners", 1);
+        car.setDetails("model", "Modena");
         return car;
 
     }
