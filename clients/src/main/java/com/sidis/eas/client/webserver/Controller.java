@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.sidis.eas.client.pojo.CarEvent;
 import com.sidis.eas.client.pojo.CarPolicy;
 import com.sidis.eas.contracts.StateMachine;
+import com.sidis.eas.flows.CarEventFlow;
 import com.sidis.eas.flows.CarFlow;
 import com.sidis.eas.states.CarState;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -76,13 +77,24 @@ public class Controller {
     public HttpStatus sendCarEvent(HttpServletRequest request, @RequestBody CarEvent carEvent)
     {
         try {
-            logger.info(carEvent.toString());
+            UniqueIdentifier uid = new UniqueIdentifier(carEvent.getVin());
+            final SignedTransaction signedTx = proxy
+                    .startTrackedFlowDynamic(
+                            CarEventFlow.Create.class,
+                            //  String vin, Integer timestamp, Long mileage, Boolean accident, String data
+                            carEvent.getVin(),
+                            carEvent.getTimestamp(),
+                            carEvent.getMileage(),
+                            carEvent.getAccident(),
+                            JsonHelper.convertJsonToString(carEvent.getAdditionalProperties())
+                    )
+                    .getReturnValue()
+                    .get();
             return HttpStatus.CREATED;
 
         } catch (Throwable ex) {
             logger.error(ex.getMessage(), ex);
             return HttpStatus.BAD_REQUEST;
-
         }
     }
 
