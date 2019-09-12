@@ -129,6 +129,10 @@ public class CarPolicy {
         this.additionalProperties.put(key, value);
     }
 
+    @JsonIgnore
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
     // Do we need these getters and setters
  /*   @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {

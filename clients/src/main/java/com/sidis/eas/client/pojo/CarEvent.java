@@ -88,6 +88,11 @@ public class CarEvent {
         this.additionalProperties.put(key, value);
     }
 
+    @JsonIgnore
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
 
     /*
 

@@ -4,19 +4,23 @@ import com.sidis.eas.contracts.StateMachine;
 import com.sidis.eas.client.pojo.CarPolicy;
 import com.sidis.eas.client.pojo.CarEvent;
 import com.google.common.collect.ImmutableList;
+import com.sidis.eas.flows.CarFlow;
 import com.sidis.eas.states.CarState;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.CordaX500Name;
+import net.corda.core.identity.Party;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.node.NodeInfo;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
+import net.corda.core.transactions.SignedTransaction;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,9 +95,27 @@ public class Controller {
     public HttpStatus sendCarPolicy(HttpServletRequest request, @RequestBody CarPolicy carPolicy)
     {
         try {
-            logger.info(carPolicy.toString());
-            return HttpStatus.OK;
+            UniqueIdentifier uid = new UniqueIdentifier(carPolicy.getVin());
+            Party insurerParty = proxy.wellKnownPartyFromX500Name(CordaX500Name.parse(carPolicy.getInsurer()));
+            if (insurerParty == null){
+                logger.error("party not found "+carPolicy.getInsurer());
+                return HttpStatus.BAD_REQUEST;
+            }
 
+            final SignedTransaction signedTx = proxy
+                    .startTrackedFlowDynamic(
+                            CarFlow.Create.class,
+                            // String policyNumber, Party insurer, String vin, Integer mileagePerYear, Integer insuranceRate, String details
+                            carPolicy.getPolicyNumber(),
+                            insurerParty,
+                            carPolicy.getVin(),
+                            carPolicy.getMileagePerYear(),
+                            carPolicy.getInsuranceRate(),
+                            carPolicy.getAdditionalProperties()
+                        )
+                    .getReturnValue()
+                    .get();
+            return HttpStatus.CREATED;
         } catch (Throwable ex) {
             logger.error(ex.getMessage(), ex);
             return HttpStatus.BAD_REQUEST;
