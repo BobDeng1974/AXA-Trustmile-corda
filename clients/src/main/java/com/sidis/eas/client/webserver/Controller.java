@@ -37,12 +37,13 @@ import static java.util.stream.Collectors.toList;
 public class Controller {
 
     Random random = new Random();
-
-
     public static final boolean DEBUG = true;
 
     private final CordaRPCOps proxy;
     private final CordaX500Name myLegalName;
+
+    @Autowired
+    private  SimpMessagingTemplate messagingTemplate;
 
     private final List<String> serviceNames = ImmutableList.of("Notary");
 
