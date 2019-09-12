@@ -114,10 +114,14 @@ public class CarEventState implements LinearState {
         return insuredCar.getName().getX500Principal().getName();
     }
 
+    public CarEventState udpate(@NotNull Integer timestamp, @NotNull Long mileage, @NotNull Boolean accident, Map<String, Object> data) {
+        return new CarEventState(this.getId(), this.getInsuredCar(), this.getVin(), timestamp, mileage, accident, data);
+    }
+
     /* actions CREATE */
-    public static CarEventState create(@NotNull UniqueIdentifier id, @NotNull Party initiator, @NotNull String vin,
+    public static CarEventState create(@NotNull UniqueIdentifier id, @NotNull Party insuredCar, @NotNull String vin,
                                        @NotNull Integer timestamp, @NotNull Long mileage, @NotNull Boolean accident,
                                        Map<String, Object> data) {
-        return new CarEventState(id, initiator, vin, timestamp, mileage, accident, data);
+        return new CarEventState(id, insuredCar, vin, timestamp, mileage, accident, data);
     }
 }
