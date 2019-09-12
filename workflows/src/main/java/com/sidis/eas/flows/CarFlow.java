@@ -164,7 +164,7 @@ public class CarFlow {
 //    }
 
     @InitiatedBy(CarFlow.Create.class)
-    public static class CreateResponder extends ResponderBaseFlow<ServiceState> {
+    public static class CreateResponder extends ResponderBaseFlow<CarState> {
 
         public CreateResponder(FlowSession otherFlow) {
             super(otherFlow);
