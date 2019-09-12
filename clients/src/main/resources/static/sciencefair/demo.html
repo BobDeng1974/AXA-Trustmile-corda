@@ -14,10 +14,10 @@ function GETvar(parameterName) {
     return result;
 }
 
-var s = "<frameset id='index_frames' cols='33%,33%,33%'>";
-var ports = "10801,10802,10803+10804";
+var s = "<frameset id='index_frames' cols='50%,50%'>";
+var ports = "10803,10804";
 
-MAIN_URL = document.location.protocol + "//" + document.location.hostname + "/sciencefair/";
+MAIN_URL = document.location.protocol + "//" + document.location.hostname
 var frames_param = GETvar("frames");
 if (frames_param == null) {
     frames_param = ports;
