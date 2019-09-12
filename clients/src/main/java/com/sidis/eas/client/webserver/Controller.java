@@ -97,10 +97,13 @@ public class Controller {
     {
         try {
             UniqueIdentifier uid = new UniqueIdentifier(carPolicy.getVin());
-            Party insurerParty = proxy.wellKnownPartyFromX500Name(CordaX500Name.parse(carPolicy.getInsurer()));
-            if (insurerParty == null){
-                logger.error("party not found "+carPolicy.getInsurer());
-                return HttpStatus.BAD_REQUEST;
+            Party insurerParty = null;
+            if (carPolicy.getInsurer() != null && !carPolicy.getInsurer().equals("")) {
+                proxy.wellKnownPartyFromX500Name(CordaX500Name.parse(carPolicy.getInsurer()));
+                if (insurerParty == null) {
+                    logger.error("party not found " + carPolicy.getInsurer());
+                    return HttpStatus.BAD_REQUEST;
+                }
             }
 
             final SignedTransaction signedTx = proxy
