@@ -1,15 +1,11 @@
 package com.sidis.eas.contracts;
 
-import ch.cordalo.corda.common.contracts.CommandVerifier;
 import ch.cordalo.corda.common.contracts.ReferenceContract;
 import ch.cordalo.corda.common.contracts.StateVerifier;
 import com.sidis.eas.states.CarEventState;
 import com.sidis.eas.states.CarState;
-import com.sidis.eas.states.ServiceState;
-import kotlin.Pair;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
-import net.corda.core.serialization.ConstructorForDeserialization;
 import net.corda.core.serialization.CordaSerializable;
 import net.corda.core.transactions.LedgerTransaction;
 
@@ -37,7 +33,6 @@ public class CarContract implements Contract {
         }
     }
 
-     //WIR BRAUCHEN CREATE, UPDATE
     @Override
     public void verify(LedgerTransaction tx) throws IllegalArgumentException {
         StateVerifier verifier = StateVerifier.fromTransaction(tx, CarContract.Commands.class);
@@ -58,14 +53,11 @@ public class CarContract implements Contract {
             verifyAllSigners(verifier);
             return null;
         });
-
     }
 
 
     private void verifyUpdate(LedgerTransaction tx, StateVerifier verifier){
         requireThat(req -> {
-
-
             verifier.output().notEmpty().count(2);
             CarState car = verifier.input().one(CarState.class).object();
             CarEventState carEvent = verifier.input().one(CarEventState.class).object();

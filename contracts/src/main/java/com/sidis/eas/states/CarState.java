@@ -1,5 +1,6 @@
 package com.sidis.eas.states;
 
+import ch.cordalo.corda.common.contracts.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sidis.eas.contracts.CarContract;
 import net.corda.core.contracts.BelongsToContract;
@@ -153,7 +154,8 @@ public class CarState implements LinearState {
         return insuranceRate;
     }
 
-    public Map<String, Object> getDetails() {
+    @JsonIgnore
+    public Map<String, Object> getDetailsMap() {
         return details;
     }
 
@@ -176,7 +178,6 @@ public class CarState implements LinearState {
         return Collections.EMPTY_LIST;
     }
 
-
     /* actions CREATE */
     public static CarState create(@NotNull UniqueIdentifier id, @NotNull String policyNumber, @NotNull Party car,
                                   Party insurer, @NotNull String vin, Integer mileagePerYear,
@@ -185,18 +186,6 @@ public class CarState implements LinearState {
         return new CarState(id, State.VALID, policyNumber, car, insurer, vin, mileagePerYear, mileageState,
                 accidentState, insuranceRate, details);
     }
-
-// this.id = id;
-//        this.state = state;
-//        this.policyNumber = policyNumber;
-//        this.car = insuredCar;
-//        this.insurer = insurer;
-//        this.vin = vin;
-//        this.mileagePerYear = mileagePerYear;
-//        this.mileageState = mileageState;
-//        this.accidentState = accidentState;
-//        this.insuranceRate = insuranceRate;
-//        this.details = details;
 
     /* actions UPDATE */
     public CarState update(State state, MileageState mileageState, AccidentState accidentState) {
@@ -213,24 +202,11 @@ public class CarState implements LinearState {
     public CarState update(State state, String policyNumber, Party insurer, Integer mileagePerYear, MileageState mileageState,
                            AccidentState accidentState, Integer insuranceRate, Map<String, Object> newDetails) {
         return new CarState(this.id, state, policyNumber, this.car, insurer, this.vin, mileagePerYear,
-                mileageState, accidentState, this.insuranceRate, newDetails);
+                mileageState, accidentState, insuranceRate, newDetails);
     }
-//
-//    /* actions SHARE */
-//    public CarState share(@NotNull Party newServiceProvider) {
-//        StateMachine.State newState = StateMachine.StateTransition.SHARE.getNextStateFrom(this.state);
-//        return new CarState(this.id, this.policyNumber, this.car, newState, this.eventData, newServiceProvider, this.vin);
-//    }
-//
-//
-//    /* actions any */
-//    public CarState withAction(StateMachine.StateTransition transition) {
-//        StateMachine.State newState = transition.getNextStateFrom(this.state);
-//        return new CarState(this.id, this.policyNumber, this.car, newState, this.eventData, this.insurer, this.vin);
-//    }
-//
-//    public String getData(String keys) {
-//        return JsonHelper.getDataValue(this.getEventData(), keys);
-//    }
+
+    public String getData(String keys) {
+        return JsonHelper.getDataValue(this.getDetailsMap(), keys);
+    }
 
 }
