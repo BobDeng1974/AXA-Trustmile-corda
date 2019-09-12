@@ -80,7 +80,7 @@ public class Controller {
         try {
             logger.info("car event="+carEvent.toString());
 
-            if(getAllCarEvents().size() > 1) {
+            if(getAllCarEvents().size() > 0) {
                 final SignedTransaction signedTx = proxy
                         .startTrackedFlowDynamic(
                                 CarEventFlow.Update.class,
