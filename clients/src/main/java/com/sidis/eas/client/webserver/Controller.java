@@ -158,7 +158,23 @@ public class Controller {
     public CarPolicy getCarPolicy (HttpServletRequest request)
     {
         //TODO: Setup real method from CORDA
-        return randomCarGenerator("42");
+        CarState car = getUnconsumedCar();
+        if (car != null) {
+            CarPolicy carPolicy = new CarPolicy();
+            carPolicy.setAccidentState(car.getAccidentState().toString());
+            carPolicy.setCar(car.getCarX500());
+            carPolicy.setDetailsMap(car.getDetails());
+            carPolicy.setInsuranceRate(car.getInsuranceRate());
+            carPolicy.setInsurer(car.getInsurereX500());
+            carPolicy.setState(car.getState().toString());
+            carPolicy.setMileageState(car.getMileageState().toString());
+            carPolicy.setAccidentState(car.getAccidentState().toString());
+            carPolicy.setMileagePerYear(car.getMileagePerYear());
+            carPolicy.setPolicyNumber(car.getPolicyNumber());
+            return carPolicy;
+        } else {
+            return randomCarGenerator("42");
+        }
     }
 
     @RequestMapping(value = "/car-event", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -166,7 +182,19 @@ public class Controller {
     public CarEvent getCarEvent (HttpServletRequest request)
     {
         //TODO: Setup real method from CORDA
-        return randomCarEventGenerator();
+        CarEventState carEventState = getUnconsumedCarEvent();
+        if (carEventState != null) {
+            CarEvent carEvent = new CarEvent();
+            carEvent.setCar(carEventState.getInsuredCarX500());
+            carEvent.setAccident(carEventState.getAccident());
+            carEvent.setDataMap(carEventState.getData());
+            carEvent.setMileage(carEventState.getMileage());
+            carEvent.setTimestamp(carEventState.getTimestamp());
+            carEvent.setVin(carEventState.getVin());
+            return carEvent;
+        }else{
+            return randomCarEventGenerator();
+        }
     }
 
     @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -223,6 +251,18 @@ public class Controller {
     }
 
     // PRIVATE METHODS
+    private CarState getUnconsumedCar() {
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                null,
+                null,
+                Vault.StateStatus.UNCONSUMED,
+                null);
+        List<CarState> carStates = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return carStates.isEmpty() ? null : carStates.get(carStates.size() - 1);
+    }
+
     private CarState getCarStateFromExternalId(String id) {
         QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
                 null,
@@ -230,15 +270,21 @@ public class Controller {
                 Arrays.asList(id),
                 Vault.StateStatus.UNCONSUMED,
                 null);
-        List<CarState> states = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
+        List<CarState> carStates = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
                 .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return states.isEmpty() ? null : states.get(states.size()-1);
+        return carStates.isEmpty() ? null : carStates.get(carStates.size() - 1);
     }
 
-    private List<CarEventState> getCarEventStateList() {
-        List<CarEventState> carEventStates = proxy.vaultQuery(CarEventState.class).getStates()
-                .stream().map(state -> state.getState().getData()).collect(toList());
-        return carEventStates;
+    private CarEventState getUnconsumedCarEvent() {
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                null,
+                null,
+                Vault.StateStatus.UNCONSUMED,
+                null);
+        List<CarEventState> carEventStates = proxy.vaultQueryByCriteria(queryCriteria, CarEventState.class)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return carEventStates.size() == 0 ? null : carEventStates.get(carEventStates.size() - 1);
     }
 
     private CarEvent randomCarEventGenerator(){
