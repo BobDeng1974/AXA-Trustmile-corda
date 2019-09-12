@@ -178,15 +178,15 @@ public class CarState implements LinearState {
     }
 
     /* actions UPDATE */
-    public CarState update(State state, MileageState mileageState, AccidentState accidentState) {
+    public CarState update(State state, MileageState mileageState, AccidentState accidentState, Map<String, Object> newDetails) {
         return this.update(state, this.policyNumber, this.insurer, this.mileagePerYear, mileageState, accidentState,
-                this.insuranceRate, this.details);
+                this.insuranceRate, newDetails);
     }
 
     public CarState update(State state, Integer mileagePerYear, MileageState mileageState, AccidentState accidentState,
-                           Integer insuranceRate) {
+                           Integer insuranceRate, Map<String, Object> newDetails) {
         return this.update(state, this.policyNumber, this.insurer, mileagePerYear, mileageState, accidentState,
-                insuranceRate, this.details);
+                insuranceRate, newDetails);
     }
 
     public CarState update(State state, String policyNumber, Party insurer, Integer mileagePerYear, MileageState mileageState,

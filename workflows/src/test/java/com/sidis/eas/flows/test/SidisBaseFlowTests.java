@@ -17,10 +17,19 @@ public class SidisBaseFlowTests extends SidisBaseTests {
 
     protected SignedTransaction newCarCreateFlow(String policyNumber, Party insurer, String vin, Integer mileagePerYear, Integer insuranceRate, String data) throws ExecutionException, InterruptedException {
         FlowLogic<SignedTransaction> flow = new CarFlow.Create(policyNumber, insurer, vin, mileagePerYear, insuranceRate, data);
-        CordaFuture<SignedTransaction> future = insurance1.node.startFlow(flow);
+        CordaFuture<SignedTransaction> future = redCar.node.startFlow(flow);
         network.runNetwork();
         return future.get();
     }
+
+    protected SignedTransaction newCarUpdateFlow(String policyNumber, Party insurer, Integer mileagePerYear,
+                                                 Integer insuranceRate, String data) throws ExecutionException, InterruptedException {
+        FlowLogic<SignedTransaction> flow = new CarFlow.Update(policyNumber, insurer, mileagePerYear, insuranceRate, data);
+        CordaFuture<SignedTransaction> future = redCar.node.startFlow(flow);
+        network.runNetwork();
+        return future.get();
+    }
+
     protected SignedTransaction newCarEventCreateFlow(String vin, Integer timestamp, Long mileage, Boolean accident, String data) throws ExecutionException, InterruptedException {
         FlowLogic<SignedTransaction> flow = new CarEventFlow.Create(vin, timestamp, mileage, accident, data);
         CordaFuture<SignedTransaction> future = redCar.node.startFlow(flow);
