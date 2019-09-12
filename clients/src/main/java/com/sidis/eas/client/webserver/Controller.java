@@ -221,7 +221,7 @@ public class Controller {
         CarEvent carEvent = new CarEvent();
         carEvent.setCar((random.nextInt()%2)==0?"Ferrari " + random.nextInt(50):"McLaren " + random.nextInt(50));
         carEvent.setVin(vin);
-        carEvent.setMileage(random.nextInt(500000));
+        carEvent.setMileage(random.nextLong() % 500000L);
         carEvent.setAccident((random.nextInt()%2)==0);
         carEvent.setTimestamp(1500000000+ random.nextInt(1000000));
         return carEvent;
