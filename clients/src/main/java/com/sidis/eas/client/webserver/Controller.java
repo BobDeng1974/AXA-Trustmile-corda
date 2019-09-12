@@ -90,6 +90,20 @@ public class Controller {
                     )
                     .getReturnValue()
                     .get();
+
+            CarState car = getCarStateFromExternalId(carEvent.getVin());
+
+            final SignedTransaction signedTx2 = proxy
+                    .startTrackedFlowDynamic(
+                            CarFlow.Update.class,
+                            car.getPolicyNumber(),
+                            car.getInsurer(),
+                            car.getMileagePerYear(),
+                            car.getInsuranceRate(),
+                            JsonHelper.convertJsonToString(car.getDetails())
+                    )
+                    .getReturnValue()
+                    .get();
             return HttpStatus.CREATED;
 
         } catch (Throwable ex) {
@@ -144,6 +158,18 @@ public class Controller {
     {
         //TODO: Setup real method from CORDA
         return randomCarGenerator("42");
+    }
+
+    private CarState getCarStateFromExternalId(String id) {
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                null,
+                Arrays.asList(id),
+                Vault.StateStatus.UNCONSUMED,
+                null);
+        List<CarState> states = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return states.isEmpty() ? null : states.get(states.size()-1);
     }
 
     @RequestMapping(value = "/car-event", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
