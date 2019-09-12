@@ -48,7 +48,7 @@ public class CarEventState implements LinearState {
         this.timestamp = timestamp;
         this.mileage = mileage;
         this.accident = accident;
-        this.data = data;
+        this.data = new LinkedHashMap<>(data);
     }
 
     @NotNull
@@ -77,6 +77,8 @@ public class CarEventState implements LinearState {
         return id;
     }
 
+    /* please ignore due to issue with Party */
+    @JsonIgnore
     @NotNull
     public Party getInsuredCar() {
         return insuredCar;
@@ -107,7 +109,7 @@ public class CarEventState implements LinearState {
     }
 
     @NotNull
-    public String getCarX500() {
+    public String getInsuredCarX500() {
         return insuredCar.getName().getX500Principal().getName();
     }
 

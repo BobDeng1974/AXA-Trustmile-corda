@@ -81,7 +81,7 @@ public class CarState implements LinearState {
         this.mileageState = mileageState;
         this.accidentState = accidentState;
         this.insuranceRate = insuranceRate;
-        this.details = details;
+        this.details = new LinkedHashMap<>(details);
     }
 
     @NotNull
@@ -155,11 +155,10 @@ public class CarState implements LinearState {
         return details;
     }
 
-    @NotNull
-    public String getInitiatorX500() {
+    public String getCarX500() {
         return car.getName().getX500Principal().getName();
     }
-    public String getServiceProviderX500() {
+    public String getInsurereX500() {
         return insurer != null ? insurer.getName().getX500Principal().getName() : "";
     }
 
