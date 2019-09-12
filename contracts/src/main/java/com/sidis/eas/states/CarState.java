@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @BelongsToContract(CarContract.class)
 public class CarState implements LinearState {
+
     @CordaSerializable
     public enum State {
         VALID,
@@ -116,6 +117,7 @@ public class CarState implements LinearState {
         return policyNumber;
     }
 
+    @JsonIgnore
     @NotNull
     public Party getCar() {
         return car;

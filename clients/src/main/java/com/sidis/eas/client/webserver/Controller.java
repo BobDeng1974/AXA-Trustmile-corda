@@ -41,7 +41,7 @@ import static java.util.stream.Collectors.toList;
 public class Controller {
 
     Random random = new Random();
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     private final CordaRPCOps proxy;
     private final CordaX500Name myLegalName;
