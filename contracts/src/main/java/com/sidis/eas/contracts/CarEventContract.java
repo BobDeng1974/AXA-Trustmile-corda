@@ -24,13 +24,6 @@ public class CarEventContract implements Contract {
         class Update implements CarEventContract.Commands{
 
         }
-
-        @CordaSerializable
-        public class Reference extends ReferenceContract.Commands.Reference<CarEventState> implements CarEventContract.Commands {
-            public Reference(CarEventState myState) {
-                super(myState);
-            }
-        }
     }
 
     @Override
