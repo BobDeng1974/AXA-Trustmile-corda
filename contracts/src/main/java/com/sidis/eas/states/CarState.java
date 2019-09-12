@@ -2,7 +2,6 @@ package com.sidis.eas.states;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sidis.eas.contracts.CarContract;
-import com.sidis.eas.contracts.ServiceContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;

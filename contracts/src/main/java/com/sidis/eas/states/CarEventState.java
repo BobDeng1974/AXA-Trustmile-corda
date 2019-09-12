@@ -2,7 +2,6 @@ package com.sidis.eas.states;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sidis.eas.contracts.CarEventContract;
-import com.sidis.eas.contracts.ServiceContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -12,7 +11,10 @@ import net.corda.core.serialization.ConstructorForDeserialization;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.PublicKey;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @BelongsToContract(CarEventContract.class)
