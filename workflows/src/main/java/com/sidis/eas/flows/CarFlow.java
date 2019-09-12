@@ -92,7 +92,7 @@ public class CarFlow {
              *          TODO 2 - Write our contract to control issuance!
              * ===========================================================================*/
             // We check our transaction is valid based on its contracts.
-            return signCollectAndFinalize(car.getParticipants(), transactionBuilder);
+            return signCollectAndFinalize(car.getInsurer(), transactionBuilder);
         }
 
     }
