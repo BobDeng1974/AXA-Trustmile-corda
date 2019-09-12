@@ -155,7 +155,7 @@ public class CarState implements LinearState {
     }
 
     @JsonIgnore
-    public Map<String, Object> getDetailsMap() {
+    public Map<String, Object> getDetails() {
         return details;
     }
 
@@ -164,18 +164,6 @@ public class CarState implements LinearState {
     }
     public String getInsurereX500() {
         return insurer != null ? insurer.getName().getX500Principal().getName() : "";
-    }
-
-    public List<AbstractParty> getCounterParties(Party me) {
-        if (me != null) {
-            if (this.getInsurer() != null) {
-                if (this.getCar().equals(me)) return Arrays.asList(this.insurer);
-                if (this.getInsurer().equals(me)) return Arrays.asList(this.car);
-            } else {
-                if (this.getCar().equals(me)) return Collections.EMPTY_LIST;
-            }
-        }
-        return Collections.EMPTY_LIST;
     }
 
     /* actions CREATE */
@@ -206,7 +194,7 @@ public class CarState implements LinearState {
     }
 
     public String getData(String keys) {
-        return JsonHelper.getDataValue(this.getDetailsMap(), keys);
+        return JsonHelper.getDataValue(this.getDetails(), keys);
     }
 
 }

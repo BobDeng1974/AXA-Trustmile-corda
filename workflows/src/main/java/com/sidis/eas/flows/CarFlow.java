@@ -173,7 +173,7 @@ public class CarFlow {
         @Suspendable
         @Override
         public Unit call() throws FlowException {
-            return this.receiveIdentitiesCounterpartiesNoTxChecking();
+            return this.receiveCounterpartiesNoTxChecking();
         }
     }
 
