@@ -111,6 +111,8 @@ public class CarFlow {
         private final Integer insuranceRate;
         private final String details;
 
+        private static final String INSURE_ME = "O=InsureMe,L=Schaffhausen,ST=SH,C=CH";
+
         public Update(String policyNumber, Party insurer, Integer mileagePerYear, Integer insuranceRate, String details) {
             this.policyNumber = policyNumber;
             this.insurer = insurer;
@@ -162,11 +164,15 @@ public class CarFlow {
             }
 
             CarState.MileageState newMileageState = this.getNewMileageState(car.getMileageState(),
-                    car.getMileagePerYear(), carEvent.getTimestamp(), carEvent.getMileage());
-
-            CarState.State newState = this.getNewState(car.getState(), carEvent, carEventLastConsumed);
-
+                    car.getMileagePerYear(), carEvent.getTimestamp(), carEvent.getMileage());;
+            CarState.State newState;
             CarState.AccidentState newAccidentState = this.getNewAccidentState(car.getAccidentState(), carEvent.getAccident());
+
+            if (car.getInsurereX500().equals(INSURE_ME)){
+                newState = CarState.State.VALID;
+            } else {
+                newState = this.getNewState(car.getState(), carEvent, carEventLastConsumed);
+            }
 
             CarState updatedCar = car.update(newState, newMileageState, newAccidentState, detailsMap);
 

@@ -86,6 +86,11 @@ public class CarEvent {
         this.additionalProperties.put(key, value);
     }
 
+    public void setDataMap(Map<String, Object> dataMap) {
+        this.additionalProperties = dataMap;
+    }
+
+
     @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

@@ -34,6 +34,8 @@ public class CarPolicy {
     private String insurer;
     @JsonProperty("mileagePerYear")
     private Integer mileagePerYear;
+    @JsonProperty
+    private String state;
     @JsonProperty("mileageState")
     private String mileageState;
     @JsonProperty("accidentState")
@@ -93,6 +95,16 @@ public class CarPolicy {
         this.mileagePerYear = mileagePerYear;
     }
 
+    @JsonProperty("state")
+    public String getState() {
+        return state;
+    }
+
+    @JsonProperty("state")
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @JsonProperty("mileageState")
     public String getMileageState() {
         return mileageState;
@@ -127,6 +139,10 @@ public class CarPolicy {
         this.details.put(key, value);
     }
 
+    public void setDetailsMap(Map<String, Object> detailsMap) {
+        this.details = detailsMap;
+    }
+
     @JsonIgnore
     public Map<String, Object> getDetails() {
         return this.details;
@@ -144,7 +160,7 @@ public class CarPolicy {
 
     public String toString() {
         return this.policyNumber + "," + this.vin + "," + this.insurer + ","
-                + this.mileagePerYear + "," + this.accidentState + ","
+                + this.mileagePerYear + "," + this.state + "," + this.mileageState + "," + this.accidentState + ","
                 + this.car;
     }
 
