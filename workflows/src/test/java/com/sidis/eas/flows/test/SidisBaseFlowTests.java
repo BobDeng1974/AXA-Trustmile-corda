@@ -1,6 +1,7 @@
 package com.sidis.eas.flows.test;
 
 import com.sidis.eas.SidisBaseTests;
+import com.sidis.eas.flows.CarEventFlow;
 import com.sidis.eas.flows.CarFlow;
 import com.sidis.eas.flows.ServiceFlow;
 import net.corda.core.concurrent.CordaFuture;
@@ -17,6 +18,12 @@ public class SidisBaseFlowTests extends SidisBaseTests {
     protected SignedTransaction newCarCreateFlow(String policyNumber, Party insurer, String vin, Integer mileagePerYear, Integer insuranceRate, String data) throws ExecutionException, InterruptedException {
         FlowLogic<SignedTransaction> flow = new CarFlow.Create(policyNumber, insurer, vin, mileagePerYear, insuranceRate, data);
         CordaFuture<SignedTransaction> future = insurance1.node.startFlow(flow);
+        network.runNetwork();
+        return future.get();
+    }
+    protected SignedTransaction newCarEventCreateFlow(String vin, Integer timestamp, Long mileage, Boolean accident, String data) throws ExecutionException, InterruptedException {
+        FlowLogic<SignedTransaction> flow = new CarEventFlow.Create(vin, timestamp, mileage, accident, data);
+        CordaFuture<SignedTransaction> future = redCar.node.startFlow(flow);
         network.runNetwork();
         return future.get();
     }
