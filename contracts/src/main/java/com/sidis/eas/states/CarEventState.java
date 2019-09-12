@@ -114,7 +114,7 @@ public class CarEventState implements LinearState {
         return insuredCar.getName().getX500Principal().getName();
     }
 
-    public CarEventState udpate(@NotNull Integer timestamp, @NotNull Long mileage, @NotNull Boolean accident, Map<String, Object> data) {
+    public CarEventState update(@NotNull Integer timestamp, @NotNull Long mileage, @NotNull Boolean accident, Map<String, Object> data) {
         return new CarEventState(this.getId(), this.getInsuredCar(), this.getVin(), timestamp, mileage, accident, data);
     }
 

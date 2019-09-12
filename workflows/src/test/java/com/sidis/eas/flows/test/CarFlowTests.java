@@ -52,7 +52,6 @@ public class CarFlowTests extends SidisBaseFlowTests {
     }
 
     @Test
-    @Ignore
     public void update_car() throws Exception {
         SignedTransaction carCreateTx = this.newCarCreateFlow("12.345.678", this.insurance2.party,
                 "42", 7000, 1200, dataJSONString());
@@ -67,7 +66,7 @@ public class CarFlowTests extends SidisBaseFlowTests {
         StateVerifier verifier2 = StateVerifier.fromTransaction(carEventCreate1Tx, this.redCar.ledgerServices);
         CarEventState carEvent1 = verifier2.output().one().one(CarEventState.class).object();
 
-        SignedTransaction carEventCreate2Tx = this.newCarEventCreateFlow("42", 15000000, 90L,
+        SignedTransaction carEventCreate2Tx = this.newCarEventUpdateFlow("42", 15000000, 90L,
                 false, dataJSONString());
         StateVerifier verifier3 = StateVerifier.fromTransaction(carEventCreate2Tx, this.redCar.ledgerServices);
         CarEventState carEvent2 = verifier3.output().one().one(CarEventState.class).object();

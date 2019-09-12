@@ -37,6 +37,13 @@ public class SidisBaseFlowTests extends SidisBaseTests {
         return future.get();
     }
 
+    protected SignedTransaction newCarEventUpdateFlow(String vin, Integer timestamp, Long mileage, Boolean accident, String data) throws ExecutionException, InterruptedException {
+        FlowLogic<SignedTransaction> flow = new CarEventFlow.Update(vin, timestamp, mileage, accident, data);
+        CordaFuture<SignedTransaction> future = redCar.node.startFlow(flow);
+        network.runNetwork();
+        return future.get();
+    }
+
 
     protected SignedTransaction newServiceCreateFlow(String serviceName, String data, Integer price) throws ExecutionException, InterruptedException {
         FlowLogic<SignedTransaction> flow = new ServiceFlow.Create(serviceName, data, price);

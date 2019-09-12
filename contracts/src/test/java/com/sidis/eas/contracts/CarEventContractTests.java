@@ -35,7 +35,7 @@ public class CarEventContractTests extends SidisBaseTests {
     }
 
     private CarEventState updateEvent(CarEventState event, @NotNull Integer timestamp, @NotNull Long mileage, @NotNull Boolean accident, Map<String, Object> data) {
-        return event.udpate(timestamp, mileage, accident, data);
+        return event.update(timestamp, mileage, accident, data);
     }
 
 
@@ -64,7 +64,7 @@ public class CarEventContractTests extends SidisBaseTests {
     public void car_event_update() {
         transaction(this.redCar.ledgerServices, tx -> {
             CarEventState carEventState = newCarEvent();
-            CarEventState carEventUpdate = carEventState.udpate(19999, carEventState.getMileage() + 10, carEventState.getAccident(), carEventState.getData());
+            CarEventState carEventUpdate = carEventState.update(19999, carEventState.getMileage() + 10, carEventState.getAccident(), carEventState.getData());
 
             tx.input(CarEventContract.ID, carEventState);
             tx.output(CarEventContract.ID, carEventUpdate);

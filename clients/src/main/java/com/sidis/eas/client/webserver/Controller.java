@@ -79,19 +79,36 @@ public class Controller {
     {
         try {
             logger.info("car event="+carEvent.toString());
-            final SignedTransaction signedTx = proxy
-                    .startTrackedFlowDynamic(
-                            CarEventFlow.Create.class,
-                            //  String vin, Integer timestamp, Long mileage, Boolean accident, String data
-                            carEvent.getVin(),
-                            carEvent.getTimestamp(),
-                            carEvent.getMileage(),
-                            carEvent.getAccident(),
-                            JsonHelper.convertJsonToString(carEvent.getAdditionalProperties())
-                    )
-                    .getReturnValue()
-                    .get();
 
+            if(getAllCarEvents().size() > 1) {
+                final SignedTransaction signedTx = proxy
+                        .startTrackedFlowDynamic(
+                                CarEventFlow.Update.class,
+                                //  String vin, Integer timestamp, Long mileage, Boolean accident, String data
+                                carEvent.getVin(),
+                                carEvent.getTimestamp(),
+                                carEvent.getMileage(),
+                                carEvent.getAccident(),
+                                JsonHelper.convertJsonToString(carEvent.getAdditionalProperties())
+                        )
+                        .getReturnValue()
+                        .get();
+            }else {
+
+                final SignedTransaction signedTx = proxy
+                        .startTrackedFlowDynamic(
+                                CarEventFlow.Create.class,
+                                //  String vin, Integer timestamp, Long mileage, Boolean accident, String data
+                                carEvent.getVin(),
+                                carEvent.getTimestamp(),
+                                carEvent.getMileage(),
+                                carEvent.getAccident(),
+                                JsonHelper.convertJsonToString(carEvent.getAdditionalProperties())
+                        )
+                        .getReturnValue()
+                        .get();
+
+            }
             CarState car = getCarStateFromExternalId(carEvent.getVin());
 
             final SignedTransaction signedTx2 = proxy
@@ -286,6 +303,18 @@ public class Controller {
                 .getStates().stream().map(state -> state.getState().getData()).collect(toList());
         return carEventStates.size() == 0 ? null : carEventStates.get(carEventStates.size() - 1);
     }
+    private List<CarEventState> getAllCarEvents() {
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                null,
+                null,
+                Vault.StateStatus.ALL,
+                null);
+        List<CarEventState> carEventStates = proxy.vaultQueryByCriteria(queryCriteria, CarEventState.class)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return carEventStates;
+    }
+
 
     private CarEvent randomCarEventGenerator(){
         // O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH

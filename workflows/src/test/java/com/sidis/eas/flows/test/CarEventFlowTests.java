@@ -16,8 +16,8 @@ public class CarEventFlowTests extends SidisBaseFlowTests {
     @Before
     public void setup() {
         this.setup(true,
-            CarEventFlow.CreateResponder.class
-            //ServiceFlow.UpdateResponder.class
+            CarEventFlow.CreateResponder.class,
+            CarEventFlow.UpdateResponder.class
         );
     }
 
@@ -41,7 +41,7 @@ public class CarEventFlowTests extends SidisBaseFlowTests {
 
 
     @Test
-    public void create_car() throws Exception {
+    public void create_car_event() throws Exception {
         SignedTransaction tx = this.newCarEventCreateFlow("42", 15000000, 7000L, false, dataJSONString());
         StateVerifier verifier = StateVerifier.fromTransaction(tx, this.redCar.ledgerServices);
         CarEventState event = verifier
@@ -51,6 +51,21 @@ public class CarEventFlowTests extends SidisBaseFlowTests {
                 .object();
 
         Assert.assertEquals("vin must be 42", "42", String.valueOf(event.getVin()));
+    }
+
+    @Test
+    public void update_car_event() throws Exception {
+        SignedTransaction carEventCreate1Tx = this.newCarEventCreateFlow("42", 15000000, 100L,
+                false, dataJSONString());
+        StateVerifier verifier2 = StateVerifier.fromTransaction(carEventCreate1Tx, this.redCar.ledgerServices);
+        CarEventState carEvent1 = verifier2.output().one().one(CarEventState.class).object();
+
+        SignedTransaction carEventCreate2Tx = this.newCarEventUpdateFlow("42", 15000000, 90L,
+                false, dataJSONString());
+        StateVerifier verifier3 = StateVerifier.fromTransaction(carEventCreate2Tx, this.redCar.ledgerServices);
+        CarEventState carEvent2 = verifier3.output().one().one(CarEventState.class).object();
+
+        Assert.assertEquals("vin must be 42", "42", String.valueOf(carEvent2.getVin()));
     }
 
 

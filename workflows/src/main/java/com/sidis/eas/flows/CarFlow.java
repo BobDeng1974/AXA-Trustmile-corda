@@ -147,13 +147,14 @@ public class CarFlow {
 
             CarEventState carEvent = this.getStateByRef(carEventRef);
 
-            List<StateAndRef<CarEventState>> carEventsConsumedRef = new FlowHelper<CarEventState>(this.getServiceHub())
-                    .getConsumed(CarEventState.class);
+            List<StateAndRef<CarEventState>> carEventsRef = new FlowHelper<CarEventState>(this.getServiceHub())
+                    .getAllStatesByLinearId(CarEventState.class, carEvent.getId());
+
             StateAndRef<CarEventState> carEventLastConsumed = null;
-            if (carEventsConsumedRef.size() == 1) {
-                carEventLastConsumed = carEventsConsumedRef.get(0);
-            } else if (carEventsConsumedRef.size() > 1) {
-                carEventLastConsumed = carEventsConsumedRef.get(carEventsConsumedRef.size() - 1);
+            if (carEventsRef.size() == 2) {
+                carEventLastConsumed = carEventsRef.get(0);
+            } else if (carEventsRef.size() > 2) {
+                carEventLastConsumed = carEventsRef.get(carEventsRef.size() - 2);
             }
 
             Map<String,Object> detailsMap;
