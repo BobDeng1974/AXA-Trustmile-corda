@@ -25,12 +25,12 @@ public class CarContract implements Contract {
 
         }
 
-//        @CordaSerializable
-//        public class Reference extends ReferenceContract.Commands.Reference<CarState> implements CarContract.Commands {
-//            public Reference(CarState myState) {
-//                super(myState);
-//            }
-//        }
+        @CordaSerializable
+        public class Reference extends ReferenceContract.Commands.Reference<CarState> implements CarContract.Commands {
+            public Reference(CarState myState) {
+                super(myState);
+            }
+        }
     }
 
     @Override
