@@ -2,8 +2,6 @@ package com.sidis.eas.contracts;
 
 import ch.cordalo.corda.common.contracts.JsonHelper;
 import com.sidis.eas.SidisBaseTests;
-import com.sidis.eas.states.CarEventState;
-import com.sidis.eas.states.CarEventStateTests;
 import com.sidis.eas.states.CarState;
 import com.sidis.eas.states.CarStateTests;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -27,7 +25,8 @@ public class CarContractTests extends SidisBaseTests {
     }
 
     private CarState updateCar(CarState car){
-         return car.update(CarState.State.VALID, CarState.MileageState.IN_RANGE, CarState.AccidentState.NO);
+         return car.update(CarState.State.VALID, CarState.MileageState.IN_RANGE, CarState.AccidentState.NO,
+                 JsonHelper.convertStringToJson(CarStateTests.detailsJSONString()));
     }
 
    @Test

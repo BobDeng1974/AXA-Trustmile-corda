@@ -107,15 +107,13 @@ public class CarFlow {
     public static class Update extends BaseFlow {
         private final String policyNumber;
         private final Party insurer;
-        private final String vin;
         private final Integer mileagePerYear;
         private final Integer insuranceRate;
         private final String details;
 
-        public Update(String policyNumber, Party insurer, String vin, Integer mileagePerYear, Integer insuranceRate, String details) {
+        public Update(String policyNumber, Party insurer, Integer mileagePerYear, Integer insuranceRate, String details) {
             this.policyNumber = policyNumber;
             this.insurer = insurer;
-            this.vin = vin;
             this.mileagePerYear = mileagePerYear;
             this.insuranceRate = insuranceRate;
             this.details = details;
@@ -156,9 +154,11 @@ public class CarFlow {
                 carEventLastConsumed = carEventsConsumedRef.get(carEventsConsumedRef.size() - 1);
             }
 
-            Map<String,Object> detailsMap = new LinkedHashMap<>();
-            if (this.details!=null) {
+            Map<String,Object> detailsMap;
+            if (this.details != null) {
                 detailsMap = JsonHelper.convertStringToJson(details);
+            } else {
+                detailsMap = car.getDetails();
             }
 
             CarState.MileageState newMileageState = this.getNewMileageState(car.getMileageState(),
@@ -168,7 +168,7 @@ public class CarFlow {
 
             CarState.AccidentState newAccidentState = this.getNewAccidentState(car.getAccidentState(), carEvent.getAccident());
 
-            CarState updatedCar = car.update(newState, newMileageState, newAccidentState);
+            CarState updatedCar = car.update(newState, newMileageState, newAccidentState, detailsMap);
 
             /* ============================================================================
              *      TODO 3 - Build our issuance transaction to update the ledger!

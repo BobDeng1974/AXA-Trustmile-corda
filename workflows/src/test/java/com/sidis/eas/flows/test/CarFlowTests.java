@@ -1,23 +1,21 @@
 package com.sidis.eas.flows.test;
 
 import ch.cordalo.corda.common.contracts.StateVerifier;
+import com.sidis.eas.flows.CarEventFlow;
 import com.sidis.eas.flows.CarFlow;
-import com.sidis.eas.flows.ServiceFlow;
+import com.sidis.eas.states.CarEventState;
 import com.sidis.eas.states.CarState;
-import com.sidis.eas.states.ServiceState;
 import net.corda.core.transactions.SignedTransaction;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class CarFlowTests extends SidisBaseFlowTests {
 
     @Before
     public void setup() {
         this.setup(true,
-            CarFlow.CreateResponder.class
-            //ServiceFlow.UpdateResponder.class
+            CarFlow.CreateResponder.class,
+            CarEventFlow.CreateResponder.class,
+            CarFlow.UpdateResponder.class
         );
     }
 
@@ -43,7 +41,7 @@ public class CarFlowTests extends SidisBaseFlowTests {
     @Test
     public void create_car() throws Exception {
         SignedTransaction tx = this.newCarCreateFlow("12.345.678", this.insurance1.party, "42", 7000, 1200, dataJSONString());
-        StateVerifier verifier = StateVerifier.fromTransaction(tx, this.insurance1.ledgerServices);
+        StateVerifier verifier = StateVerifier.fromTransaction(tx, this.redCar.ledgerServices);
         CarState service = verifier
                 .output()
                 .one()
@@ -53,26 +51,36 @@ public class CarFlowTests extends SidisBaseFlowTests {
         Assert.assertEquals("vin must be 42", "42", String.valueOf(service.getVin()));
     }
 
+    @Test
+    @Ignore
+    public void update_car() throws Exception {
 
-//    @Test
-//    public void update_before_share_service() throws Exception {
-//        SignedTransaction tx = this.newServiceCreateFlow("Exit", dataJSONString(), 7);
-//        StateVerifier verifier = StateVerifier.fromTransaction(tx, this.insurance1.ledgerServices);
-//        ServiceState service = verifier
-//                .output().one()
-//                .one(ServiceState.class)
-//                .object();
-//        Assert.assertEquals("ZVP must be false", "false", service.getData("coverages.ZVP"));
-//
-//        StateVerifier verifier2 = StateVerifier.fromTransaction(
-//                this.newServiceUpdateFlow(service.getId(), dataUpdateJSONString(), 42),
-//                this.insurance1.ledgerServices);
-//        ServiceState service2 = verifier2
-//                .output().one()
-//                .one(ServiceState.class)
-//                .object();
-//
-//        Assert.assertEquals("ZVP must be true", "true", service2.getData("coverages.ZVP"));
-//        Assert.assertEquals("price must be 42", "42", String.valueOf(service2.getPrice()));
-//    }
+        StateVerifier verifier1 = StateVerifier.fromTransaction(
+                this.newCarCreateFlow("12.345.678", this.insurance1.party, "42", 7000, 1200, dataJSONString()),
+                this.redCar.ledgerServices);
+        CarState car = verifier1
+                .output().one()
+                .one(CarState.class)
+                .object();
+
+        StateVerifier verifier2 = StateVerifier.fromTransaction(
+                this.newCarEventCreateFlow("42", 15000000, 100L, false, dataJSONString()),
+                this.redCar.ledgerServices);
+        CarEventState carEvent1 = verifier2.output().one().one(CarEventState.class).object();
+
+        StateVerifier verifier3 = StateVerifier.fromTransaction(
+                this.newCarEventCreateFlow("42", 15000000, 90L, false, dataJSONString()),
+                this.redCar.ledgerServices);
+        CarEventState carEvent2 = verifier3.output().one().one(CarEventState.class).object();
+
+        StateVerifier verifier4 = StateVerifier.fromTransaction(
+                this.newCarUpdateFlow("12.345.678", this.insurance1.party, 7000, 1200, dataJSONString()),
+                this.redCar.ledgerServices);
+        CarState updatedCar = verifier4
+                .output().one()
+                .one(CarState.class)
+                .object();
+
+        Assert.assertEquals("State to be FRAUD", CarState.State.FRAUD, updatedCar.getState());
+    }
 }
