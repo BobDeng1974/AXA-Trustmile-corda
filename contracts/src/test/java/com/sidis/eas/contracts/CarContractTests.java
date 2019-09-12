@@ -7,8 +7,6 @@ import com.sidis.eas.states.CarEventStateTests;
 import com.sidis.eas.states.CarState;
 import com.sidis.eas.states.CarStateTests;
 import net.corda.core.contracts.UniqueIdentifier;
-import net.corda.core.identity.Party;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,34 +26,9 @@ public class CarContractTests extends SidisBaseTests {
                 JsonHelper.convertStringToJson(CarStateTests.detailsJSONString()));
     }
 
-
-    private CarEventState newCarEvent() {
-        return new CarEventState(
-                new UniqueIdentifier(),
-                this.redCar.party,
-                "42",
-                1568211122,
-                27085L,
-                false,
-                JsonHelper.convertStringToJson(CarEventStateTests.dataJSONString())
-        );
-    }
-
     private CarState updateCar(CarState car){
          return car.update(CarState.State.VALID, CarState.MileageState.IN_RANGE, CarState.AccidentState.NO);
     }
-
-    /*
-    public static CarState create(@NotNull UniqueIdentifier id, @NotNull String policyNumber, @NotNull Party car,
-                                  Party insurer, @NotNull String vin, Integer mileagePerYear,
-                                  @NotNull MileageState mileageState, @NotNull AccidentState accidentState,
-                                  Integer insuranceRate, Map<String, Object> details) {
-        return new CarState(id, State.VALID, policyNumber, car, insurer, vin, mileagePerYear, mileageState,
-                accidentState, insuranceRate, details);
-    }
-
-    *
-     */
 
    @Test
    public void car_create(){
@@ -77,7 +50,6 @@ public class CarContractTests extends SidisBaseTests {
        });
    }
 
-
    @Test
    public void car_update_no_input(){
        transaction(this.redCar.ledgerServices ,tx ->{
@@ -85,12 +57,23 @@ public class CarContractTests extends SidisBaseTests {
            CarState car2 = updateCar(car1);
            tx.output(CarContract.ID, car2);
            tx.command(car2.getParticipantKeys(), new CarContract.Commands.Update());
-           tx.failsWith("List must have 2 entries");
+           tx.failsWith("List must contain only 1 entry");
            return null;
        });
    }
 
-
+    @Test
+    public void car_update(){
+        transaction(this.redCar.ledgerServices ,tx ->{
+            CarState car1 = newCar();
+            CarState car2 = updateCar(car1);
+            tx.input(CarContract.ID, car1);
+            tx.output(CarContract.ID, car2);
+            tx.command(car2.getParticipantKeys(), new CarContract.Commands.Update());
+            tx.verifies();
+            return null;
+        });
+    }
 
 
 
