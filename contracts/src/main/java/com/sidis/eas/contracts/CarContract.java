@@ -58,12 +58,8 @@ public class CarContract implements Contract {
 
     private void verifyUpdate(LedgerTransaction tx, StateVerifier verifier){
         requireThat(req -> {
-            verifier.output().notEmpty().count(2);
-            CarState car = verifier.input().one(CarState.class).object();
-            CarEventState carEvent = verifier.input().one(CarEventState.class).object();
-            verifier.output().notEmpty().count(2);
-            CarState newCar = verifier.output().one(CarState.class).object();
-            CarEventState newCarEvent = verifier.output().one(CarEventState.class).object();
+            CarState car = verifier.input().one().one(CarState.class).object();
+            CarState newCar = verifier.output().one().one(CarState.class).object();
             verifyAllSigners(verifier);
             return null;
         });
