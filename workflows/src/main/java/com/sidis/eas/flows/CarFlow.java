@@ -2,19 +2,11 @@ package com.sidis.eas.flows;
 
 import ch.cordalo.corda.common.contracts.JsonHelper;
 import ch.cordalo.corda.common.flows.BaseFlow;
-import ch.cordalo.corda.common.flows.FlowHelper;
 import ch.cordalo.corda.common.flows.ResponderBaseFlow;
 import co.paralleluniverse.fibers.Suspendable;
 import com.sidis.eas.contracts.CarContract;
-import com.sidis.eas.contracts.CarEventContract;
-import com.sidis.eas.contracts.ServiceContract;
-import com.sidis.eas.contracts.StateMachine;
-import com.sidis.eas.states.CarEventState;
 import com.sidis.eas.states.CarState;
-import com.sidis.eas.states.ServiceState;
 import kotlin.Unit;
-import net.corda.core.contracts.AlwaysAcceptAttachmentConstraint;
-import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
@@ -22,8 +14,6 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
 
-import javax.swing.event.CaretEvent;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

@@ -1,10 +1,11 @@
 package com.sidis.eas.client.webserver;
+
 import ch.cordalo.corda.common.contracts.JsonHelper;
-import com.google.common.collect.ImmutableMap;
-import com.sidis.eas.contracts.StateMachine;
-import com.sidis.eas.client.pojo.CarPolicy;
-import com.sidis.eas.client.pojo.CarEvent;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.sidis.eas.client.pojo.CarEvent;
+import com.sidis.eas.client.pojo.CarPolicy;
+import com.sidis.eas.contracts.StateMachine;
 import com.sidis.eas.flows.CarFlow;
 import com.sidis.eas.states.CarState;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -15,13 +16,11 @@ import net.corda.core.node.NodeInfo;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
