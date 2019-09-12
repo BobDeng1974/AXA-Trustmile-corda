@@ -25,12 +25,12 @@ public class CarContract implements Contract {
 
         }
 
-        @CordaSerializable
-        public class Reference extends ReferenceContract.Commands.Reference<CarState> implements CarContract.Commands {
-            public Reference(CarState myState) {
-                super(myState);
-            }
-        }
+//        @CordaSerializable
+//        public class Reference extends ReferenceContract.Commands.Reference<CarState> implements CarContract.Commands {
+//            public Reference(CarState myState) {
+//                super(myState);
+//            }
+//        }
     }
 
     @Override
@@ -38,10 +38,10 @@ public class CarContract implements Contract {
         StateVerifier verifier = StateVerifier.fromTransaction(tx, CarContract.Commands.class);
         CommandData commandData = verifier.command();
         if (commandData instanceof CarContract.Commands.Create){
-            verifyCreate(tx,verifier);
+            verifyCreate(tx, verifier);
         }
         else if (commandData instanceof CarContract.Commands.Update){
-            verifyUpdate(tx,verifier);
+            verifyUpdate(tx, verifier);
 
         }
     }
@@ -50,7 +50,7 @@ public class CarContract implements Contract {
         requireThat(req ->{
             verifier.input().empty("input must be empty");
             CarState newCarState = verifier.output().one().one(CarState.class).object();
-            verifyAllSigners(verifier);
+            this.verifyAllSigners(verifier);
             return null;
         });
     }
