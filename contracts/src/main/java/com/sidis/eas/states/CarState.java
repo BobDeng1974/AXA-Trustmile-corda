@@ -124,6 +124,7 @@ public class CarState implements LinearState {
     @NotNull
     public State getState() { return state; }
 
+    @JsonIgnore
     public Party getInsurer() {
         return insurer;
     }
