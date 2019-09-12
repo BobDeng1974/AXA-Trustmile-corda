@@ -8,6 +8,7 @@ import com.sidis.eas.client.pojo.CarPolicy;
 import com.sidis.eas.contracts.StateMachine;
 import com.sidis.eas.flows.CarEventFlow;
 import com.sidis.eas.flows.CarFlow;
+import com.sidis.eas.states.CarEventState;
 import com.sidis.eas.states.CarState;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.CordaX500Name;
@@ -160,18 +161,6 @@ public class Controller {
         return randomCarGenerator("42");
     }
 
-    private CarState getCarStateFromExternalId(String id) {
-        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
-                null,
-                null,
-                Arrays.asList(id),
-                Vault.StateStatus.UNCONSUMED,
-                null);
-        List<CarState> states = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return states.isEmpty() ? null : states.get(states.size()-1);
-    }
-
     @RequestMapping(value = "/car-event", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public CarEvent getCarEvent (HttpServletRequest request)
@@ -179,10 +168,6 @@ public class Controller {
         //TODO: Setup real method from CORDA
         return randomCarEventGenerator();
     }
-
-
-
-
 
     @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -237,10 +222,25 @@ public class Controller {
         return states.isEmpty() ? null : states.get(states.size()-1);
     }
 
-
-
-
     // PRIVATE METHODS
+    private CarState getCarStateFromExternalId(String id) {
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                null,
+                Arrays.asList(id),
+                Vault.StateStatus.UNCONSUMED,
+                null);
+        List<CarState> states = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return states.isEmpty() ? null : states.get(states.size()-1);
+    }
+
+    private List<CarEventState> getCarEventStateList() {
+        List<CarEventState> carEventStates = proxy.vaultQuery(CarEventState.class).getStates()
+                .stream().map(state -> state.getState().getData()).collect(toList());
+        return carEventStates;
+    }
+
     private CarEvent randomCarEventGenerator(){
         // O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH
         String vin = myLegalName.getOrganisation().startsWith("AXA") ? "1FMHK7B80CGA07773" : "JTEBU5JR7A5006904";
