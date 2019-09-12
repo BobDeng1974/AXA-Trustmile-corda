@@ -82,7 +82,7 @@ public class Controller {
     }
 
     @RequestMapping(
-            value = "/car",
+            value = "/car-policy",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -100,21 +100,25 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "/car", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/car-policy", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public CarEvent getCarEvent (HttpServletRequest request)
+    public CarPolicy getCarPolicy (HttpServletRequest request)
     {
         //TODO: Setup real method from CORDA
-        return randomCarEventGenerator("42");
+        return randomCarGenerator("42");
     }
 
-    @RequestMapping(value = "/car/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/car-event/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public CarEvent getCarByIdEvent (HttpServletRequest request, @PathVariable("id") String carId)
     {
         //TODO: Setup real method from CORDA
         return randomCarEventGenerator(carId);
     }
+
+
+
+
 
     @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -181,6 +185,39 @@ public class Controller {
         carEvent.setAccident((random.nextInt()%2)==0);
         carEvent.setTimestamp(1500000000+ random.nextInt(1000000));
         return carEvent;
+
+    }
+
+    /*
+    *       "policyNumber",
+            "vin",
+            "car",
+            "insurer",
+            "mileagePerYear",
+            "mileageState",
+            "accidentState",
+            "insuranceRate",
+            "data"
+     */
+
+    // PRIVATE METHODS
+    private CarPolicy randomCarGenerator(String carId){
+        CarPolicy car = new CarPolicy();
+        car.setPolicyNumber("18.123.121");
+        car.setVin("WAURFAFR4EA012488");
+        car.setCar("Ferrari Modena");
+        car.setInsurer("AXA Versicherungen AG");
+        car.setMileagePerYear(7000);
+        car.setMileageState("IN_RANGE");
+        car.setAccidentState("NO");
+        car.setInsuranceRate(1500);
+        car.setData("trustIssuer", "AXA Versicherungen AG");
+        car.setData("originalPrice", 152000);
+        car.setData("image", "car-black.jpg");
+        car.setData("color", "RED");
+        car.setData("numberOfPreviousOwners", 1);
+        car.setData("model", "Modena");
+        return car;
 
     }
 

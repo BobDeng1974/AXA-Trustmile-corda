@@ -3,6 +3,7 @@
 package com.sidis.eas.client.pojo;
 
         import java.util.HashMap;
+        import java.util.LinkedHashMap;
         import java.util.Map;
         import com.fasterxml.jackson.annotation.JsonAnyGetter;
         import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -20,7 +21,8 @@ package com.sidis.eas.client.pojo;
         "mileagePerYear",
         "mileageState",
         "accidentState",
-        "insuranceRate"
+        "insuranceRate",
+        "data"
 })
 public class CarPolicy {
 
@@ -40,8 +42,8 @@ public class CarPolicy {
     private String accidentState;
     @JsonProperty("insuranceRate")
     private Integer insuranceRate;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("data")
+    private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
     @JsonProperty("policyNumber")
     public String getPolicyNumber() {
@@ -121,6 +123,10 @@ public class CarPolicy {
     @JsonProperty("insuranceRate")
     public void setInsuranceRate(Integer insuranceRate) {
         this.insuranceRate = insuranceRate;
+    }
+
+    public void setData(String key, Object value) {
+        this.additionalProperties.put(key, value);
     }
 
     // Do we need these getters and setters

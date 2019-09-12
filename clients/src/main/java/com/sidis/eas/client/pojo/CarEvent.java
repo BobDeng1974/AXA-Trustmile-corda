@@ -1,6 +1,7 @@
 package com.sidis.eas.client.pojo;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -15,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "vin",
         "timestamp",
         "mileage",
-        "accident"
+        "accident",
+        "data"
 })
 public class CarEvent {
 
@@ -29,8 +31,8 @@ public class CarEvent {
     private Integer mileage;
     @JsonProperty("accident")
     private Boolean accident;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("data")
+    private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
     @JsonProperty("car")
     public String getCar() {
@@ -81,6 +83,11 @@ public class CarEvent {
     public void setAccident(Boolean accident) {
         this.accident = accident;
     }
+
+    public void setData(String key, Object value) {
+        this.additionalProperties.put(key, value);
+    }
+
 
     /*
 
