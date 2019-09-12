@@ -1,0 +1,23 @@
+body {font-family: "Lato", sans-serif}
+.mySlides {display: none}
+
+table, tr, td {
+ #border: 1px solid orange;
+}
+
+.vehicleTable {
+    padding: 2px 2px 2px 10px;
+}
+.vehicleDataFirstCol {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}
+.vehicleDataSecondCol {
+    min-width: 200px;
+}
+
+.errorMessage {
+    font-weight: 700;
+    color: red;
+}

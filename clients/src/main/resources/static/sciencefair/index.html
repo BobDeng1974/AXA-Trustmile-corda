@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<head>
+    <meta charset="utf-8">
+    <title>Trustmile - AXA Hackathon 2019</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- jquery  -->
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+    </script>
+    <!-- websocket -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <!-- Load the AJAX API -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script  src="caller.js"></script>
+    <script>
+        $(document).ready(function(){
+            setWebSocketConnected(false);
+            load_data();
+        });
+</script>
+
+</head>
+
+
+
+<body>
+<table style="width:100%">
+    <tr>
+        <th colspan="2">
+            <h1>Trustmile - AXA Hackathon 2019&nbsp;<span id="image-socket"></span></h1>
+        </th>
+    </tr>
+    <tr><td colspan="2" class="errorMessage"><div id="errorMessage"></div></td></tr>
+    <tr>
+        <td colspan="2">
+            Willkommen bei <b>Trustmile</b>, der Plattform für verlässliche Fahrzeugdaten.
+        </td>
+
+    </tr>
+    <tr>
+        <td width="40%"><span id="image_me"><img src="./images/node_red.jpeg" alt="Fast red car" width="100%"></span></td>
+        <td width="60%" align="left" valign="top">
+            <table width="100%" class="vehicleTable"> <!-- class set only in first row, as it will align the others -->
+                <tr>
+                    <td class="vehicleDataFirstCol">Modell</td>
+                    <td class="vehicleDataSecondCol" width="auto"><div id="model">race version</div></td>
+                </tr>
+                <tr>
+                    <td>FahrzeugIdent-Nummer</td>
+                    <td><div id="vehicleIdentNumber">0815</div></td>
+                </tr>
+                <tr>
+                    <td>Neupreis</td>
+                    <td><div  id="originalPrice">Sauteuer</div></td>
+                </tr>
+                <tr>
+                    <td>Kilometerstand</td>
+                    <td><div  id="mileage">1</div></td>
+                </tr>
+                <tr>
+                    <td>Schäden</td>
+                    <td><div  id="numberOfDamages">Viele</div></td>
+                </tr>
+                <tr>
+                    <td>Betriebsstunden</td>
+                    <td><div  id="operatingHours">Kaum</div></td>
+                </tr>
+                <tr>
+                    <td>Aktueller Wert</td>
+                    <td><div  id="estimatedValue">7,85 CHF</div></td>
+                </tr>
+                <tr>
+                    <td>Trust Issuer</td>
+                    <td><div  id="trustIssuer">AXA</div></td>
+                </tr>
+                <tr id="fraudTag">
+                    <td>Fraud alarm</td>
+                    <td><div id="fraudImage"></div></td>
+                </tr>
+            </table>
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div id="curve_chart"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><h3>Weitere Angebote</h3>
+            <ul>
+                <li><a href="https://www.ryd.ch" target="_blank">ryd Suisse</a>
+                <li><a href="https://www.carforyou.ch/de" target="_blank">CAR FOR YOU</a>
+                <li><a href="https://www.axa.ch" target="_blank">AXA</a>
+            </ul>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+
