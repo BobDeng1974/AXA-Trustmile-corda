@@ -107,7 +107,7 @@ public class CarEvent {
     */
 
     public String toString(){
-        return "Car: " +  this.car +", Vin" + this.vin + ", Accident" + this.accident;
+        return "Car: " +  this.car +", Vin=" + this.vin + ", Mileage="+this.mileage+", Accident=" + this.accident;
     }
 
 }

@@ -77,7 +77,7 @@ public class Controller {
     public HttpStatus sendCarEvent(HttpServletRequest request, @RequestBody CarEvent carEvent)
     {
         try {
-            UniqueIdentifier uid = new UniqueIdentifier(carEvent.getVin());
+            logger.info("car event="+carEvent.toString());
             final SignedTransaction signedTx = proxy
                     .startTrackedFlowDynamic(
                             CarEventFlow.Create.class,
