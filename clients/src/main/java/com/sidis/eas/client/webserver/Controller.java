@@ -1,4 +1,5 @@
 package com.sidis.eas.client.webserver;
+import ch.cordalo.corda.common.contracts.JsonHelper;
 import com.google.common.collect.ImmutableMap;
 import com.sidis.eas.contracts.StateMachine;
 import com.sidis.eas.client.pojo.CarPolicy;
@@ -111,7 +112,7 @@ public class Controller {
                             carPolicy.getVin(),
                             carPolicy.getMileagePerYear(),
                             carPolicy.getInsuranceRate(),
-                            carPolicy.getAdditionalProperties()
+                            JsonHelper.convertJsonToString(carPolicy.getAdditionalProperties())
                         )
                     .getReturnValue()
                     .get();
