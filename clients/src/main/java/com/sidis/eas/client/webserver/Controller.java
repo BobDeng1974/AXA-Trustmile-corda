@@ -201,7 +201,8 @@ public class Controller {
 
     // PRIVATE METHODS
     private CarEvent randomCarEventGenerator(){
-        String vin = myLegalName.getCommonName().contains("AXA") ? "1FMHK7B80CGA07773" : "JTEBU5JR7A5006904";
+        // O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH
+        String vin = myLegalName.getOrganisation().startsWith("AXA") ? "1FMHK7B80CGA07773" : "JTEBU5JR7A5006904";
         CarEvent carEvent = new CarEvent();
         carEvent.setCar((random.nextInt()%2)==0?"Ferrari " + random.nextInt(50):"McLaren " + random.nextInt(50));
         carEvent.setVin(vin);
