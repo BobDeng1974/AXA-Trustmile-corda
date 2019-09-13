@@ -13,6 +13,6 @@ public class CarEventScheduler extends VaultChangeScheduler<CarEventState> {
 
     @PostConstruct
     public void installFeed() {
-        this.installVaultFeedAndSubscribeToTopic("/topic/sidis/eas/vaultChanged");
+        this.installVaultFeedAndSubscribeToTopic("/topic/vaultChanged/car-event");
     }
 }

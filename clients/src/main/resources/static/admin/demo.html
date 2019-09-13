@@ -14,8 +14,8 @@ function GETvar(parameterName) {
     return result;
 }
 
-var s = "<frameset id='index_frames' cols='50%,50%'>";
-var ports = "10803,10804";
+var s = "<frameset id='index_frames' cols='33%,33%,33%'>";
+var ports = "10801,10802,10803+10804";
 
 MAIN_URL = document.location.protocol + "//" + document.location.hostname;
 var frames_param = GETvar("frames");
@@ -29,12 +29,12 @@ for (k in frames) {
     if (ports_vertical.length > 1) {
        s = s +"<frameset id='index_vertical_frames' rows='50%,50%'>"
        for (pk in ports_vertical) {
-           var url = MAIN_URL + ":" + ports_vertical[pk].trim() + "/sciencefair/index.html";
+           var url = MAIN_URL + ":" + ports_vertical[pk].trim() + "/admin/index.html";
             s = s + "<frame src='"+url+"'>";
        }
        s = s + "</frameset>";
     } else {
-        var url = MAIN_URL + ":" + ports_vertical[0]+ "/sciencefair/index.html";
+        var url = MAIN_URL + ":" + ports_vertical[0] + "/admin/index.html";
         s = s + "<frame src='"+url+"'>";
     }
 }

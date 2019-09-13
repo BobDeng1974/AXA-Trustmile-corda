@@ -1,114 +1,108 @@
+<!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <head>
+    <meta charset="utf-8">
+    <title>Trustmile - AXA Hackathon 2019</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
     <!-- jquery  -->
     <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-
-    <!-- js grid plugin  -->
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-
-    <!-- js views  -->
-    <script src="https://www.jsviews.com/download/jsviews.min.js"></script>
-    <link href="https://www.jsviews.com/samples/samples.css" rel="stylesheet" />
-
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+    </script>
     <!-- websocket -->
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-    <script src="sidis-eas.js"></script>
-    <style>
-        .jsgrid-cell {
-            padding: .1em;
-            vertical-align: top;
-        }
-        .jsgrid-header-cell {
-            padding: .1em;
-        }
-        .jsgrid-edit-row input {
-          padding: .8em .8em;
-        }
-        #runningAnimation {
-            display: none;
-            margin: -150px;
-        }
-        #image-socket-ball {
-            width: 20px;
-        }
+    <!-- Load the AJAX API -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script  src="caller.js"></script>
+    <script>
+        $(document).ready(function(){
+            setWebSocketConnected(false);
+            load_data();
+        });
+</script>
 
-        .STATUS {
-            color: white;
-            padding: 5px;
-        }
-
-        .REQUESTED {
-            background-color: blue;
-        }
-        .ACCEPTED {
-            background-color: green;
-        }
-        .DENIED {
-            background-color: red;
-        }
-        .WITHDRAWN {
-            background-color: lightcoral;
-        }
-.tableTop {
-    display:table;
-}
-.headerTop {
-    display:table-header-group;
-    font-weight:bold;
-}
-.rowTop {
-    display:table-row;
-}
-.rowGroupTop {
-    display:table-row-group;
-}
-.cellTopLeft {
-    display:table-cell;
-    width:100%;
-    vertical-align: middle;
-}
-.cellTopRight {
-    display:table-cell;
-    width:100%;
-    vertical-align: middle;
-}
-
-    </style>
 </head>
+
+
+
 <body>
-<h1>
-    <div class="tableTop">
-        <div class="rowGroupTop">
-            <div class="rowTop">
-                <div class="cellTopLeft"><span id="party_me">Node</span> <A HREF="javascript:history.go(0)">refresh</A> <A HREF="demo.html?frames=10801,10802,10803+10804">demo</A><span id="image-socket"></span></div>
-                <div class="cellTopRight"><span id="image_me"></span></div>
-            </div>
-        </div>
-    </div>
+<table style="width:100%">
+    <tr>
+        <th colspan="2">
+            <h1>Trustmile - AXA Hackathon 2019&nbsp;<span id="image-socket"></span><a href="demo.html">Demo</a></h1>
+        </th>
+    </tr>
+    <tr><td colspan="2" class="errorMessage"><div id="errorMessage"></div></td></tr>
+    <tr>
+        <td colspan="2">
+            Willkommen bei <b>Trustmile</b>, der Plattform für verlässliche Fahrzeugdaten.
+        </td>
 
-</h1>
+    </tr>
+    <tr>
+        <td width="40%"><span id="image_me"><img src="./images/node_red.jpeg" alt="Fast red car" width="100%"></span></td>
+        <td width="60%" align="left" valign="top">
+            <table width="100%" class="vehicleTable"> <!-- class set only in first row, as it will align the others -->
+                <tr>
+                    <td class="vehicleDataFirstCol">Modell</td>
+                    <td class="vehicleDataSecondCol" width="auto"><div id="model">race version</div></td>
+                </tr>
+                <tr>
+                    <td>FahrzeugIdent-Nummer</td>
+                    <td><div id="vehicleIdentNumber">0815</div></td>
+                </tr>
+                <tr>
+                    <td>Neupreis</td>
+                    <td><div  id="originalPrice">Sauteuer</div></td>
+                </tr>
+                <tr>
+                    <td>Kilometerstand</td>
+                    <td><div  id="mileage">1</div></td>
+                </tr>
+                <tr>
+                    <td>Schäden</td>
+                    <td><div  id="numberOfDamages"></div></td>
+                </tr>
+                <tr>
+                    <td>Betriebsstunden</td>
+                    <td><div  id="operatingHours">Kaum</div></td>
+                </tr>
+                <tr>
+                    <td>Aktueller Wert</td>
+                    <td><div  id="estimatedValue">7,85 CHF</div></td>
+                </tr>
+                <tr>
+                    <td>Trust Issuer</td>
+                    <td><div  id="trustIssuer">AXA</div></td>
+                </tr>
+                <tr id="fraudTag">
+                    <td>Fraud alarm</td>
+                    <td><div id="fraudImage"></div></td>
+                </tr>
+            </table>
+        </td>
 
-<span id="share-data_block">
-<h3>Services</h3>
-<div id="services-template"></div>
-</span>
-<span id="share-data-new" style="display:block">
-    <a href="#" onClick='createNewService(this, "Tele Medicine", "B", 25, "medical-history")'>B34</a>
-    <a href="#" onClick='createNewService(this, "Tele Medicine", "B", 99, "medical-history")'>B90</a>
-    <a href="#" onClick='createNewService(this, "Tele Medicine", "B", 100, "medical-history,immunizations")'>B100</a>
-    <a href="#" onClick='createNewService(this, "Tele Medicine", "B", 30, "medical-history,immunizations,genetics")'>B30</a>
-    <a href="#" onClick='createNewService(this, "Tele Medicine", "B", 10, "medical-history,medication,immunizations,genetics")'>B10</a>
-    <a href="#" onClick='createNewService(this, "Nutrition Consultation", "N", 45, "body-vitals")'>N34</a>
-    <a href="#" onClick='createNewService(this, "Nutrition Consultation", "N", 53, "body-vitals,nutrition")'>N53</a>
-    <a href="#" onClick='createNewService(this, "Nutrition Consultation", "N", 87, "body-vitals,nutrition,ongoingConditions")'>N87</a>
-</span>
-
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div id="curve_chart"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><h3>Weitere Angebote</h3>
+            <ul>
+                <li><a href="https://www.ryd.ch" target="_blank">ryd Suisse</a>
+                <li><a href="https://www.carforyou.ch/de" target="_blank">CAR FOR YOU</a>
+                <li><a href="https://www.axa.ch" target="_blank">AXA</a>
+            </ul>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
+

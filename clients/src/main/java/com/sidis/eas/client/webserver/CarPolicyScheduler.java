@@ -15,6 +15,6 @@ public class CarPolicyScheduler extends VaultChangeScheduler<CarState> {
 
     @PostConstruct
     public void installFeed() {
-        this.installVaultFeedAndSubscribeToTopic("/topic/sidis/eas/vaultChanged");
+        this.installVaultFeedAndSubscribeToTopic("/topic/vaultChanged/car-policy");
     }
 }
