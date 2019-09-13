@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
+import static net.corda.core.node.services.vault.QueryCriteriaUtils.DEFAULT_PAGE_NUM;
 
 
 /**
@@ -308,7 +309,7 @@ public class Controller {
                 null,
                 Vault.StateStatus.ALL,
                 null);
-        PageSpecification paging = new PageSpecification(0,1);
+        PageSpecification paging = new PageSpecification(DEFAULT_PAGE_NUM,1);
         return proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging).getTotalStatesAvailable() > 0;
     }
 
@@ -319,7 +320,7 @@ public class Controller {
         CarEvent carEvent = new CarEvent();
         carEvent.setCar((random.nextInt()%2)==0?"Ferrari " + random.nextInt(50):"McLaren " + random.nextInt(50));
         carEvent.setVin(vin);
-        carEvent.setMileage(random.nextLong() % 500000L);
+        carEvent.setMileage(new Long(random.nextInt(50000)));
         carEvent.setAccident((random.nextInt()%2)==0);
         carEvent.setTimestamp(1500000000+ random.nextInt(1000000));
         return carEvent;
