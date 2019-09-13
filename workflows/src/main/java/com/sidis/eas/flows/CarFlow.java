@@ -174,7 +174,6 @@ public class CarFlow {
             } else {
                 newState = this.getNewState(car.getState(), carEvent, carEventLastConsumed);
             }
-
             CarState updatedCar = car.update(newState, newMileageState, newAccidentState, detailsMap);
 
             /* ============================================================================
@@ -182,11 +181,18 @@ public class CarFlow {
              * ===========================================================================*/
             // We build our transaction.
             getProgressTracker().setCurrentStep(BUILDING);
-            TransactionBuilder transactionBuilder = getTransactionBuilderSignedByParticipants(
-                    updatedCar,
-                    new CarContract.Commands.Update());
-            transactionBuilder.addInputState(carRef);
-            transactionBuilder.addOutputState(updatedCar, CarContract.ID);
+            TransactionBuilder transactionBuilder;
+            if (!car.equals(updatedCar)) {
+                transactionBuilder = getTransactionBuilderSignedByParticipants(
+                        updatedCar,
+                        new CarContract.Commands.Update());
+                transactionBuilder.addInputState(carRef);
+                transactionBuilder.addOutputState(updatedCar, CarContract.ID);
+            } else {
+                transactionBuilder = getTransactionBuilderSignedByParticipants(
+                        updatedCar,
+                        new CarContract.Commands.NoUpdate());
+            }
 
             /* ============================================================================
              *          TODO 2 - Write our contract to control issuance!

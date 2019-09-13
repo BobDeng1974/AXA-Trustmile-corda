@@ -2,7 +2,6 @@ package com.sidis.eas.states;
 
 import ch.cordalo.corda.common.contracts.JsonHelper;
 import com.sidis.eas.SidisBaseTests;
-import com.sidis.eas.contracts.StateMachine;
 import net.corda.core.contracts.UniqueIdentifier;
 import org.junit.After;
 import org.junit.Assert;

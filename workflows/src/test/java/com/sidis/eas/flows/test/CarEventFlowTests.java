@@ -28,17 +28,9 @@ public class CarEventFlowTests extends SidisBaseFlowTests {
     }
 
 
-
     public static String dataJSONString() {
-        return "{ \"insurance-branch\" : \"health\", \"coverages\" : { \"OKP\" : true, \"ZVP\" : false } }";
+        return "{ \"originalPrice\" : 152000, \"color\" : \"RED\" }";
     }
-    public static String dataUpdateJSONString() {
-        return "{ \"insurance-branch\" : \"health\", \"coverages\" : { \"OKP\" : true, \"ZVP\" : true, \"ADD-ON1\" : true } }";
-    }
-    public static String dataUpdateAfterShareJSONString() {
-        return "{ \"insurance-branch\" : \"health\", \"coverages\" : { \"OKP\" : true, \"ZVP\" : true, \"ADD-ON1\" : true, \"UW\" : true } }";
-    }
-
 
     @Test
     public void create_car_event() throws Exception {

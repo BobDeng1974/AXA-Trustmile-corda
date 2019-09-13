@@ -25,7 +25,7 @@ public class CarContractTests extends SidisBaseTests {
     }
 
     private CarState updateCar(CarState car){
-         return car.update(CarState.State.VALID, CarState.MileageState.IN_RANGE, CarState.AccidentState.NO,
+         return car.update(CarState.State.VALID, CarState.MileageState.ABOVE_LIMIT, CarState.AccidentState.MORE_THAN_ONE,
                  JsonHelper.convertStringToJson(CarStateTests.detailsJSONString()));
     }
 
@@ -69,6 +69,19 @@ public class CarContractTests extends SidisBaseTests {
             tx.input(CarContract.ID, car1);
             tx.output(CarContract.ID, car2);
             tx.command(car2.getParticipantKeys(), new CarContract.Commands.Update());
+            tx.verifies();
+            return null;
+        });
+    }
+
+    @Test
+    public void car_No_update(){
+        transaction(this.redCar.ledgerServices ,tx ->{
+            CarState car1 = newCar();
+            CarState car2 = car1;
+            tx.input(CarContract.ID, car1);
+            tx.output(CarContract.ID, car2);
+            tx.command(car2.getParticipantKeys(), new CarContract.Commands.NoUpdate());
             tx.verifies();
             return null;
         });

@@ -16,10 +16,34 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @BelongsToContract(CarContract.class)
 public class CarState implements LinearState {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarState carState = (CarState) o;
+        return getId().equals(carState.getId()) &&
+                getState() == carState.getState() &&
+                getPolicyNumber().equals(carState.getPolicyNumber()) &&
+                getCar().equals(carState.getCar()) &&
+                Objects.equals(getInsurer(), carState.getInsurer()) &&
+                getVin().equals(carState.getVin()) &&
+                getMileagePerYear().equals(carState.getMileagePerYear()) &&
+                getMileageState() == carState.getMileageState() &&
+                getAccidentState() == carState.getAccidentState() &&
+                getInsuranceRate().equals(carState.getInsuranceRate()) &&
+                getDetails().equals(carState.getDetails());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getState(), getPolicyNumber(), getCar(), getInsurer(), getVin(), getMileagePerYear(), getMileageState(), getAccidentState(), getInsuranceRate(), getDetails());
+    }
 
     @CordaSerializable
     public enum State {

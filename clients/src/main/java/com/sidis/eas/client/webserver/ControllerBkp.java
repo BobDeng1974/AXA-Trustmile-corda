@@ -1,7 +1,6 @@
 package com.sidis.eas.client.webserver;
 
 import com.google.common.collect.ImmutableList;
-import com.sidis.eas.contracts.StateMachine;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.messaging.CordaRPCOps;
 import org.slf4j.Logger;

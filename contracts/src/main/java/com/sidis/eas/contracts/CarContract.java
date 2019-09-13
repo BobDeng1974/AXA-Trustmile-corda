@@ -6,8 +6,12 @@ import com.sidis.eas.states.CarEventState;
 import com.sidis.eas.states.CarState;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
+import net.corda.core.identity.AbstractParty;
 import net.corda.core.serialization.CordaSerializable;
 import net.corda.core.transactions.LedgerTransaction;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
@@ -24,13 +28,10 @@ public class CarContract implements Contract {
         class Update implements CarContract.Commands{
 
         }
+        class NoUpdate implements CarContract.Commands{
 
-//        @CordaSerializable
-//        public class Reference extends ReferenceContract.Commands.Reference<CarState> implements CarContract.Commands {
-//            public Reference(CarState myState) {
-//                super(myState);
-//            }
-//        }
+        }
+
     }
 
     @Override
@@ -42,6 +43,10 @@ public class CarContract implements Contract {
         }
         else if (commandData instanceof CarContract.Commands.Update){
             verifyUpdate(tx, verifier);
+
+        }
+        else if (commandData instanceof CarContract.Commands.NoUpdate){
+            verifyNoUpdate(tx, verifier);
 
         }
     }
@@ -60,6 +65,18 @@ public class CarContract implements Contract {
         requireThat(req -> {
             CarState car = verifier.input().one().one(CarState.class).object();
             CarState newCar = verifier.output().one().one(CarState.class).object();
+            verifyAllSigners(verifier);
+            return null;
+        });
+
+    }
+
+    private void verifyNoUpdate(LedgerTransaction tx, StateVerifier verifier){
+        requireThat(req -> {
+            CarState car = verifier.input().one().one(CarState.class).object();
+            CarState newCar = verifier.output().one().one(CarState.class).object();
+            req.using(
+                    "car and new car must be 100% identical.", car.equals(newCar));
             verifyAllSigners(verifier);
             return null;
         });

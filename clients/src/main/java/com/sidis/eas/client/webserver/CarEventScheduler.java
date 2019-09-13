@@ -1,7 +1,6 @@
 package com.sidis.eas.client.webserver;
 
 import com.sidis.eas.states.CarEventState;
-import com.sidis.eas.states.ServiceState;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

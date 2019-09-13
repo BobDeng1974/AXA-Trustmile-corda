@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.sidis.eas.client.pojo.CarEvent;
 import com.sidis.eas.client.pojo.CarPolicy;
-import com.sidis.eas.contracts.StateMachine;
 import com.sidis.eas.flows.CarEventFlow;
 import com.sidis.eas.flows.CarFlow;
 import com.sidis.eas.states.CarEventState;
@@ -16,6 +15,7 @@ import net.corda.core.identity.Party;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.node.NodeInfo;
 import net.corda.core.node.services.Vault;
+import net.corda.core.node.services.vault.PageSpecification;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
 import org.slf4j.Logger;
@@ -56,8 +56,6 @@ public class Controller {
     private final static Logger logger = LoggerFactory.getLogger(Controller.class);
 
     public Controller(NodeRPCConnection rpc) {
-        StateMachine.State.values();
-        StateMachine.StateTransition.values();
         if (DEBUG && rpc.proxy == null) {
             this.proxy = null;
             this.myLegalName = null;
@@ -80,7 +78,7 @@ public class Controller {
         try {
             logger.info("car event="+carEvent.toString());
 
-            if(getAllCarEvents().size() > 0) {
+            if(hasAtLeastOneEvent()) {
                 final SignedTransaction signedTx = proxy
                         .startTrackedFlowDynamic(
                                 CarEventFlow.Update.class,
@@ -303,16 +301,15 @@ public class Controller {
                 .getStates().stream().map(state -> state.getState().getData()).collect(toList());
         return carEventStates.size() == 0 ? null : carEventStates.get(carEventStates.size() - 1);
     }
-    private List<CarEventState> getAllCarEvents() {
+    private boolean hasAtLeastOneEvent() {
         QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
                 null,
                 null,
                 null,
                 Vault.StateStatus.ALL,
                 null);
-        List<CarEventState> carEventStates = proxy.vaultQueryByCriteria(queryCriteria, CarEventState.class)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return carEventStates;
+        PageSpecification paging = new PageSpecification(0,1);
+        return proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging).getTotalStatesAvailable() > 0;
     }
 
 
@@ -344,19 +341,17 @@ public class Controller {
     private CarPolicy randomCarGenerator(String carId){
         CarPolicy car = new CarPolicy();
         car.setPolicyNumber("18.123.121");
-        car.setVin("WAURFAFR4EA012488");
+        car.setVin("42");
         car.setCar("Ferrari Modena");
         car.setInsurer("AXA Versicherungen AG");
         car.setMileagePerYear(7000);
         car.setMileageState("IN_RANGE");
         car.setAccidentState("NO");
         car.setInsuranceRate(1500);
-        car.setDetails("trustIssuer", "AXA Versicherungen AG");
         car.setDetails("originalPrice", 152000);
-        car.setDetails("image", "car-black.jpg");
         car.setDetails("color", "RED");
         car.setDetails("numberOfPreviousOwners", 1);
-        car.setDetails("model", "Modena");
+        car.setDetails("model", "Ferrari Modena");
         return car;
 
     }

@@ -27,13 +27,22 @@ if (port != null) {
    }
 }
 
-ME_MILEAGE=300000
-ME_PRICE=260000
+ME_MILEAGE=-1000
+ME_PRICE=0
+ME_EST_PRICE=0
 
 function X500toO(x500) {
     if (x500 == null || x500 == "") return "";
     var DNs = x500.split(/[,=]/)
     return DNs[1];
+}
+
+function estimatedPrice(price, mileage) {
+    var estPrice = price - (mileage * 0.5); // 1.- per km
+    ME_EST_PRICE = estPrice;
+    if(estPrice < 0)
+        estPrice = 0;
+    $( "#estimatedValue" ).html(estPrice + ".- CHF");
 }
 
 function get_vehicle() {
@@ -46,7 +55,8 @@ function get_vehicle() {
             $( "#vehicleIdentNumber" ).html(result.vin);
             ME_MILEAGE = result.mileage;
             $( "#mileage" ).html(ME_MILEAGE);
-            $( "#operatingHours" ).html("-");
+            estimatedPrice(ME_PRICE, ME_MILEAGE);
+            $( "#operatingHours" ).html(result.);
             if(result.accident)
                 $( "#damage" ).html("Nein");
             else
@@ -60,22 +70,22 @@ function get_vehicle() {
         url: MAIN_URL+"/api/v1/car-policy",
         data: {        },
         success: function( result ) {
-        //$( "#" ).html(result.);
-        $( "#vehicle" ).html(result.car);
-        $( "#model" ).html(result.details.model);
-        $( "#originalPrice" ).html(result.details.originalPrice  + ".- CHF");
-        var estPrice = result.details.originalPrice - mileage;
-        if(estPrice < 0)
-            estPrice = 0;
-        $( "#estimatedValue" ).html(estPrice + ".- CHF");
-        var insurer = X500toO(result.insurer);
-        $( "#trustIssuer" ).html(insurer);
-        if (result.car.state == "FRAUD") {
-            $( "#fraudImage" ).html("<img style=\"width:20px\" src=\"images/red.png\"/>");
-        } else {
-           $( "#fraudImage" ).html("<img style=\"width:20px\" src=\"images/green.png\"/>");
-         }
-
+            ME_PRICE = result.details.originalPrice;
+            $( "#vehicle" ).html(result.car);
+            $( "#model" ).html(result.details.model);
+            $( "#originalPrice" ).html(ME_PRICE  + ".- CHF");
+            estimatedPrice(ME_PRICE, ME_MILEAGE);
+            var insurer = X500toO(result.insurer);
+            $( "#trustIssuer" ).html(insurer);
+            var nofDamages = result.accidentState == "NO" ? "0" : (
+                result.accidentState == "ONE" ? "1" : "> 1");
+            $( "#numberOfDamages" ).html(nofDamages);
+            if (result.state == "FRAUD") {
+                $( "#fraudImage" ).html("<img style=\"width:20px\" src=\"images/red.png\"/>");
+            } else {
+               $( "#fraudImage" ).html("<img style=\"width:20px\" src=\"images/green.png\"/>");
+            }
+            drawBasic();
         }
     }).fail(function(e) {
       $( "#errorMessage" ).html( "Oh, holy heaven: error reading data from trust store" );
@@ -96,7 +106,7 @@ function get_me() {
              $( "#party_me" ).html( O+", "+L+" ("+C+")" );
              $( "#image_me" ).html( "<img style=\"width:100%\" src=\"images/node_"+imageName+".jpeg\"/>" );
 
-
+             drawBasic();
         }
     }).fail(function(e) {
       $( "#errorMessage" ).html( "Oh, holy heaven: error reading data from trust store" );
@@ -112,30 +122,33 @@ window.addEventListener('resize', function(event){
 });
 
 
-  // Load the Visualization API and the corechart package.
-  google.charts.load('current', {'packages':['corechart']});
+// Load the Visualization API and the corechart package.
+google.charts.load('current', {'packages':['corechart']});
 
-  // Set a callback to run when the Google Visualization API is loaded.
-
-
-    google.charts.setOnLoadCallback(drawBasic);
+// Set a callback to run when the Google Visualization API is loaded.
 
 
-  // Callback that creates and populates a data table,
-  // instantiates the pie chart, passes in the data and
-  // draws it.
-  function drawBasic() {
+google.charts.setOnLoadCallback(drawBasic);
 
+
+// Callback that creates and populates a data table,
+// instantiates the pie chart, passes in the data and
+// draws it.
+function drawBasic() {
+    if (!google.visualization.arrayToDataTable || !google.visualization.LineChart) {
+        setTimeout(drawBasic, 1000);
+        return;
+    };
     var mileage = ME_MILEAGE; //Testing
     var point = 'point { size: 10; shape-type: circle; fill-color: #a52714; }';
 
-    var price = ME_PRICE - mileage;
+    var estPrice = ME_EST_PRICE;
 
     // Create the data table.
     var data = google.visualization.arrayToDataTable
             ([['X', 'Y', {'type': 'string', 'role': 'style'}],
-              [0, 260000, null],
-              [mileage, price, point],
+              [0, ME_PRICE, null],
+              [mileage, estPrice, point],
               [200000,  60000, null]
         ]);
 
@@ -159,7 +172,7 @@ window.addEventListener('resize', function(event){
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
     chart.draw(data, options);
-  }
+}
 
 
 
