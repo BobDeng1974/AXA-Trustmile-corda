@@ -56,7 +56,7 @@ function get_vehicle() {
             ME_MILEAGE = result.mileage;
             $( "#mileage" ).html(ME_MILEAGE);
             estimatedPrice(ME_PRICE, ME_MILEAGE);
-            $( "#operatingHours" ).html(result.);
+            $( "#operatingHours" ).html("-");
             if(result.accident)
                 $( "#damage" ).html("Nein");
             else
