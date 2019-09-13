@@ -186,13 +186,13 @@ public class CarFlow {
                 transactionBuilder = getTransactionBuilderSignedByParticipants(
                         updatedCar,
                         new CarContract.Commands.Update());
-                transactionBuilder.addInputState(carRef);
-                transactionBuilder.addOutputState(updatedCar, CarContract.ID);
             } else {
                 transactionBuilder = getTransactionBuilderSignedByParticipants(
                         updatedCar,
                         new CarContract.Commands.NoUpdate());
             }
+            transactionBuilder.addInputState(carRef);
+            transactionBuilder.addOutputState(updatedCar, CarContract.ID);
 
             /* ============================================================================
              *          TODO 2 - Write our contract to control issuance!
