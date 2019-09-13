@@ -29,12 +29,12 @@ for (k in frames) {
     if (ports_vertical.length > 1) {
        s = s +"<frameset id='index_vertical_frames' rows='50%,50%'>"
        for (pk in ports_vertical) {
-           var url = MAIN_URL + ":" + ports_vertical[pk].trim() + "/admin/index.html";
+           var url = MAIN_URL + ":" + ports_vertical[pk].trim() + "/admin/frame.html";
             s = s + "<frame src='"+url+"'>";
        }
        s = s + "</frameset>";
     } else {
-        var url = MAIN_URL + ":" + ports_vertical[0] + "/admin/index.html";
+        var url = MAIN_URL + ":" + ports_vertical[0] + "/admin/frame.html";
         s = s + "<frame src='"+url+"'>";
     }
 }
