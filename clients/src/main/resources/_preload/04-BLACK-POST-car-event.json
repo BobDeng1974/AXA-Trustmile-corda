@@ -1,0 +1,18 @@
+{
+  "nodes" : [
+    "O=BLACK,L=Stuttgart,ST=BW,C=DE"
+  ],
+  "action": "POST",
+  "URL": "/api/v1/car-event",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "vin" : "43",
+    "mileage" : 103008,
+    "operatingHoursInS" : 431,
+    "timestamp" : 1568615427,
+    "accident" : false,
+    "data" : {}
+  }
+}

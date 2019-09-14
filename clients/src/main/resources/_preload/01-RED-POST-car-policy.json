@@ -1,0 +1,27 @@
+{
+  "nodes" : [
+    "O=RED,L=Maranello,ST=MO,C=IT"
+  ],
+  "action": "POST",
+  "URL": "/api/v1/car-policy",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "policyNumber": "18.111.222",
+    "vin": "42",
+    "car": "Ferrari Modena",
+    "insurer": "O=InsureMe,L=Schaffhausen,ST=SH,C=CH",
+    "mileagePerYear": 10000,
+    "mileageState": "IN_RANGE",
+    "accidentState": "NO",
+    "insuranceRate": 1800,
+    "details": {
+      "originalPrice": 152000,
+      "valueReductionPerMile": 0.5,
+      "color": "RED",
+      "numberOfPreviousOwners": 2,
+      "model": "Ferrari Modena"
+    }
+  }
+}

@@ -46,7 +46,9 @@ function estimatedPrice(price, mileage) {
 }
 
 function get_vehicle() {
-    var mileage;
+    $( "#car-policy-url" ).attr("href", MAIN_URL+"/api/v1/car-policy");
+    $( "#car-event-url" ).attr("href", MAIN_URL+"/api/v1/car-event");
+
     $.get({
         url: MAIN_URL+"/api/v1/car-event",
         data: {        },

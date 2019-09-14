@@ -1,0 +1,27 @@
+{
+  "nodes" : [
+    "O=BLACK,L=Stuttgart,ST=BW,C=DE"
+  ],
+  "action": "POST",
+  "URL": "/api/v1/car-policy",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "policyNumber": "18.123.121",
+    "vin": "43",
+    "car": "Ferrari Modena",
+    "insurer": "O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH",
+    "mileagePerYear": 7000,
+    "mileageState": "IN_RANGE",
+    "accidentState": "NO",
+    "insuranceRate": 1500,
+    "details": {
+      "originalPrice": 182000,
+      "valueReductionPerMile": 0.5,
+      "color": "RED",
+      "numberOfPreviousOwners": 0,
+      "model": "Ferrari Modena"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "nodes" : [
+    "O=RED,L=Maranello,ST=MO,C=IT"
+  ],
+  "action": "POST",
+  "URL": "/api/v1/car-event",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "vin" : "42",
+    "mileage" : 17108,
+    "operatingHoursInS" : 431,
+    "timestamp" : 1568615427,
+    "accident" : false,
+    "data" : {}
+  }
+}
