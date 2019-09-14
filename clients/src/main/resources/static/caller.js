@@ -171,6 +171,7 @@ function drawBasic() {
     var point = 'point { size: 10; shape-type: circle; fill-color: #a52714; }';
 
     var estPrice = ME_EST_PRICE;
+    var maxMileage = mileage > 250000 ? mileage * 1.1 : 250000;
 
     // Create the data table.
     var data = google.visualization.arrayToDataTable
@@ -178,7 +179,7 @@ function drawBasic() {
               [0, ME_PRICE, null],
               [5000, 0.8 * ME_PRICE, null],
               [mileage, estPrice, point],
-              [250000,  priceBasedOnMileage(ME_PRICE, 250000), null]
+              [maxMileage,  priceBasedOnMileage(ME_PRICE, maxMileage), null]
         ]);
 
     // Set chart options
