@@ -34,13 +34,20 @@
 <table style="width:100%">
     <tr>
         <th colspan="2">
-            <h1><a _target="_blank" href="frame.html">Trustmile - AXA Hackathon 2019</a>&nbsp<span id="image-socket"></span></h1>
+            <h1><a _target="_blank" href="frame.html">Trustmile - AXA Hackathon 2019</a>&nbsp<span style="width:20px" id="image-socket"></span></h1>
         </th>
     </tr>
     <tr><td colspan="2" class="errorMessage"><div id="errorMessage"></div></td></tr>
     <tr>
         <td colspan="2">
-            Willkommen bei <b>Trustmile</b>, der Plattform für verlässliche Fahrzeugdaten.
+            <center>
+                <p>Willkommen bei <b>Trustmile</b>, dem Service für verlässliche Fahrzeugdaten in Zusammenarbeit mit</p>
+                <p>
+                    <a href="https://www.axa.ch" target="_blank"><img height="40px" src="images/axa.ch.png"></a>
+                    <a href="https://www.cardossier.ch" target="_blank"><img height="40px" src="images/cardossier.ch.png"></a>
+                    <a href="https://www.ryd.ch" target="_blank"><img height="40px" src="images/ryd.ch.png"></a>
+                </p>
+            </center>
         </td>
 
     </tr>
@@ -49,12 +56,12 @@
         <td width="60%" align="left" valign="top">
             <table width="100%" class="vehicleTable"> <!-- class set only in first row, as it will align the others -->
                 <tr>
-                    <td class="vehicleDataFirstCol">Modell</td>
-                    <td class="vehicleDataSecondCol" width="auto"><a id="car-policy-url" target="_blank" href="/api/v1/car-policy"><div id="model">race version</div></a></td>
+                    <td>VIN</td>
+                    <td><div id="vehicleIdentNumber">0815</div></td>
                 </tr>
                 <tr>
-                    <td>FahrzeugIdent-Nummer</td>
-                    <td><div id="vehicleIdentNumber">0815</div></td>
+                    <td class="vehicleDataFirstCol">Modell</td>
+                    <td class="vehicleDataSecondCol" width="auto"><a id="car-policy-url" target="_blank" href="/api/v1/car-policy"><div id="model">race version</div></a></td>
                 </tr>
                 <tr>
                     <td>Neupreis</td>
@@ -62,11 +69,9 @@
                 </tr>
                 <tr>
                     <td>Kilometerstand</td>
-                    <td><a id="car-event-url" target="_blank" href="/api/v1/car-event"><div  id="mileage">1</div></a></td>
-                </tr>
-                <tr>
-                    <td>Schäden</td>
-                    <td><div  id="numberOfDamages"></div></td>
+                    <td>
+                        <a id="car-event-url" target="_blank" href="/api/v1/car-event"><div  id="mileage">1</div></a>
+                    </td>
                 </tr>
                 <tr>
                     <td>Betriebsstunden</td>
@@ -77,8 +82,15 @@
                     <td><div  id="estimatedValue">7,85 CHF</div></td>
                 </tr>
                 <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
                     <td>Trust Issuer</td>
                     <td><div  id="trustIssuer">AXA</div></td>
+                </tr>
+                <tr>
+                    <td>Schäden</td>
+                    <td><div  id="numberOfDamages"></div></td>
                 </tr>
                 <tr id="fraudTag">
                     <td>Fraud alarm</td>
@@ -90,15 +102,45 @@
     </tr>
     <tr>
         <td colspan="2">
+            <h3>Simulation Verkaufspreis basierend auf km-Stand</h3>
             <div id="curve_chart"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <h3>Simulation</h3>
+            <table width="100%">
+                <tr>
+                    <td width="50%">
+                        <h4>Simulation von km-Events</h4>
+                        &nbsp;<a id="addMileage" value="0" href="#" onClick="addMileage(this, 100);">[ +100 ]</a>
+                        &nbsp;<a id="addMileage1000" value="0" href="#" onClick="addMileage(this, 1000);">[ +1000 ]</a>&nbsp
+                        &nbsp;<a id="addMileage10000" value="0" href="#" onClick="addMileage(this, 10000);">[ +10'000 ]</a>&nbsp
+                        &nbsp;<a id="doubleMilage" value="0" href="#" onClick="addFraud(this, 2.0)">[ * 2 ]</a>
+                    </td>
+                    <td>
+                        <h4>Simulation eines km-Fraud</h4>
+                        &nbsp;<a id="addFraud" value="0" href="#" onClick="addFraud(this, 0.5)">[ / 2 ]</a>
+                        &nbsp;<a id="addFraud30K" value="0" href="#" onClick="addFraud(this, 1.0, 30000)">[ -30'000 ]</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <h4>Simulation eines Crashs</h4>
+                        &nbsp;<a id="accident" value="0" href="#" onClick="addMileage(this, 0, true)">[ crash ]</a>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
     <tr>
         <td colspan="2"><h3>Weitere Angebote</h3>
             <ul>
-                <li><a href="https://www.ryd.ch" target="_blank">ryd Suisse</a>
-                <li><a href="https://www.carforyou.ch/de" target="_blank">CAR FOR YOU</a>
-                <li><a href="https://www.axa.ch" target="_blank">AXA</a>
+                <li><a href="https://www.cardossier.ch" target="_blank">cardossier</a></li>
+                <li><a href="https://www.ryd.ch" target="_blank">ryd Suisse</a></li>
+                <li><a href="https://www.carforyou.ch/de" target="_blank">CAR FOR YOU</a></li>
+                <li><a href="https://www.axa.ch" target="_blank">AXA</a></li>
             </ul>
         </td>
     </tr>

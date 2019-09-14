@@ -21,3 +21,12 @@ table, tr, td {
     font-weight: 700;
     color: red;
 }
+
+h3, h4 {
+    display: block;
+    margin-block-start: 0.13em;
+    margin-block-end: 0.13em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}

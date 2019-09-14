@@ -28,8 +28,23 @@ if (port != null) {
 }
 
 ME_MILEAGE=-1000
+ME_CAR_EVENT={}
 ME_PRICE=0
 ME_EST_PRICE=0
+
+function intToAmount(amount)
+{
+    const locale = 'de-CH';
+    const options = { style: 'currency', currency: 'CHF' };
+    return Intl.NumberFormat(locale, options).format(amount);
+}
+
+function intFormat(amount) {
+    const locale = 'de-CH';
+    const options = { maximumSignificantDigits: 3 };
+    return Intl.NumberFormat(locale, options).format(amount);
+
+}
 
 function X500toO(x500) {
     if (x500 == null || x500 == "") return "";
@@ -37,37 +52,19 @@ function X500toO(x500) {
     return DNs[1];
 }
 
-function estimatedPrice(price, mileage) {
-    var estPrice = price - (mileage * 0.5); // 1.- per km
-    ME_EST_PRICE = estPrice;
+function priceBasedOnMileage(price, mileage) {
+    var estPrice = 0.9 * price - (mileage * 0.4); // 0.5 per km
     if(estPrice < 0)
         estPrice = 0;
-    $( "#estimatedValue" ).html(estPrice + ".- CHF");
+    return estPrice;
 }
 
-function get_vehicle() {
-    $( "#car-policy-url" ).attr("href", MAIN_URL+"/api/v1/car-policy");
-    $( "#car-event-url" ).attr("href", MAIN_URL+"/api/v1/car-event");
+function estimatedPrice(price, mileage) {
+    ME_EST_PRICE = priceBasedOnMileage(price, mileage);
+    $( "#estimatedValue" ).html(intToAmount(ME_EST_PRICE));
+}
 
-    $.get({
-        url: MAIN_URL+"/api/v1/car-event",
-        data: {        },
-        success: function( result ) {
-            //$( "#" ).html(result.);
-            $( "#vehicleIdentNumber" ).html(result.vin);
-            ME_MILEAGE = result.mileage;
-            $( "#mileage" ).html(ME_MILEAGE);
-            estimatedPrice(ME_PRICE, ME_MILEAGE);
-            $( "#operatingHours" ).html("-");
-            if(result.accident)
-                $( "#damage" ).html("Nein");
-            else
-                $( "#damage" ).html("Ja");
-        }
-    }).fail(function(e) {
-      $( "#errorMessage" ).html( "Oh, holy heaven: error reading data from trust store" );
-    });
-
+function get_policy() {
     $.get({
         url: MAIN_URL+"/api/v1/car-policy",
         data: {        },
@@ -75,7 +72,7 @@ function get_vehicle() {
             ME_PRICE = result.details.originalPrice;
             $( "#vehicle" ).html(result.car);
             $( "#model" ).html(result.details.model);
-            $( "#originalPrice" ).html(ME_PRICE  + ".- CHF");
+            $( "#originalPrice" ).html(intToAmount(ME_PRICE));
             estimatedPrice(ME_PRICE, ME_MILEAGE);
             var insurer = X500toO(result.insurer);
             $( "#trustIssuer" ).html(insurer);
@@ -93,6 +90,35 @@ function get_vehicle() {
       $( "#errorMessage" ).html( "Oh, holy heaven: error reading data from trust store" );
     });
 }
+function get_vehicle() {
+    $( "#car-policy-url" ).attr("href", MAIN_URL+"/api/v1/car-policy");
+    $( "#car-event-url" ).attr("href", MAIN_URL+"/api/v1/car-event");
+
+    $.get({
+        url: MAIN_URL+"/api/v1/car-event",
+        data: {        },
+        success: function( result ) {
+            //$( "#" ).html(result.);
+            ME_CAR_EVENT = result;
+            $( "#vehicleIdentNumber" ).html(result.vin);
+            ME_MILEAGE = result.mileage;
+            $( "#mileage" ).html(intFormat(ME_MILEAGE)+" km");
+            $( "#addFraud" ).attr("value", ME_MILEAGE);
+            $( "#addMileage" ).attr("value", ME_MILEAGE);
+
+            estimatedPrice(ME_PRICE, ME_MILEAGE);
+            $( "#operatingHours" ).html("-");
+            if(result.accident)
+                $( "#damage" ).html("Nein");
+            else
+                $( "#damage" ).html("Ja");
+            get_policy();
+        }
+    }).fail(function(e) {
+      $( "#errorMessage" ).html( "Oh, holy heaven: error reading data from trust store" );
+    });
+
+}
 
 function get_me() {
     $.get({
@@ -107,8 +133,7 @@ function get_me() {
              var imageName = O.trim().replace(/[ ]/g, '_').replace(/[,\.]/g, '').toLowerCase();
              $( "#party_me" ).html( O+", "+L+" ("+C+")" );
              $( "#image_me" ).html( "<img style=\"width:100%\" src=\"images/node_"+imageName+".jpeg\"/>" );
-
-             drawBasic();
+             setTimeout(drawBasic, 500);
         }
     }).fail(function(e) {
       $( "#errorMessage" ).html( "Oh, holy heaven: error reading data from trust store" );
@@ -125,7 +150,7 @@ window.addEventListener('resize', function(event){
 
 
 // Load the Visualization API and the corechart package.
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['corechart'], 'language': 'de'});
 
 // Set a callback to run when the Google Visualization API is loaded.
 
@@ -138,9 +163,10 @@ google.charts.setOnLoadCallback(drawBasic);
 // draws it.
 function drawBasic() {
     if (!google.visualization.arrayToDataTable || !google.visualization.LineChart) {
-        setTimeout(drawBasic, 1000);
+        setTimeout(drawBasic, 500);
         return;
     };
+    if (mileage < 0) return;
     var mileage = ME_MILEAGE; //Testing
     var point = 'point { size: 10; shape-type: circle; fill-color: #a52714; }';
 
@@ -150,10 +176,10 @@ function drawBasic() {
     var data = google.visualization.arrayToDataTable
             ([['X', 'Y', {'type': 'string', 'role': 'style'}],
               [0, ME_PRICE, null],
+              [5000, 0.8 * ME_PRICE, null],
               [mileage, estPrice, point],
-              [200000,  60000, null]
+              [250000,  priceBasedOnMileage(ME_PRICE, 250000), null]
         ]);
-
 
     // Set chart options
     var options = {
@@ -176,15 +202,40 @@ function drawBasic() {
     chart.draw(data, options);
 }
 
+function addMileage(tag, incMileage, accident = false) {
+    animationOn();
+    ME_CAR_EVENT.mileage += incMileage;
+    ME_CAR_EVENT.timestamp = new Date().getSeconds();
+    ME_CAR_EVENT.operatingHours += 1;
+    ME_CAR_EVENT.accident = accident;
+    $.ajax({
+        url: MAIN_URL+"/api/v1/car-event",
+        type: "POST",
+        data: JSON.stringify(ME_CAR_EVENT),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).done(function(result) {
+        console.log("successful car-event sent")
+    })
+    .fail(function(e) {
+      $( "#errorMessage" ).html( "error while writing mileage for you. "+e );
+    });
+}
 
+
+function addFraud(tag, factor, decMileage = 0) {
+    var newMileage = ME_MILEAGE * factor - decMileage;
+    addMileage(tag, newMileage - ME_MILEAGE);
+}
 
 function setWebSocketConnected(connected, running) {
      if (connected && running) {
-        $("#image-socket").html("<img id='image-socket-ball' src='images/green.gif'>")
+        $("#image-socket").html("<img id='image-socket-ball' width='20px' src='images/green.gif'>")
      } else if (connected) {
-        $("#image-socket").html("<img id='image-socket-ball' src='images/green.png'>")
+        $("#image-socket").html("<img id='image-socket-ball' width='20px' src='images/green.png'>")
      } else {
-        $("#image-socket").html("<img id='image-socket-ball' src='images/red.png'>")
+        $("#image-socket").html("<img id='image-socket-ball' width='20px' src='images/red.png'>")
      }
 }
 
@@ -196,8 +247,8 @@ function connectWebSocket() {
     stompClient.connect({}, function (frame) {
         setWebSocketConnected(true, false);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/vaultChanged/*', function (changes) {
-            load_data();
+        stompClient.subscribe('/topic/vaultChanged/car-policy', function (changes) {
+            get_vehicle();
             animationOff();
         });
     });
