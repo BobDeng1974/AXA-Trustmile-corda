@@ -196,7 +196,7 @@ function connectWebSocket() {
     stompClient.connect({}, function (frame) {
         setWebSocketConnected(true, false);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/vaultChanged', function (changes) {
+        stompClient.subscribe('/topic/vaultChanged/*', function (changes) {
             load_data();
             animationOff();
         });
