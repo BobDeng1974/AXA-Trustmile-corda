@@ -32,6 +32,10 @@ public class CarEventContract implements Contract {
         CommandData commandData = verifier.command();
         if (commandData instanceof CarEventContract.Commands.Create){
             verifyCreate(tx,verifier);
+        } else if (commandData instanceof CarEventContract.Commands.Update){
+            verifyUpdate(tx,verifier);
+        } else {
+            throw new IllegalArgumentException("missing command contract " + commandData.getClass().toString());
         }
     }
 
