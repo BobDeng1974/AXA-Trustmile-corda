@@ -253,32 +253,27 @@ public class Controller {
     /**
      * returns the patient records that exist in the node's vault.
      */
-    @GetMapping(value = "/car-records", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CarState> getPolicyRecords() {
-        List<CarState> states = proxy.vaultQuery(CarState.class).getStates()
-                .stream().map(state -> state.getState().getData()).collect(toList());
-        return states;
+    @GetMapping(
+            value = "/car-policy-history",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CarState> getCarPolicyHistory(
+            @RequestParam(value = "page", defaultValue = "1", required = false) int page,
+            @RequestParam(value = "pageSize", defaultValue = "50", required = false) int pageSize) {
+        return this.getConsumedCar(page, pageSize);
     }
     /**
-     * receives a mandate that exist with a given ID from the node's vault.
-     * @param id unique identifier as UUID for mandate
+     * receives a car event list history with all consumed states
      */
     @RequestMapping(
-            value =  "/car-policy/{id}",
+            value =  "/car-event-history",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
-    public CarState getPolicyRecords(@PathVariable("id") String id) {
-        UniqueIdentifier uid = new UniqueIdentifier(null, UUID.fromString(id));
-        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
-                null,
-                Arrays.asList(uid),
-                Vault.StateStatus.ALL,
-                null);
-        List<CarState> states = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return states.isEmpty() ? null : states.get(states.size()-1);
+    public List<CarEventState> getCarEventHistory(
+             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
+             @RequestParam(value = "pageSize", defaultValue = "50", required = false) int pageSize) {
+        return getConsumedCarEvent(page, pageSize);
     }
 
     // PRIVATE METHODS
@@ -292,6 +287,31 @@ public class Controller {
         List<CarState> carStates = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
                 .getStates().stream().map(state -> state.getState().getData()).collect(toList());
         return carStates.isEmpty() ? null : carStates.get(carStates.size() - 1);
+    }
+    // PRIVATE METHODS
+    private List<CarState> getConsumedCar(int page, int pageSize) {
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                null,
+                null,
+                Vault.StateStatus.CONSUMED,
+                null);
+        PageSpecification paging = new PageSpecification(page, pageSize);
+        List<CarState> carStates = proxy.vaultQueryByWithPagingSpec(CarState.class, queryCriteria, paging)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return carStates;
+    }
+    private List<CarEventState> getConsumedCarEvent(int page, int pageSize) {
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                null,
+                null,
+                null,
+                Vault.StateStatus.CONSUMED,
+                null);
+        PageSpecification paging = new PageSpecification(page, pageSize);
+        List<CarEventState> carEventStates = proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging)
+                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
+        return carEventStates;
     }
 
     private CarState getCarStateFromExternalId(String id) {
