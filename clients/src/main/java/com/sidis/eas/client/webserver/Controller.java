@@ -260,6 +260,7 @@ public class Controller {
             @RequestParam(value = "pageSize", defaultValue = "50", required = false) int pageSize) {
         return this.getConsumedCar(page, pageSize);
     }
+
     /**
      * receives a car event list history with all consumed states
      */
@@ -269,21 +270,7 @@ public class Controller {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
-    public List<CarEventState> getCarEventHistory(
-             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
-             @RequestParam(value = "pageSize", defaultValue = "50", required = false) int pageSize) {
-        return getConsumedCarEvents(page, pageSize);
-    }
-    /**
-     * receives a car event list history with all consumed states
-     */
-    @RequestMapping(
-            value =  "/car-event-all",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseBody
-    public List<CarEventState> getCarEventHistoryAll(
+    public Vault.Page<CarEventState> getCarEventHistoryAll(
             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
             @RequestParam(value = "pageSize", defaultValue = "50", required = false) int pageSize) {
         return getAllCarEvents(page, pageSize);
@@ -326,7 +313,7 @@ public class Controller {
                 .getStates().stream().map(state -> state.getState().getData()).collect(toList());
         return carEventStates;
     }
-    private List<CarEventState> getAllCarEvents(int page, int pageSize) {
+    private Vault.Page<CarEventState> getAllCarEvents(int page, int pageSize) {
         QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
                 null,
                 null,
@@ -334,9 +321,7 @@ public class Controller {
                 Vault.StateStatus.ALL,
                 null);
         PageSpecification paging = new PageSpecification(page, pageSize);
-        List<CarEventState> carEventStates = proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return carEventStates;
+        return proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging);
     }
 
     private CarState getCarStateFromExternalId(String id) {
