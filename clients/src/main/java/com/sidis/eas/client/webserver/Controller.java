@@ -270,7 +270,7 @@ public class Controller {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
-    public Vault.Page<CarEventState> getCarEventHistoryAll(
+    public List<StateAndMeta<CarEventState>> getCarEventHistoryAll(
             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
             @RequestParam(value = "pageSize", defaultValue = "50", required = false) int pageSize) {
         return getAllCarEvents(page, pageSize);
@@ -313,7 +313,7 @@ public class Controller {
                 .getStates().stream().map(state -> state.getState().getData()).collect(toList());
         return carEventStates;
     }
-    private Vault.Page<CarEventState> getAllCarEvents(int page, int pageSize) {
+    private List<StateAndMeta<CarEventState>> getAllCarEvents(int page, int pageSize) {
         QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
                 null,
                 null,
@@ -321,7 +321,15 @@ public class Controller {
                 Vault.StateStatus.ALL,
                 null);
         PageSpecification paging = new PageSpecification(page, pageSize);
-        return proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging);
+        Vault.Page<CarEventState> pageResult = proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging);
+        int size = pageResult.getStates().size();
+        List<StateAndMeta<CarEventState>> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            list.add(new StateAndMeta<CarEventState>(
+                    pageResult.getStates().get(i).getState().getData(),
+                    pageResult.getStatesMetadata().get(i)));
+        }
+        return list;
     }
 
     private CarState getCarStateFromExternalId(String id) {
