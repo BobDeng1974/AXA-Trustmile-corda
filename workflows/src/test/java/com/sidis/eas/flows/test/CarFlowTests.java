@@ -42,6 +42,29 @@ public class CarFlowTests extends SidisBaseFlowTests {
         Assert.assertEquals("vin must be 42", "42", String.valueOf(service.getVin()));
     }
 
+
+    @Test
+    public void update_after_create_car() throws Exception {
+        SignedTransaction carCreateTx = this.newCarCreateFlow("12.345.678", this.insurance2.party,
+                "42", 7000, 1200, dataJSONString());
+        StateVerifier verifier1 = StateVerifier.fromTransaction(carCreateTx, this.redCar.ledgerServices);
+        CarState car = verifier1
+                .output().one()
+                .one(CarState.class)
+                .object();
+
+        SignedTransaction carUpdateTx = this.newCarUpdateFlow("12.345.678", this.insurance2.party,
+                7000, 1300, dataJSONString());
+        StateVerifier verifier4 = StateVerifier.fromTransaction(carUpdateTx, this.redCar.ledgerServices);
+        CarState updatedCar = verifier4
+                .output().one()
+                .one(CarState.class)
+                .object();
+
+        Assert.assertEquals("insurance rate must be 1300", new Integer(1300), updatedCar.getInsuranceRate());
+    }
+
+
     @Test
     public void update_car() throws Exception {
         SignedTransaction carCreateTx = this.newCarCreateFlow("12.345.678", this.insurance2.party,

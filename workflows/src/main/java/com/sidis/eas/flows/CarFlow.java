@@ -139,42 +139,52 @@ public class CarFlow {
              * ===========================================================================*/
             // We create our new TokenState.
             StateAndRef<CarState> carRef = new FlowHelper<CarState>(this.getServiceHub()).getLastState(CarState.class);
-
+            if (carRef == null) {
+                throw new FlowException("CarState not found");
+            }
             CarState car = this.getStateByRef(carRef);
-
             StateAndRef<CarEventState> carEventRef = new FlowHelper<CarEventState>(this.getServiceHub())
                     .getLastState(CarEventState.class);
+            CarState updatedCar = null;
+            if (carEventRef != null) {
+                CarEventState carEvent = this.getStateByRef(carEventRef);
+                List<StateAndRef<CarEventState>> carEventsRef = new FlowHelper<CarEventState>(this.getServiceHub())
+                        .getAllStatesByLinearId(CarEventState.class, carEvent.getId());
+                StateAndRef<CarEventState> carEventLastConsumed = null;
+                if (carEventsRef.size() == 2) {
+                    carEventLastConsumed = carEventsRef.get(0);
+                } else if (carEventsRef.size() > 2) {
+                    carEventLastConsumed = carEventsRef.get(carEventsRef.size() - 2);
+                }
+                Map<String, Object> detailsMap = car.getDetails();
+                if (this.details != null) {
+                    detailsMap = JsonHelper.convertStringToJson(details);
+                }
+                CarState.MileageState newMileageState = this.getNewMileageState(car.getMileageState(),
+                        car.getMileagePerYear(), carEvent.getTimestamp(), carEvent.getMileage());
+                CarState.AccidentState newAccidentState = this.getNewAccidentState(car.getAccidentState(), carEvent.getAccident());
 
-            CarEventState carEvent = this.getStateByRef(carEventRef);
-
-            List<StateAndRef<CarEventState>> carEventsRef = new FlowHelper<CarEventState>(this.getServiceHub())
-                    .getAllStatesByLinearId(CarEventState.class, carEvent.getId());
-
-            StateAndRef<CarEventState> carEventLastConsumed = null;
-            if (carEventsRef.size() == 2) {
-                carEventLastConsumed = carEventsRef.get(0);
-            } else if (carEventsRef.size() > 2) {
-                carEventLastConsumed = carEventsRef.get(carEventsRef.size() - 2);
-            }
-
-            Map<String,Object> detailsMap;
-            if (this.details != null) {
-                detailsMap = JsonHelper.convertStringToJson(details);
+                CarState.State newState;
+                if (car.getInsurereX500().equals(INSURE_ME)) {
+                    newState = CarState.State.VALID;
+                } else {
+                    newState = this.getNewState(car.getState(), carEvent, carEventLastConsumed);
+                }
+                updatedCar = car.update(newState, newMileageState, newAccidentState, detailsMap);
             } else {
-                detailsMap = car.getDetails();
+                //State state, String policyNumber, Party insurer, Integer mileagePerYear, MileageState mileageState,
+                //   AccidentState accidentState, Integer insuranceRate, Map<String, Object> newDetails
+                updatedCar = car.update(
+                        car.getState(),
+                        this.policyNumber,
+                        this.insurer,
+                        this.mileagePerYear,
+                        car.getMileageState(),
+                        car.getAccidentState(),
+                        this.insuranceRate,
+                        JsonHelper.convertStringToJson(details)
+                );
             }
-
-            CarState.MileageState newMileageState = this.getNewMileageState(car.getMileageState(),
-                    car.getMileagePerYear(), carEvent.getTimestamp(), carEvent.getMileage());;
-            CarState.State newState;
-            CarState.AccidentState newAccidentState = this.getNewAccidentState(car.getAccidentState(), carEvent.getAccident());
-
-            if (car.getInsurereX500().equals(INSURE_ME)){
-                newState = CarState.State.VALID;
-            } else {
-                newState = this.getNewState(car.getState(), carEvent, carEventLastConsumed);
-            }
-            CarState updatedCar = car.update(newState, newMileageState, newAccidentState, detailsMap);
 
             /* ============================================================================
              *      TODO 3 - Build our issuance transaction to update the ledger!

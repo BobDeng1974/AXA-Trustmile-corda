@@ -138,7 +138,6 @@ public class Controller {
     public HttpStatus sendCarPolicy(HttpServletRequest request, @RequestBody CarPolicy carPolicy)
     {
         try {
-            UniqueIdentifier uid = new UniqueIdentifier(carPolicy.getVin());
             Party insurerParty = null;
             if (carPolicy.getInsurer() != null && !carPolicy.getInsurer().equals("")) {
                 insurerParty = proxy.wellKnownPartyFromX500Name(CordaX500Name.parse(carPolicy.getInsurer()));
@@ -147,21 +146,37 @@ public class Controller {
                     return HttpStatus.BAD_REQUEST;
                 }
             }
-
-            final SignedTransaction signedTx = proxy
-                    .startTrackedFlowDynamic(
-                            CarFlow.Create.class,
-                            // String policyNumber, Party insurer, String vin, Integer mileagePerYear, Integer insuranceRate, String details
-                            carPolicy.getPolicyNumber(),
-                            insurerParty,
-                            carPolicy.getVin(),
-                            carPolicy.getMileagePerYear(),
-                            carPolicy.getInsuranceRate(),
-                            JsonHelper.convertJsonToString(carPolicy.getDetails())
+            CarState car = getUnconsumedCar();
+            if (car != null) {
+                // String policyNumber, Party insurer, Integer mileagePerYear, Integer insuranceRate, String details
+                final SignedTransaction signedTx = proxy
+                        .startTrackedFlowDynamic(
+                                CarFlow.Update.class,
+                                carPolicy.getPolicyNumber(),
+                                insurerParty,
+                                carPolicy.getMileagePerYear(),
+                                carPolicy.getInsuranceRate(),
+                                JsonHelper.convertJsonToString(carPolicy.getDetails())
                         )
-                    .getReturnValue()
-                    .get();
-            return HttpStatus.CREATED;
+                        .getReturnValue()
+                        .get();
+                return HttpStatus.OK;
+            } else {
+                // String policyNumber, Party insurer, String vin, Integer mileagePerYear, Integer insuranceRate, String details
+                final SignedTransaction signedTx = proxy
+                        .startTrackedFlowDynamic(
+                                CarFlow.Create.class,
+                                carPolicy.getPolicyNumber(),
+                                insurerParty,
+                                carPolicy.getVin(),
+                                carPolicy.getMileagePerYear(),
+                                carPolicy.getInsuranceRate(),
+                                JsonHelper.convertJsonToString(carPolicy.getDetails())
+                            )
+                        .getReturnValue()
+                        .get();
+                return HttpStatus.CREATED;
+            }
         } catch (Throwable ex) {
             logger.error(ex.getMessage(), ex);
             return HttpStatus.BAD_REQUEST;
@@ -249,7 +264,7 @@ public class Controller {
      * @param id unique identifier as UUID for mandate
      */
     @RequestMapping(
-            value =  "/policy-records/{id}",
+            value =  "/car-policy/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
