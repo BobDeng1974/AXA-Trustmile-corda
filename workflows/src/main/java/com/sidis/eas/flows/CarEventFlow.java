@@ -143,6 +143,7 @@ public class CarEventFlow {
             TransactionBuilder transactionBuilder = getTransactionBuilderSignedByParticipants(
                     carEvent,
                     new CarEventContract.Commands.Update());
+            transactionBuilder.addInputState(carEventRef);
             transactionBuilder.addOutputState(updatedCarEvent);
             /* ============================================================================
              *          TODO 2 - Write our contract to control issuance!

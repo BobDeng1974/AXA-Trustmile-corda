@@ -255,10 +255,10 @@ public class Controller {
     @GetMapping(
             value = "/car-policy-history",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CarState> getCarPolicyHistory(
+    public List<StateAndMeta<CarState>> getCarPolicyHistory(
             @RequestParam(value = "page", defaultValue = "1", required = false) int page,
             @RequestParam(value = "pageSize", defaultValue = "50", required = false) int pageSize) {
-        return this.getConsumedCar(page, pageSize);
+        return this.getAllCar(page, pageSize);
     }
 
     /**
@@ -289,17 +289,23 @@ public class Controller {
         return carStates.isEmpty() ? null : carStates.get(carStates.size() - 1);
     }
     // PRIVATE METHODS
-    private List<CarState> getConsumedCar(int page, int pageSize) {
+    private List<StateAndMeta<CarState>> getAllCar(int page, int pageSize) {
         QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
                 null,
                 null,
                 null,
-                Vault.StateStatus.CONSUMED,
+                Vault.StateStatus.ALL,
                 null);
         PageSpecification paging = new PageSpecification(page, pageSize);
-        List<CarState> carStates = proxy.vaultQueryByWithPagingSpec(CarState.class, queryCriteria, paging)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return carStates;
+        Vault.Page<CarState> pageResult = proxy.vaultQueryByWithPagingSpec(CarState.class, queryCriteria, paging);
+        int size = pageResult.getStates().size();
+        List<StateAndMeta<CarState>> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            list.add(new StateAndMeta<CarState>(
+                    pageResult.getStates().get(i).getState().getData(),
+                    pageResult.getStatesMetadata().get(i)));
+        }
+        return list;
     }
     private List<CarEventState> getConsumedCarEvents(int page, int pageSize) {
         QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
