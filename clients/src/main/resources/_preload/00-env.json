@@ -1,0 +1,26 @@
+{
+  "nodes" : {
+    "O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH": {
+      "web-port": 10801,
+      "protocol": "http"
+    },
+    "O=InsureMe,L=Schaffhausen,ST=SH,C=CH": {
+      "web-port": 10802,
+      "protocol": "http"
+    },
+    "O=RED,L=Maranello,ST=MO,C=IT": {
+      "web-port": 10803,
+      "protocol": "http"
+    },
+    "O=BLACK,L=Stuttgart,ST=BW,C=DE": {
+      "web-port": 10804,
+      "protocol": "http"
+    }
+  },
+  "jobs" : [
+    "01-RED-POST-car-policy.json",
+    "02-BLACK-POST-car-policy.json",
+    "03-RED-POST-car-event.json",
+    "04-BLACK-POST-car-event.json"
+  ]
+}

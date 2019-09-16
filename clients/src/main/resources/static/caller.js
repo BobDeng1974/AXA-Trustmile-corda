@@ -41,8 +41,7 @@ function intToAmount(amount)
 
 function intFormat(amount) {
     const locale = 'de-CH';
-    const options = { maximumSignificantDigits: 3 };
-    return Intl.NumberFormat(locale, options).format(amount);
+    return Intl.NumberFormat(locale).format(amount);
 
 }
 
