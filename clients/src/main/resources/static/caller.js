@@ -176,7 +176,7 @@ function drawBasic() {
     var data = google.visualization.arrayToDataTable
             ([['X', 'Y', {'type': 'string', 'role': 'style'}],
               [0, ME_PRICE, null],
-              [5000, 0.8 * ME_PRICE, null],
+              [5000, 0.9 * ME_PRICE, null],
               [mileage, estPrice, point],
               [maxMileage,  priceBasedOnMileage(ME_PRICE, maxMileage), null]
         ]);
