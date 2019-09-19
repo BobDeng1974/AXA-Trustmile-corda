@@ -52,7 +52,11 @@ function X500toO(x500) {
 }
 
 function priceBasedOnMileage(price, mileage) {
-    var estPrice = 0.9 * price - (mileage * 0.4); // 0.5 per km
+    //var estPrice = 0.9 * price - (mileage * 0.4); // 0.5 per km
+    if( mileage > 5000)
+        var estPrice = 0.9 * price - ((mileage-5000) * 0.5); // 0.5 per km
+    else
+        var estPrice = price - mileage / 5000 * 0.1 * price
     if(estPrice < 0)
         estPrice = 0;
     return estPrice;
