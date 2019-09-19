@@ -42,9 +42,9 @@
         <td colspan="2">
             <center>
                 <!-- <p>Willkommen bei <b>Trustmile</b>, dem Service für verlässliche Fahrzeugdaten in Zusammenarbeit mit</p> -->
-                <p>30% aller Occasionen haben manipulierte Fahrzeugangaben zu Kilometerstand und Unfallfreiheit.<br/>
-                Nicht so bei: <p class="truststyle">Trustmile</p> Trustmile ihr Partner für verlässliche Fahrzeugangaben.
-                    Trustmile garantiert, dass die zum Verkauf genannten Fahrzeugangaben korrekt sind. In Zusammenarbeit mit:</p>
+                <p>30% aller Occasionen haben manipulierte Angaben zu Kilometerstand und Unfallfreiheit.<br/>
+                Nicht so bei: <p class="truststyle">Trustmile - ihrem Partner für verlässliche Fahrzeugangaben</p>
+                    Trustmile garantiert, dass die zum Verkauf genannten Fahrzeugangaben korrekt sind. <br/>In Zusammenarbeit mit:</p>
                 <p>
                     <a href="https://www.axa.ch" target="_blank"><img height="40px" src="images/axa.ch.png"></a>
                     <a href="https://www.cardossier.ch" target="_blank"><img height="40px" src="images/cardossier.ch.png"></a>
@@ -56,8 +56,8 @@
 
     </tr>
     <tr>
-        <td width="40%"><span id="image_me"><img src="./images/node_red.jpeg" alt="Fast red car" width="100%"></span></td>
-        <td width="60%" align="left" valign="top">
+        <td width="35%"><span id="image_me"><img src="./images/node_red.jpeg" alt="Fast red car" width="100%"></span></td>
+        <td width="65%" align="left" valign="top">
             <table width="100%" class="vehicleTable"> <!-- class set only in first row, as it will align the others -->
                 <tr>
                     <td>VIN</td>
@@ -77,14 +77,21 @@
                         <a id="car-event-url" target="_blank" href="/api/v1/car-event"><div  id="mileage">1</div></a>
                     </td>
                 </tr>
+                <!--
                 <tr>
                     <td>Betriebsstunden</td>
                     <td><div  id="operatingHours">Kaum</div></td>
+                </tr>
+                -->
+                <tr>
+                    <td>Schäden</td>
+                    <td><div  id="numberOfDamages"></div></td>
                 </tr>
                 <tr>
                     <td>Aktueller Wert</td>
                     <td><div  id="estimatedValue">7,85 CHF</div></td>
                 </tr>
+                <!--
                 <tr>
                     <td colspan="2">&nbsp;</td>
                 </tr>
@@ -92,10 +99,7 @@
                     <td>Trust Issuer</td>
                     <td><div  id="trustIssuer">AXA</div></td>
                 </tr>
-                <tr>
-                    <td>Schäden</td>
-                    <td><div  id="numberOfDamages"></div></td>
-                </tr>
+                -->
                 <tr id="fraudTag">
                     <td>Fraud alarm</td>
                     <td><div id="fraudImage"></div></td>

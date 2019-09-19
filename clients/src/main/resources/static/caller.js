@@ -177,13 +177,22 @@ function drawBasic() {
     var maxMileage = mileage > 250000 ? mileage * 1.1 : 250000;
 
     // Create the data table.
-    var data = google.visualization.arrayToDataTable
-            ([['X', 'Y', {'type': 'string', 'role': 'style'}],
-              [0, ME_PRICE, null],
-              [5000, 0.9 * ME_PRICE, null],
-              [mileage, estPrice, point],
-              [maxMileage,  priceBasedOnMileage(ME_PRICE, maxMileage), null]
-        ]);
+    if(mileage <= 5000)
+        var data = google.visualization.arrayToDataTable
+                ([['X', 'Y', {'type': 'string', 'role': 'style'}],
+                  [0, ME_PRICE, null],
+                  [mileage, estPrice, point],
+                  [5000, 0.9 * ME_PRICE, null],
+                  [maxMileage,  priceBasedOnMileage(ME_PRICE, maxMileage), null]
+            ]);
+    else
+        var data = google.visualization.arrayToDataTable
+                ([['X', 'Y', {'type': 'string', 'role': 'style'}],
+                  [0, ME_PRICE, null],
+                  [5000, 0.9 * ME_PRICE, null],
+                  [mileage, estPrice, point],
+                  [maxMileage,  priceBasedOnMileage(ME_PRICE, maxMileage), null]
+            ]);
 
     // Set chart options
     var options = {
