@@ -52,7 +52,11 @@ function X500toO(x500) {
 }
 
 function priceBasedOnMileage(price, mileage) {
-    var estPrice = 0.9 * price - (mileage * 0.4); // 0.5 per km
+    //var estPrice = 0.9 * price - (mileage * 0.4); // 0.5 per km
+    if( mileage > 5000)
+        var estPrice = 0.9 * price - ((mileage-5000) * 0.5); // 0.5 per km
+    else
+        var estPrice = price - mileage / 5000 * 0.1 * price
     if(estPrice < 0)
         estPrice = 0;
     return estPrice;
@@ -176,7 +180,7 @@ function drawBasic() {
     var data = google.visualization.arrayToDataTable
             ([['X', 'Y', {'type': 'string', 'role': 'style'}],
               [0, ME_PRICE, null],
-              [5000, 0.8 * ME_PRICE, null],
+              [5000, 0.9 * ME_PRICE, null],
               [mileage, estPrice, point],
               [maxMileage,  priceBasedOnMileage(ME_PRICE, maxMileage), null]
         ]);
