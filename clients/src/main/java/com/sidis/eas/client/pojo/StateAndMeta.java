@@ -1,11 +1,11 @@
-package com.sidis.eas.client.webserver;
+package com.sidis.eas.client.pojo;
 
-import net.corda.core.contracts.LinearState;
+import net.corda.core.contracts.ContractState;
 import net.corda.core.node.services.Vault;
 
 import java.time.Instant;
 
-public class StateAndMeta<T extends LinearState> {
+public class StateAndMeta<T extends ContractState> {
 
     private final T state;
 
