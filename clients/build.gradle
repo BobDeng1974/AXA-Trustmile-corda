@@ -71,3 +71,10 @@ task runWebserver4(type: JavaExec, dependsOn: assemble) {
     main = 'com.sidis.eas.client.webserver.Starter'
     args '--server.port=10804', '--config.rpc.host=localhost', '--config.rpc.port=10015', '--config.rpc.username=user1', '--config.rpc.password=test'
 }
+
+task preload(type: JavaExec, dependsOn: assemble) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.sidis.eas.client.PrepareNodesClient'
+    args 'http://65.52.142.219:10801'
+}
+
