@@ -82,7 +82,7 @@ public class PrepareNodesClient {
         Map<String, Object> body = (Map<String, Object>)job.get("body");
         for (String x500: nodes) {
             Http.ajax(action, endPointByX500(x500, url).toExternalForm(), JsonHelper.convertJsonToString(body), "");
-            logger.info(x500+": "+action+" "+url);
+            logger.info(x500+":"+action+" "+endPointByX500(x500, url).toExternalForm());
         }
     }
 
