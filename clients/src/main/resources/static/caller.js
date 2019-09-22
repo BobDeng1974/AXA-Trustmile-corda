@@ -75,6 +75,7 @@ function get_policy() {
             ME_PRICE = result.details.originalPrice;
             $( "#vehicle" ).html(result.car);
             $( "#model" ).html(result.details.model);
+            $( "#model2" ).html(result.details.model);
             $( "#originalPrice" ).html(intToAmount(ME_PRICE));
             estimatedPrice(ME_PRICE, ME_MILEAGE);
             var insurer = X500toO(result.insurer);
@@ -95,7 +96,9 @@ function get_policy() {
 }
 function get_vehicle() {
     $( "#car-policy-url" ).attr("href", MAIN_URL+"/api/v1/car-policy");
+    $( "#car-policy-url2" ).attr("href", MAIN_URL+"/api/v1/car-policy");
     $( "#car-event-url" ).attr("href", MAIN_URL+"/api/v1/car-event");
+    $( "#car-event-url2" ).attr("href", MAIN_URL+"/api/v1/car-event");
 
     $.get({
         url: MAIN_URL+"/api/v1/car-event",
@@ -106,6 +109,7 @@ function get_vehicle() {
             $( "#vehicleIdentNumber" ).html(result.vin);
             ME_MILEAGE = result.mileage;
             $( "#mileage" ).html(intFormat(ME_MILEAGE)+" km");
+            $( "#mileage2" ).html(intFormat(ME_MILEAGE)+" km");
             $( "#addFraud" ).attr("value", ME_MILEAGE);
             $( "#addMileage" ).attr("value", ME_MILEAGE);
 
@@ -136,6 +140,7 @@ function get_me() {
              var imageName = O.trim().replace(/[ ]/g, '_').replace(/[,\.]/g, '').toLowerCase();
              $( "#party_me" ).html( O+", "+L+" ("+C+")" );
              $( "#image_me" ).html( "<img style=\"width:100%\" src=\"images/node_"+imageName+".jpeg\"/>" );
+             $("body").css("background-image", "url(images/node_background_"+imageName+".jpeg)");
              setTimeout(drawBasic, 500);
         }
     }).fail(function(e) {

@@ -285,9 +285,9 @@ public class Controller {
                 null,
                 Vault.StateStatus.UNCONSUMED,
                 null);
-        List<CarState> carStates = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return carStates.isEmpty() ? null : carStates.get(carStates.size() - 1);
+        PageSpecification paging = new PageSpecification(DEFAULT_PAGE_NUM, 1);
+        Vault.Page<CarState> pageResult = proxy.vaultQueryByWithPagingSpec(CarState.class, queryCriteria, paging);
+        return pageResult.getTotalStatesAvailable() == 0 ? null : pageResult.getStates().get(0).getState().getData();
     }
     // PRIVATE METHODS
     private List<StateAndMeta<CarState>> getAllCar(int page, int pageSize) {
@@ -346,9 +346,9 @@ public class Controller {
                 Arrays.asList(id),
                 Vault.StateStatus.UNCONSUMED,
                 null);
-        List<CarState> carStates = proxy.vaultQueryByCriteria(queryCriteria, CarState.class)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return carStates.isEmpty() ? null : carStates.get(carStates.size() - 1);
+        PageSpecification paging = new PageSpecification(DEFAULT_PAGE_NUM, 1);
+        Vault.Page<CarState> pageResult = proxy.vaultQueryByWithPagingSpec(CarState.class, queryCriteria, paging);
+        return pageResult.getTotalStatesAvailable() == 0 ? null : pageResult.getStates().get(0).getState().getData();
     }
 
     private CarEventState getUnconsumedCarEvent() {
@@ -358,9 +358,9 @@ public class Controller {
                 null,
                 Vault.StateStatus.UNCONSUMED,
                 null);
-        List<CarEventState> carEventStates = proxy.vaultQueryByCriteria(queryCriteria, CarEventState.class)
-                .getStates().stream().map(state -> state.getState().getData()).collect(toList());
-        return carEventStates.size() == 0 ? null : carEventStates.get(carEventStates.size() - 1);
+        PageSpecification paging = new PageSpecification(DEFAULT_PAGE_NUM, 1);
+        Vault.Page<CarEventState> pageResult = proxy.vaultQueryByWithPagingSpec(CarEventState.class, queryCriteria, paging);
+        return pageResult.getTotalStatesAvailable() == 0 ? null : pageResult.getStates().get(0).getState().getData();
     }
     private boolean hasAtLeastOneEvent() {
         QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(

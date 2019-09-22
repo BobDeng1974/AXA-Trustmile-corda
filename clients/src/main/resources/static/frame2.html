@@ -34,8 +34,7 @@
 <table style="width:100%">
     <tr>
         <th colspan="2">
-            <h1><a href="frame.html" target="_blank" >Trustmile<br>verlässliche km</a>&nbsp<span style="width:20px" id="image-socket"></span></h1>
-            Wir garantieren Ihren km-Stand!
+            <h1><a href="frame.html" target="_blank" >Trustmile - Vertrauenswürde Daten</a>&nbsp<span style="width:20px" id="image-socket"></span></h1>
         </th>
     </tr>
     <tr><td colspan="2" class="errorMessage"><div id="errorMessage"></div></td></tr>
@@ -43,6 +42,7 @@
         <td colspan="2">
             <center>
                 <p>30% aller Occasionen haben manipulierte Angaben zu Kilometerstand und Unfallfreiheit.<br/>
+                    Trustmile garantiert, dass die zum Verkauf genannten Fahrzeugangaben korrekt sind.</p>
                 <p>
                     <a href="https://www.axa.ch" target="_blank"><img height="30px" src="images/axa.ch.png"></a>
                     <a href="https://www.cardossier.ch" target="_blank"><img height="30px" src="images/cardossier.ch.png"></a>
@@ -51,49 +51,90 @@
                 </p>
             </center>
         </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2">
-            <h3>Simulation km / Verkaufspreis </h3>
-            <strong>VIN:</strong> <span id="vehicleIdentNumber">race version</span>
-            , <strong>Modell:</strong> <a id="car-policy-url" target="_blank" href="/api/v1/car-policy"><span id="model">race version</span></a>
-            , <strong>km:</strong> <a id="car-event-url" target="_blank" href="/api/v1/car-event"><span  id="mileage">1</span></a><br>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2">
-            <strong>Neupreis:</strong> <span  id="originalPrice">1000000</span>, <strong>Wert:</strong> <span  id="estimatedValue">CHF 0.00</span>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2">
-            <strong>Versicherung:</strong> <span  id="trustIssuer">AXA</span>, <strong>Schäden:</strong> <span  id="numberOfDamages"></span>, Betrug: <span style="vertical-align:top" id="fraudImage"></span>
-        </td>
+
     </tr>
     <tr>
-        <td colspan="2">
-            <div id="curve_chart"></div>
+        <td width="20%"><span id="image_me"><img src="./images/node_red.jpeg" alt="Fast red car" width="100%"></span></td>
+        <td width="50%" align="left" valign="top">
+            <table width="100%" class="vehicleTable"> <!-- class set only in first row, as it will align the others -->
+                <tr>
+                    <td>VIN</td>
+                    <td><div id="vehicleIdentNumber">0815</div></td>
+                </tr>
+                <tr>
+                    <td class="vehicleDataFirstCol">Modell</td>
+                    <td class="vehicleDataSecondCol" width="auto"><a id="car-policy-url" target="_blank" href="/api/v1/car-policy"><div id="model">race version</div></a></td>
+                </tr>
+                <tr>
+                    <td>Neupreis</td>
+                    <td><div  id="originalPrice">1000000</div></td>
+                </tr>
+                <tr>
+                    <td>Kilometerstand</td>
+                    <td>
+                        <a id="car-event-url" target="_blank" href="/api/v1/car-event"><div  id="mileage">1</div></a>
+                    </td>
+                </tr>
+                <!--
+                <tr>
+                    <td>Betriebsstunden</td>
+                    <td><div  id="operatingHours">Kaum</div></td>
+                </tr>
+                -->
+                <tr>
+                    <td>Schäden</td>
+                    <td><div  id="numberOfDamages"></div></td>
+                </tr>
+                <tr>
+                    <td>Aktueller Wert</td>
+                    <td><div  id="estimatedValue">7,85 CHF</div></td>
+                </tr>
+                <!--
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Trust Issuer</td>
+                    <td><div  id="trustIssuer">AXA</div></td>
+                </tr>
+                -->
+                <tr id="fraudTag">
+                    <td>Fraud alarm</td>
+                    <td><div id="fraudImage"></div></td>
+                </tr>
+            </table>
         </td>
-    </tr>
-    <tr>
-        <td colspan="2">
+        <td>
             <h3>Simulation</h3>
             <table width="100%">
                 <tr>
-                    <td colspan="2">
-                        <h4>km-Events</h4>
+                    <td width="50%">
+                        <h4>Simulation von km-Events</h4>
                         &nbsp;<a id="addMileage" value="0" href="#" onClick="addMileage(this, 100);">[ +100 ]</a>
                         &nbsp;<a id="addMileage1000" value="0" href="#" onClick="addMileage(this, 1000);">[ +1000 ]</a>&nbsp
                         &nbsp;<a id="addMileage10000" value="0" href="#" onClick="addMileage(this, 10000);">[ +10'000 ]</a>&nbsp
                         &nbsp;<a id="doubleMilage" value="0" href="#" onClick="addFraud(this, 2.0)">[ * 2 ]</a>
-                        <h4>Fraud</h4>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <h4>Simulation eines km-Fraud</h4>
                         &nbsp;<a id="addFraud" value="0" href="#" onClick="addFraud(this, 0.5)">[ / 2 ]</a>
                         &nbsp;<a id="addFraud30K" value="0" href="#" onClick="addFraud(this, 1.0, 30000)">[ -30'000 ]</a>
-                        <h4>Crashs</h4>
+                    </td>
+            </tr><tr>
+                    <td>
+                        <h4>Simulation eines Crashs</h4>
                         &nbsp;<a id="accident" value="0" href="#" onClick="addMileage(this, 0, true)">[ crash ]</a>
                     </td>
                 </tr>
             </table>
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="2">
+            <h3>Simulation Verkaufspreis basierend auf km-Stand</h3>
+            <div id="curve_chart"></div>
         </td>
     </tr>
     <tr>
