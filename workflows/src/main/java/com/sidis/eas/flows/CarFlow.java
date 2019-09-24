@@ -5,6 +5,7 @@ import ch.cordalo.corda.common.flows.BaseFlow;
 import ch.cordalo.corda.common.flows.FlowHelper;
 import ch.cordalo.corda.common.flows.ResponderBaseFlow;
 import co.paralleluniverse.fibers.Suspendable;
+import com.google.common.collect.ImmutableList;
 import com.sidis.eas.contracts.CarContract;
 import com.sidis.eas.contracts.CarEventContract;
 import com.sidis.eas.states.CarEventState;
@@ -15,6 +16,8 @@ import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
+import net.corda.core.node.services.Vault;
+import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
@@ -148,14 +151,13 @@ public class CarFlow {
             CarState updatedCar = null;
             if (carEventRef != null) {
                 CarEventState carEvent = this.getStateByRef(carEventRef);
-                List<StateAndRef<CarEventState>> carEventsRef = new FlowHelper<CarEventState>(this.getServiceHub())
-                        .getAllStatesByLinearId(CarEventState.class, carEvent.getId());
-                StateAndRef<CarEventState> carEventLastConsumed = null;
-                if (carEventsRef.size() == 2) {
-                    carEventLastConsumed = carEventsRef.get(0);
-                } else if (carEventsRef.size() > 2) {
-                    carEventLastConsumed = carEventsRef.get(carEventsRef.size() - 2);
-                }
+                QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                        null,
+                        ImmutableList.of(carEvent.getId()),
+                        Vault.StateStatus.CONSUMED,
+                        null);
+                StateAndRef<CarEventState> carEventLastConsumed = new FlowHelper<CarEventState>(this.getServiceHub())
+                        .getLastStateByCriteria(CarEventState.class, queryCriteria);
                 Map<String, Object> detailsMap = car.getDetails();
                 if (this.details != null) {
                     detailsMap = JsonHelper.convertStringToJson(details);

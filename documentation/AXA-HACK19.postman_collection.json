@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "784d79c3-9c26-4ee0-a336-0d9fc2edbe5d",
+		"name": "AXA-HACK19",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RED POST car-policy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"policyNumber\": \"18.111.222\",\n    \"vin\": \"42\",\n    \"car\": \"Ferrari Modena\",\n    \"insurer\": \"O=InsureMe,L=Schaffhausen,ST=SH,C=CH\",\n    \"mileagePerYear\": 10000,\n    \"mileageState\": \"IN_RANGE\",\n    \"accidentState\": \"NO\",\n    \"insuranceRate\": 1800,\n    \"details\": {\n        \"originalPrice\": 152000,\n    \t\"valueReductionPerMile\": 0.5,\n        \"color\": \"RED\",\n        \"numberOfPreviousOwners\": 2,\n        \"model\": \"Ferrari Modena\"\n    }\n}"
+				},
+				"url": {
+					"raw": "http://65.52.142.219:10803/api/v1/car-policy",
+					"protocol": "http",
+					"host": [
+						"65",
+						"52",
+						"142",
+						"219"
+					],
+					"port": "10803",
+					"path": [
+						"api",
+						"v1",
+						"car-policy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RED GET car-policy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://65.52.142.219:10803/api/v1/car-policy",
+					"protocol": "http",
+					"host": [
+						"65",
+						"52",
+						"142",
+						"219"
+					],
+					"port": "10803",
+					"path": [
+						"api",
+						"v1",
+						"car-policy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RED POST /car-event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"vin\" : \"42\",\n   \"mileage\" : 18208,\n   \"operatingHoursInS\" : 431,\n   \"timestamp\" : 1568615427,\n   \"accident\" : false,\n   \"data\" : {}\n}"
+				},
+				"url": {
+					"raw": "http://65.52.142.219:10803/api/v1/car-event",
+					"protocol": "http",
+					"host": [
+						"65",
+						"52",
+						"142",
+						"219"
+					],
+					"port": "10803",
+					"path": [
+						"api",
+						"v1",
+						"car-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BLACK POST car-policy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"policyNumber\": \"18.123.121\",\n    \"vin\": \"43\",\n    \"car\": \"Ferrari Modena\",\n    \"insurer\": \"O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH\",\n    \"mileagePerYear\": 7000,\n    \"mileageState\": \"IN_RANGE\",\n    \"accidentState\": \"NO\",\n    \"insuranceRate\": 1500,\n    \"details\": {\n        \"originalPrice\": 152000,\n\t    \"valueReductionPerMile\": 0.5,\n        \"color\": \"RED\",\n        \"numberOfPreviousOwners\": 0,\n        \"model\": \"Ferrari Modena\"\n    }\n}"
+				},
+				"url": {
+					"raw": "http://65.52.142.219:10804/api/v1/car-policy",
+					"protocol": "http",
+					"host": [
+						"65",
+						"52",
+						"142",
+						"219"
+					],
+					"port": "10804",
+					"path": [
+						"api",
+						"v1",
+						"car-policy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BLACK GET car-policy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://65.52.142.219:10804/api/v1/car-policy",
+					"protocol": "http",
+					"host": [
+						"65",
+						"52",
+						"142",
+						"219"
+					],
+					"port": "10804",
+					"path": [
+						"api",
+						"v1",
+						"car-policy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BLACK POST /car-event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"vin\" : \"43\",\n   \"mileage\" : 42208,\n   \"operatingHoursInS\" : 431,\n   \"timestamp\" : 1568615427,\n   \"accident\" : false,\n   \"data\" : {}\n}"
+				},
+				"url": {
+					"raw": "http://65.52.142.219:10804/api/v1/car-event",
+					"protocol": "http",
+					"host": [
+						"65",
+						"52",
+						"142",
+						"219"
+					],
+					"port": "10804",
+					"path": [
+						"api",
+						"v1",
+						"car-event"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

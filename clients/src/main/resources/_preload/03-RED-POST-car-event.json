@@ -9,7 +9,7 @@
   },
   "body": {
     "vin" : "42",
-    "mileage" : 17108,
+    "mileage" : 12108,
     "operatingHoursInS" : 431,
     "timestamp" : 1568615427,
     "accident" : false,
