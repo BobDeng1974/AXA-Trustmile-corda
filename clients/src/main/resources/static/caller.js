@@ -139,7 +139,7 @@ function get_me() {
              var C=x500name[2].split("=")[1];
              var imageName = O.trim().replace(/[ ]/g, '_').replace(/[,\.]/g, '').toLowerCase();
              $( "#party_me" ).html( O+", "+L+" ("+C+")" );
-             $( "#image_me" ).html( "<img style=\"width:100%\" src=\"images/node_"+imageName+".jpeg\"/>" );
+             $( "#image_me" ).html( "<img src=\"images/node_"+imageName+".jpeg\"/>" );
              $("body").css("background-image", "url(images/node_background_"+imageName+".jpeg)");
              setTimeout(drawBasic, 500);
         }
@@ -158,7 +158,7 @@ window.addEventListener('resize', function(event){
 
 
 // Load the Visualization API and the corechart package.
-google.charts.load('current', {'packages':['corechart'], 'language': 'de'});
+google.charts.load('current', {'packages':['corechart'], 'language': 'uk'});
 
 // Set a callback to run when the Google Visualization API is loaded.
 
@@ -201,17 +201,18 @@ function drawBasic() {
 
     // Set chart options
     var options = {
-        legend:{position:'none'},
+        title: 'Simulation km / Verkaufspreis',
+        legend: 'none',
+        height: 350,
         pointSize: 1,
         dataOpacity: 1,
         hAxis: {
-          title: 'Kilometerstand',
-          logscale: true
+          ticks: [0, 50000, 100000, 150000, 200000, 250000],
+          title: 'Kilometerstand'
         },
         vAxis: {
           minValue: 0,
-          title: 'Fahrzeugwert',
-          logscale: true
+          title: 'Fahrzeugwert'
         }
       };
 
@@ -257,7 +258,14 @@ function setWebSocketConnected(connected, running) {
      }
 }
 
+function mark_changed_off() {
+    $(".mark-changed").removeClass("changed");
+}
 
+function mark_changed() {
+    $(".mark-changed").addClass("changed");
+    setTimeout(mark_changed_off, 1000);
+}
 function connectWebSocket() {
     var socket = new SockJS(MAIN_URL+'/gs-guide-websocket');
     stompClient = Stomp.over(socket);
@@ -267,6 +275,7 @@ function connectWebSocket() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/vaultChanged/car-policy', function (changes) {
             get_vehicle();
+            mark_changed();
             animationOff();
         });
     });

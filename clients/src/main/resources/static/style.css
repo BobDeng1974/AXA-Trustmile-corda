@@ -1,5 +1,6 @@
 body {
     font-family: "Lato", sans-serif;
+    font-size: 1.0em;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -12,6 +13,15 @@ table {
 }
 
 .mySlides {display: none}
+
+
+table {
+    width: 100%;
+}
+
+body {
+    display: block;
+}
 
 table, tr, td {
  #border: 1px solid orange;
@@ -27,10 +37,11 @@ table, tr, td {
 }
 
 .truststyle {
-font-weight: 700;
-font-size: 20px;
-color: blue;
+    font-weight: 700;
+    font-size: 20px;
+    color: blue;
 }
+
 
 h1, h2, h3, h4 {
     display: block;
@@ -39,4 +50,109 @@ h1, h2, h3, h4 {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-weight: bold;
+}
+
+text1 {
+    font-size: 25px;
+}
+
+p {
+    display: block;
+    margin-block-start: 0.2em;
+    margin-block-end: 0.2em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+hr {
+    display: block;
+    unicode-bidi: isolate;
+    margin-block-start: 0.3em;
+    margin-block-end: 0.3em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    overflow: hidden;
+    border-style: inset;
+    border-width: 1px;
+}
+
+.image-logo {
+    height: 30px;
+}
+
+#image_me img {
+    max-width: 100%;
+}
+
+.changed {
+    background-color: yellow;
+}
+
+
+.wallet-information {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/*--------------------------------------------------------------
+## 17.2 - Desktop Large ( < 1120px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 70em) {
+}
+/*--------------------------------------------------------------
+## 17.3 - Desktop Small ( < 960px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 60em) {
+}
+
+/*--------------------------------------------------------------
+## 17.5 - Tablet Medium ( < 800px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 50em) {
+}
+
+/*--------------------------------------------------------------
+## 17.6 - Tablet Small ( < 720px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 45em) {
+
+}
+/*--------------------------------------------------------------
+## 17.7 - Mobile Extra Large ( < 640px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 40em) {
+
+}
+
+/*--------------------------------------------------------------
+## 17.8 - Mobile Large ( < 560px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 35em) {
+
+}
+
+/*--------------------------------------------------------------
+## 17.9 - Mobile Medium ( < 480px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 30em) {
+    hr {
+        margin-block-start: 0.1em;
+        margin-block-end: 0.1em;
+    }
+    .image-logo {
+        height: 20px;
+    }
+    .subtitle {
+        display: none;
+    }
+    .wallet-information {
+        font-size: 1.8em;
+    }
+}
+
+/*--------------------------------------------------------------
+## 17.10 - Mobile Small ( < 320px )
+--------------------------------------------------------------*/
+@media only screen and (max-width: 20em) {
+
 }

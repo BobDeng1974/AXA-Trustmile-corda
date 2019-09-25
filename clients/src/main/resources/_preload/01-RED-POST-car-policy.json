@@ -10,7 +10,7 @@
   "body": {
     "policyNumber": "18.111.222",
     "vin": "42",
-    "car": "Ferrari Modena",
+    "car": "Ferrari Modena RED",
     "insurer": "O=InsureMe,L=Schaffhausen,ST=SH,C=CH",
     "mileagePerYear": 10000,
     "mileageState": "IN_RANGE",
@@ -21,7 +21,7 @@
       "valueReductionPerMile": 0.5,
       "color": "RED",
       "numberOfPreviousOwners": 2,
-      "model": "Ferrari Modena"
+      "model": "Ferrari Modena RED"
     }
   }
 }

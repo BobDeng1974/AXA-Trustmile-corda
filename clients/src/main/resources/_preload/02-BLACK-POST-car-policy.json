@@ -10,7 +10,7 @@
   "body": {
     "policyNumber": "18.123.121",
     "vin": "43",
-    "car": "Ferrari Modena",
+    "car": "Ferrari Modena BLACK 2.0",
     "insurer": "O=AXA Versicherungen AG,L=Winterthur,ST=ZH,C=CH",
     "mileagePerYear": 7000,
     "mileageState": "IN_RANGE",
@@ -19,9 +19,9 @@
     "details": {
       "originalPrice": 182000,
       "valueReductionPerMile": 0.5,
-      "color": "RED",
+      "color": "BLACK",
       "numberOfPreviousOwners": 0,
-      "model": "Ferrari Modena"
+      "model": "Ferrari Modena BLACK 2.0"
     }
   }
 }
