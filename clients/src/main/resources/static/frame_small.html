@@ -3,7 +3,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=false" />
     <title>Trustmile - AXA Hackathon 2019</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -32,81 +31,54 @@
 
 
 <body>
-<table>
+<table style="width:100%">
     <tr>
         <th colspan="2">
-            <table><tr>
-                <td width="25%">
-                    <span id="image_me"></span>
-                </td>
-                <td>
-                    <h1>Trustmile<span class="subtitle"> - verlässliche km</span>&nbsp<span style="width:20px" id="image-socket"></span></h1>
-                    Wir garantieren Ihren km-Stand!
-                    <center>
-                        <p>
-                            <a href="https://www.axa.ch" target="_blank"><img class="image-logo" height="30px" src="images/axa.ch.png"></a>
-                            <a href="https://www.ryd.ch" target="_blank"><img class="image-logo" height="30px" src="images/ryd.ch.png"></a>
-                            <a href="https://www.cardossier.ch" target="_blank"><img class="image-logo" height="30px" src="images/cardossier.ch.svg"></a>
-                            <a href="https://www.corda.net/" target="_blank"><img class="image-logo" height="30px" src="images/corda.png"></a>
-                        </p>
-                    </center>
-                </td>
-            </tr></table>
+            <h1><a href="frame.html" target="_blank" >Trustmile<br>verlässliche km</a>&nbsp<span style="width:20px" id="image-socket"></span></h1>
+            Wir garantieren Ihren km-Stand!
         </th>
     </tr>
     <tr><td colspan="2" class="errorMessage"><div id="errorMessage"></div></td></tr>
-    <tr height="20px">
-        <td colspan="2" class="wallet-information">
-            <hr>
-            <h3>Modell</h3>
-            <strong>#</strong> <span id="vehicleIdentNumber">7</span>
-            , <a id="car-policy-url" target="_blank" href="/api/v1/car-policy"><span id="model"> </span></a> <a target="_blank" href="/api/v1/car-policy-history">(data)</a>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2" class="wallet-information">
-            <strong>Neupreis:</strong> <span  id="originalPrice">1000000</span>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2" class="wallet-information">
-            <hr>
-            <h3>Aktuelle Werte</h3>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2" class="wallet-information mark-changed">
-            <strong>km:</strong> <a id="car-event-url" target="_blank" href="/api/v1/car-event"><span  id="mileage">1</span></a> <a target="_blank" href="/api/v1/car-event-history">(data)</a>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2" class="wallet-information mark-changed">
-            <strong>Preis:</strong> <span  id="estimatedValue">CHF 0.00</span>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2" class="wallet-information">
-            <hr>
-            <h3>Risiko: <span id="trustIssuer"></span></h3>
-        </td>
-    </tr>
-    <tr height="20px">
-        <td colspan="2" class="wallet-information mark-changed">
-            <strong>#Schäden</strong> <span  id="numberOfDamages"></span>, <strong>Betrug:</strong> <span style="vertical-align:top" id="fraudImage"></span>
-        </td>
-    </tr>
-
     <tr>
-        <td colspan="2" class="wallet-information">
-            <hr>
+        <td colspan="2">
+            <center>
+                <p>30% aller Occasionen haben manipulierte Angaben zu Kilometerstand und Unfallfreiheit.<br/>
+                <p>
+                    <a href="https://www.axa.ch" target="_blank"><img height="30px" src="images/axa.ch.png"></a>
+                    <a href="https://www.cardossier.ch" target="_blank"><img height="30px" src="images/cardossier.ch.png"></a>
+                    <a href="https://www.ryd.ch" target="_blank"><img height="30px" src="images/ryd.ch.png"></a>
+                    <a href="https://www.corda.net/" target="_blank"><img height="30px" src="images/corda.png"></a>
+                </p>
+            </center>
+        </td>
+    </tr>
+    <tr height="20px">
+        <td colspan="2">
+            <h3>Simulation km / Verkaufspreis </h3>
+            <strong>VIN:</strong> <span id="vehicleIdentNumber">race version</span>
+            , <strong>Modell:</strong> <a id="car-policy-url" target="_blank" href="/api/v1/car-policy"><span id="model">race version</span></a> <a target="_blank" href="/api/v1/car-policy-history">(all)</a>
+            , <strong>km:</strong> <a id="car-event-url" target="_blank" href="/api/v1/car-event"><span  id="mileage">1</span></a> <a target="_blank" href="/api/v1/car-event-history">(all)
+        </td>
+    </tr>
+    <tr height="20px">
+        <td colspan="2">
+            <strong>Neupreis:</strong> <span  id="originalPrice">1000000</span>, <strong>Wert:</strong> <span  id="estimatedValue">CHF 0.00</span>
+        </td>
+    </tr>
+    <tr height="20px">
+        <td colspan="2">
+            <strong>Versicherung:</strong> <span  id="trustIssuer">AXA</span>, <strong>Schäden:</strong> <span  id="numberOfDamages"></span>, Betrug: <span style="vertical-align:top" id="fraudImage"></span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
             <div id="curve_chart"></div>
         </td>
     </tr>
     <tr>
         <td colspan="2">
-            <hr>
             <h3>Simulation</h3>
-            <table>
+            <table width="100%">
                 <tr>
                     <td colspan="2">
                         <h4>km-Events</h4>
@@ -122,6 +94,16 @@
                     </td>
                 </tr>
             </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><h3>Weitere Angebote</h3>
+            <ul>
+                <li><a href="https://www.cardossier.ch" target="_blank">cardossier</a></li>
+                <li><a href="https://www.ryd.ch" target="_blank">ryd Suisse</a></li>
+                <li><a href="https://www.carforyou.ch/de" target="_blank">CAR FOR YOU</a></li>
+                <li><a href="https://www.axa.ch" target="_blank">AXA</a></li>
+            </ul>
         </td>
     </tr>
 </table>
