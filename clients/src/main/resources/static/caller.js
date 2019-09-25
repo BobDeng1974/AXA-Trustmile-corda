@@ -78,8 +78,9 @@ function get_policy() {
             $( "#model2" ).html(result.details.model);
             $( "#originalPrice" ).html(intToAmount(ME_PRICE));
             estimatedPrice(ME_PRICE, ME_MILEAGE);
-            var insurer = X500toO(result.insurer);
-            $( "#trustIssuer" ).html(insurer);
+            var imageNameJSON = imageFromX500Name(result.insurer);
+            $( "#trustIssuer" ).html(imageNameJSON.O);
+            $( "#trustissuer-logo" ).html("<img src=\""+imageNameJSON.logo+"\"/>");
             var nofDamages = result.accidentState == "NO" ? "0" : (
                 result.accidentState == "ONE" ? "1" : "> 1");
             $( "#numberOfDamages" ).html(nofDamages);
@@ -127,20 +128,27 @@ function get_vehicle() {
 
 }
 
+function imageFromX500Name(x500){
+    var x500name = x500.split(",");
+    var O=x500name[0].split("=")[1];
+    var L=x500name[1].split("=")[1];
+    var C=x500name[2].split("=")[1];
+    var imageName = O.trim().replace(/[ ]/g, '_').replace(/[,\.]/g, '').toLowerCase();
+    return { "O" : O, "L" : L, "C" : C,
+        "logo" : "images/node_"+imageName+".jpeg",
+        "background" : "images/node_background_"+imageName+".jpeg" };
+
+}
+
 function get_me() {
     $.get({
         url: MAIN_URL+"/api/v1/me",
         data: {        },
         success: function( result ) {
-
-             var x500name = result.me.x500Principal.name.split(",");
-             var O=x500name[0].split("=")[1];
-             var L=x500name[1].split("=")[1];
-             var C=x500name[2].split("=")[1];
-             var imageName = O.trim().replace(/[ ]/g, '_').replace(/[,\.]/g, '').toLowerCase();
-             $( "#party_me" ).html( O+", "+L+" ("+C+")" );
-             $( "#image_me" ).html( "<img src=\"images/node_"+imageName+".jpeg\"/>" );
-             $("body").css("background-image", "url(images/node_background_"+imageName+".jpeg)");
+             var imageNameJSON = imageFromX500Name(result.me.x500Principal.name);
+             $( "#party_me" ).html( imageNameJSON.O+", "+imageNameJSON.L+" ("+imageNameJSON.C+")" );
+             $( "#image_me" ).html( "<img src=\""+imageNameJSON.logo+"\"/>" );
+             $("body").css("background-image", "url("+imageNameJSON.background+")");
              setTimeout(drawBasic, 500);
         }
     }).fail(function(e) {

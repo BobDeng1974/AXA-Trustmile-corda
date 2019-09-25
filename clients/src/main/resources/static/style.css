@@ -142,6 +142,9 @@ hr {
     .image-logo {
         height: 20px;
     }
+    #trustissuer-logo img {
+        height: 20px;
+    }
     .subtitle {
         display: none;
     }
