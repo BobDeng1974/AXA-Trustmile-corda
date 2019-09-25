@@ -79,7 +79,9 @@ hr {
 .image-logo {
     height: 30px;
 }
-
+#trustissuer-logo img {
+    height: 30px;
+}
 #image_me img {
     max-width: 100%;
 }
