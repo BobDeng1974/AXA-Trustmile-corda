@@ -17,8 +17,14 @@ how can we show that it is secured?
 - every "HACK" button pressed, the mileage had been divided by 2 sent to the ledger. The ledger detected a fraud and kept the mileage
 - insurance knows that the mileage was hacked
 
-# Some pictures 
+Showcase
 
+![<img src="documentation/video-screen1.png width="200">](https://youtu.be/z67Uf4xcazc)
+
+# Technologies used
+
+
+# Some pictures 
 
 Picture | Description
 ------------ | -------------
