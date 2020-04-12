@@ -1,0 +1,40 @@
+{
+    "message": {
+        "appProperties": {
+            "processingPath": "<optional>",
+            "verbose": "<optional>",
+            "severity": "<optional>",
+            "testDevice": "<optional>"
+        },
+        "systemProperties": {
+            "contentType": "application/json",
+            "contentEncoding": "utf-8",
+            "connectionDeviceId": "Device_temp_1",
+            "iothub-enqueuedtime": "2017-05-08T18:55:31.8514657Z"
+        },
+        "body": "{\"Weather\":{\"Temperature\":50},\"Location\":{\"State\":\"Washington\"}}"
+    },
+    "routingSource": "DeviceMessages",
+    "twin": {
+        "tags": {
+            "deploymentLocation": {
+                "building": "43",
+                "floor": "1"
+            }
+        },
+        "properties": {
+            "desired": {
+                "telemetryConfig": {
+                    "sendFrequency": "5m"
+                }
+            },
+            "reported": {
+                "telemetryConfig": {
+                    "sendFrequency": "5m",
+                    "status": "success"
+                },
+                "batteryLevel": 55
+            }
+        }
+    }
+}

@@ -1,0 +1,102 @@
+/*
+ *  This sketch sends a message to a TCP server
+ *
+ */
+#include <Arduino.h>
+#include <WiFi.h>
+#include <WiFiMulti.h>
+#include <HTTPClient.h>
+
+#define USE_SERIAL Serial
+
+WiFiMulti WiFiMulti;
+
+const char* ssid = "Lolo_Guest";
+const char* password = "MogliUndJenny1";
+
+int WIFI_RUNNING = 0;
+
+const char* END_POINT_GET = "https://postman-echo.com/get";
+const char* END_POINT_POST = "https://postman-echo.com/post";
+
+/* based on
+    https://github.com/espressif/arduino-esp32/blob/master/libraries/HTTPClient/examples/Authorization/Authorization.ino
+*/
+
+void sendGET(const char* url, const char* parameters = nullptr, const char* authorizationHeader = nullptr) {
+    HTTPClient http;
+    char* query;
+    if (parameters != nullptr) {
+        strcat(query, url);
+        strcat(query, "?");
+        strcat(query, parameters);
+    }
+    http.begin(query);
+    if (authorizationHeader != nullptr) {
+        http.setAuthorization("authorizationHeader");
+    }
+    USE_SERIAL.printf("[HTTP] GET... ");
+    int httpCode = http.GET();
+    if(httpCode > 0) {
+        // HTTP header has been send and Server response header has been handled
+        USE_SERIAL.printf("[HTTP] GET... code: %d\n", httpCode);
+        // file found at server
+        if(httpCode == HTTP_CODE_OK) {
+            String payload = http.getString();
+            USE_SERIAL.println(payload);
+        }
+    } else {
+        USE_SERIAL.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+    }
+    http.end();
+}
+
+void setup()
+{
+    USE_SERIAL.begin(9600);
+    delay(1000);
+    for(uint8_t t = 4; t > 0; t--) {
+        USE_SERIAL.printf("[SETUP] WAIT %d...\n", t);
+        delay(500);
+    }
+    // We start by connecting to a WiFi network 
+    USE_SERIAL.print("Try to connect to WIFI");
+    WiFiMulti.addAP("Lolo_Guest", "MogliUndJenny1");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+        Serial.print(WiFi.status());
+    }
+
+    Serial.println("");
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+}
+
+ 
+void loop()
+{
+    USE_SERIAL.print(":");
+    if (WiFiMulti.run() == WL_CONNECTED) {
+        if (WIFI_RUNNING == 0) {
+            USE_SERIAL.print("... connected\n");
+            WIFI_RUNNING = 1;
+        }
+        try {
+            USE_SERIAL.print("send GET ...\n");
+            sendGET(END_POINT_GET, "test=a");
+        } catch(const char* msg) {
+            USE_SERIAL.print("Error");
+            USE_SERIAL.print(msg);
+            USE_SERIAL.print("\n");
+        }
+
+        delay(10000);        
+        
+    } else {
+        USE_SERIAL.print(".");
+        delay(500);        
+    }
+
+}

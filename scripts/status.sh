@@ -1,6 +1,7 @@
 #!/bin/bash
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. env.sh
+. $BASEDIR/env.sh
+cd $CORDA_HOME
 
 get_nodes(){
 	retval=$(netstat -an | egrep "10103|10106|10109|10112|10115" | grep LISTEN | wc -l)
