@@ -19,21 +19,18 @@ how can we show that it is secured?
 
 # Some pictures 
 
-During the hack and at a presentaiton 1 week later even using a 3D printed model.
 
-<img src="documentation/technologies-used.jpg" width="400">
+Picture | Description
+------------ | -------------
+<img src="documentation/technologies-used.jpg" width="400"> | Technologies use
+<img src="documentation/hackathon-version.jpg" width="200"> | Arduino board Hack version
+<img src="documentation/hackathon-version-3d-print.jpg" width="200"> | During the hack and at a presentaiton 1 week later even using a 3D printed version<br>order it here at [ThingiVerse](https://www.thingiverse.com/thing:3880234)<br>by [Salvador Richter](https://www.thingiverse.com/salvador-richter)
+<img src="documentation/trustmile-milestone.jpg" width="200"> | Successful 1st mileage stored in CORDA. Thx Manu, Francesco, Lolo
 
-Hack version
-
-<img src="documentation/hackathon-version.jpg" width="200">
-
-3D printed version
-
-<img src="documentation/hackathon-version-3d-print.jpg" width="200">
-
-order it here at [ThingiVerse](https://www.thingiverse.com/thing:3880234) 
-by [Salvador Richter](https://www.thingiverse.com/salvador-richter)
-
+Demo | Demo
+------------ | -------------
+<img src="documentation/demo-trustmile-1.jpg" width="300"> | <img src="documentation/demo-trustmile-3.jpg" width="250">
+<img src="documentation/demo-trustmile-2.jpg" width="300"> | <img src="documentation/trust-mile-certificate.jpg" width="300">
 
 
 
