@@ -28,8 +28,11 @@ Hack version
 <img src="documentation/hackathon-version.jpg" width="200">
 
 3D printed version
+
 <img src="documentation/hackathon-version-3d-print.jpg" width="200">
-order it here at [ThingiVerse](https://www.thingiverse.com/thing:3880234) by [Salvador Richter](https://www.thingiverse.com/salvador-richter)
+
+order it here at [ThingiVerse](https://www.thingiverse.com/thing:3880234) 
+by [Salvador Richter](https://www.thingiverse.com/salvador-richter)
 
 
 
