@@ -19,7 +19,7 @@ how can we show that it is secured?
 
 Showcase
 
-![<img src="documentation/video-screen1.png width="200">](https://youtu.be/z67Uf4xcazc)
+[<img src="documentation/video-screen1.png" width="200">](https://youtu.be/z67Uf4xcazc)
 
 # Technologies used
 
