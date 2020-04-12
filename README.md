@@ -21,7 +21,7 @@ how can we show that it is secured?
 
 During the hack and at a presentaiton 1 week later even using a 3D printed model.
 
-![technolies](documentation/technologies-used.jpeg)
+![technolies](documentation/technologies-used.jpg)
 
 
 
