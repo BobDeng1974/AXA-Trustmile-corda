@@ -21,11 +21,11 @@ how can we show that it is secured?
 
 During the hack and at a presentaiton 1 week later even using a 3D printed model.
 
-![technolies](documentation/technologies-used.jpg | width=200)
+<img src="documentation/technologies-used.jpg" width="200">
 
-![Hackathon version 1](documentation/hackathon-version.jpg | width=200)
-![Hackathon version 3D printed](documentation/hackathon-version-3d-print.jpg | width=200)
-
+Hack version 
+<img src="documentation/hackathon-version.jpg" width="200">
+<img src="documentation/hackathon-version-3d-print.jpg" width="200">
 
 
 
