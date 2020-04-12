@@ -1,7 +1,5 @@
 # AXA-Trustmile-corda
 
-<img src="documentation/trustmile-it-works.gif" width="400">
-
 At our AXA hackaton 2019 we wanted to show and proof that mileage records can be stored securely, unchangedable into a blockchain using corda DLT: called "trusted miles".
 Insurance companies could use this "3rd party trust" to use it as a proof in the policy and therefor allow certain discounts or not.
 At the same time insurance companies could detect fraud of "turning back mileage" using the ledger.
@@ -15,6 +13,8 @@ how can we showcase this?
 - at every lap we simulated 1000 km and pushed them via [Azure IOT hub, using MQTT](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support) to not loose any message
 - every message was then received, transformed and sent to CORDA nodes per car
 - simple UI using jquery and websockets to display accurate mileage information from CORDA
+
+<img src="documentation/trustmile-it-works.gif" width="400">
 
 how can we show that it is secured?
 - we have implemented a "HACK" button attached to the arduino
