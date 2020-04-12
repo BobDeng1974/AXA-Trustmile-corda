@@ -23,6 +23,10 @@ During the hack and at a presentaiton 1 week later even using a 3D printed model
 
 ![technolies](documentation/technologies-used.jpg)
 
+![Hackathon version 1](documentation/hackathon-version.jpg)
+![Hackathon version 3D printed](documentation/hackathon-version-3d-print.jpg)
+
+
 
 
 
