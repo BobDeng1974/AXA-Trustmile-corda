@@ -1,9 +1,13 @@
 # AXA-Trustmile-corda
+
+<img src="documentation/trustmile-it-works.gif" width="200">
+
 At our AXA hackaton 2019 we wanted to show and proof that mileage records can be stored securely, unchangedable into a blockchain using corda DLT: called "trusted miles".
 Insurance companies could use this "3rd party trust" to use it as a proof in the policy and therefor allow certain discounts or not.
 At the same time insurance companies could detect fraud of "turning back mileage" using the ledger.
 
 ## Showcase
+
 how can we showcase this?
 
 - we used a carrera track with 2 speed cars where all the visitors could drive around
