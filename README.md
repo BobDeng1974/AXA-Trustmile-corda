@@ -7,9 +7,23 @@ At the same time insurance companies could detect fraud of "turning back mileage
 how can we showcase this?
 
 - we used a carrera track with 2 speed cars where all the visitors could drive around
-- we detected every lap of the 2 tracks using arduino ESP32 with ultrasound detectors
+- we detected every lap of the 2 tracks using Arduino ESP32 with ultrasound detectors, Led signals with C++
 - at every lap we simulated 1000 km and pushed them via [Azure IOT hub, using MQTT](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support) to not loose any message
 - every message was then received, transformed and sent to CORDA nodes per car
+- simple UI using jquery and websockets to display accurate mileage information from CORDA
+
+how can we show that it is secured?
+- we have implemented a "HACK" button attached to the arduino
+- every "HACK" button pressed, the mileage had been divided by 2 sent to the ledger. The ledger detected a fraud and kept the mileage
+- insurance knows that the mileage was hacked
+
+# Some pictures 
+
+During the hack and at a presentaiton 1 week later even using a 3D printed model.
+
+![technolies](documentation/technologies-used.jpeg)
+
+
 
 
 # Team
@@ -17,3 +31,7 @@ how can we showcase this?
 ![Hackteam](documentation/trustmile_teamfoto_small.jpg)
 
 thx to the great team: Sonja, Bernhard, Manu, Sky, Lolo, Salvador, Francesco
+
+
+
+
