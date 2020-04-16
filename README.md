@@ -29,6 +29,11 @@ Showcase
 
 # Technologies used
 
+- frontend: html, jquery, websockets
+- backend: R3 CORDA 4.3, springboot, REST API, corda flows, data
+- integration: Azure IOT Hub, IOT messages from arduino edge devices
+- edge devices: arduino ESP32, c++, MQTT message clients
+- hardward: arduino ESP32, ultrasound, leds, 3D printed box, carrera cars unmodified
 
 # Some pictures 
 
